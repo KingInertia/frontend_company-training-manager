@@ -4,10 +4,10 @@ import TextPage from '../UI/TextPage';
 import usersList from '../../data/usersList';
 import Grid from '@mui/material/Grid2';
 import { useNavigate, useParams } from 'react-router-dom';
+
 const UsersProfilePage = () => {
   const params = useParams();
   const navigate = useNavigate();
-  console.log(params.slug);
   const user = usersList.find(user => user.id.toString() === params.slug);
 
   useEffect(() => {

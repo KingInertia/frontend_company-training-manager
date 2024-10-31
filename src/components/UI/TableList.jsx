@@ -9,12 +9,12 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
+
 const TableList = ({ rowNames, list }) => {
   const getValuesWithoutId = list => {
     const { id, ...valuesWithoutId } = list;
     return Object.values(valuesWithoutId);
   };
-
   const navigate = useNavigate();
 
   return (

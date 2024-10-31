@@ -8,10 +8,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 const CompanyProfilePage = () => {
   const params = useParams();
   const navigate = useNavigate();
-  console.log(params.slug);
   const company = companiesList.find(
     company => company.id.toString() === params.slug,
   );
+
   useEffect(() => {
     if (!company) {
       navigate('..', { relative: 'path' });

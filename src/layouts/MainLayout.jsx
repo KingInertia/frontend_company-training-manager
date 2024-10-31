@@ -1,7 +1,8 @@
 import React from 'react';
 import NavigationBar from '../components/UI/NavigationBar';
 import { Outlet } from 'react-router-dom';
-import { Box, Container } from '@mui/system';
+import { Box } from '@mui/system';
+
 const MainLayout = () => {
   return (
     <Box

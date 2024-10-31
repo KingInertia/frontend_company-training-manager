@@ -1,6 +1,7 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Typography, Paper, Box } from '@mui/material';
+
 const Item = styled(Paper)(({ theme }) => ({
   display: 'flex',
   flexGrow: 1,
@@ -14,6 +15,7 @@ const Item = styled(Paper)(({ theme }) => ({
   boxShadow: theme.shadows[3],
   flexDirection: 'column',
 }));
+
 const TextPage = ({ title, titleVariant = 'h4', children }) => {
   return (
     <Item>
