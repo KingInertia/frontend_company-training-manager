@@ -40,15 +40,8 @@
       "last 1 safari version"
     ]
   },
-  "prettier": {
-    "singleQuote": true,
-    "trailingComma": "all",
-    "arrowParens": "avoid",
-    "bracketSameLine": false,
-    "bracketSpacing": true,
-    "semi": true,
-    "useTabs": false,
-    "tabWidth": 2,
-    "endOfLine": "lf"
+  "devDependencies": {
+    "@types/prettier": "^2.7.3",
+    "prettier": "^3.3.3"
   }
 }
