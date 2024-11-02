@@ -1,7 +1,7 @@
-import React from 'react'
-import Container from '@mui/material/Container'
-import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
+import React from 'react';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 const StartPage = () => {
   return (
@@ -11,7 +11,7 @@ const StartPage = () => {
         <Button variant="contained">Click</Button>
       </Container>
     </div>
-  )
-}
+  );
+};
 
-export default StartPage
+export default StartPage;
