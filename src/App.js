@@ -5,11 +5,11 @@ import React, { Suspense, lazy } from 'react';
 
 const StartPage = lazy(() => import('./components/Pages/StartPage'));
 const AboutPage = lazy(() => import('./components/Pages/AboutPage'));
-const UsersProfilePage = lazy(() =>
-  import('./components/Pages/UsersProfilePage'),
+const UsersProfilePage = lazy(
+  () => import('./components/Pages/UsersProfilePage'),
 );
-const CompanyProfilePage = lazy(() =>
-  import('./components/Pages/CompanyProfilePage'),
+const CompanyProfilePage = lazy(
+  () => import('./components/Pages/CompanyProfilePage'),
 );
 const MainLayout = lazy(() => import('./layouts/MainLayout'));
 const NotFound = lazy(() => import('./components/Pages/NotFound'));
