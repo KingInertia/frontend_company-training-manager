@@ -2,12 +2,14 @@ import React from 'react';
 import TextPage from '../UI/TextPage';
 import usersList from '../../data/usersList';
 import TableList from '../UI/TableList';
+import { useTranslation } from 'react-i18next';
 
 const UsersPage = () => {
-  const rowNames = ['Names', 'Posts', 'Phones'];
+  const { t } = useTranslation();
+  const rowNames = [t('users.names'), t('users.posts'), t('users.phones')];
 
   return (
-    <TextPage title="Users">
+    <TextPage title={t('navigation.users')}>
       {usersList.length > 0 && (
         <TableList rowNames={rowNames} list={usersList} />
       )}
