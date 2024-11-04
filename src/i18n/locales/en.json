@@ -21,6 +21,7 @@
   },
   "startPage": {
     "title": "Front meduzzen intership",
-    "button": "Click"
+    "button": "Click",
+    "buttonChangeStrValue": "Change Value"
   }
 }
