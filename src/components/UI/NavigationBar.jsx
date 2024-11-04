@@ -6,10 +6,30 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-const pages = ['COMPANIES', 'USERS', 'ABOUT'];
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { useTranslation } from 'react-i18next';
 
 const NavigationBar = () => {
   const location = useLocation();
+  const { t } = useTranslation();
+  const { i18n } = useTranslation();
+  const [language, setLanguage] = React.useState(i18n.language);
+  const pages = ['/companies', '/users', '/about'];
+  const buttonNames = [
+    t('navigation.companies'),
+    t('navigation.users'),
+    t('navigation.about'),
+  ];
+
+  const langChange = event => {
+    const lang = event.target.value;
+    i18n.changeLanguage(lang);
+    setLanguage(lang);
+    localStorage.setItem('currentLang', lang);
+  };
 
   const isActive = page => {
     return location.pathname === '/' + page.toLowerCase();
@@ -44,10 +64,10 @@ const NavigationBar = () => {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map(page => (
+            {pages.map((page, index) => (
               <Button
                 component={Link}
-                to={page.toLowerCase()}
+                to={page}
                 key={page}
                 sx={{
                   my: 1,
@@ -57,9 +77,28 @@ const NavigationBar = () => {
                   textDecoration: 'none',
                 }}
               >
-                {page}
+                {buttonNames[index]}
               </Button>
             ))}
+          </Box>
+          <Box
+            sx={{
+              minWidth: 120,
+            }}
+          >
+            <FormControl fullWidth size="small">
+              <InputLabel id="select-language-label">Lang</InputLabel>
+              <Select
+                labelId="select-language-label"
+                id="select-language"
+                value={language}
+                label="Age"
+                onChange={langChange}
+              >
+                <MenuItem value={'en'}>EN</MenuItem>
+                <MenuItem value={'uk'}>UK</MenuItem>
+              </Select>
+            </FormControl>
           </Box>
         </Toolbar>
       </Container>

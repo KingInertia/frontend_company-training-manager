@@ -1,0 +1,26 @@
+{
+  "navigation": {
+    "companies": "COMPANIES",
+    "users": "USERS",
+    "about": "ABOUT"
+  },
+  "users": {
+    "names": "Name",
+    "posts": "Post",
+    "phones": "Phone"
+  },
+  "companies": {
+    "titles": "Title",
+    "posts": "Post",
+    "phones": "Phone"
+  },
+  "aboutPage": {
+    "aboutUs": "About us",
+    "aboutText": "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text",
+    "contacts": "Contacts"
+  },
+  "startPage": {
+    "title": "Front meduzzen intership",
+    "button": "Click"
+  }
+}

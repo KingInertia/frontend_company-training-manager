@@ -2,12 +2,15 @@ import React from 'react';
 import { Typography, Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import TextPage from '../UI/TextPage';
+import { useTranslation } from 'react-i18next';
 
 const AboutPage = () => {
+  const { t } = useTranslation();
+
   return (
     <Grid container spacing={2} sx={{ width: '100%' }}>
       <Grid size={8} sx={{ display: 'flex', flexGrow: 1 }}>
-        <TextPage title="About us" titleVariant="h4">
+        <TextPage title={t('aboutPage.aboutUs')} titleVariant="h4">
           <Box
             sx={{
               padding: '8px',
@@ -16,15 +19,12 @@ const AboutPage = () => {
               border: '4px solid #e08e45',
             }}
           >
-            <Typography variant="body1">
-              Text Text Text Text Text Text Text Text Text Text Text Text Text
-              Text Text Text Text Text Text Text Text Text Text Text Text Text
-            </Typography>
+            <Typography variant="body1">{t('aboutPage.aboutText')}</Typography>
           </Box>
         </TextPage>
       </Grid>
       <Grid size={4} sx={{ display: 'flex', flexGrow: 1 }}>
-        <TextPage title="Сontacts" titleVariant="h4">
+        <TextPage title={t('aboutPage.contacts')} titleVariant="h4">
           <Box
             sx={{
               padding: '8px',
