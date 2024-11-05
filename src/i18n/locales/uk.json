@@ -21,6 +21,7 @@
   },
   "startPage": {
     "title": "Front meduzzen стажування",
-    "button": "Натисни"
+    "button": "Натисни",
+    "buttonChangeStrValue": "Змінити значення"
   }
 }
