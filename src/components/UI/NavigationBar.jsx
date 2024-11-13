@@ -11,6 +11,7 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useTranslation } from 'react-i18next';
+import UserMenu from './UserMenu';
 
 const NavigationBar = () => {
   const location = useLocation();
@@ -100,6 +101,7 @@ const NavigationBar = () => {
               </Select>
             </FormControl>
           </Box>
+          <UserMenu />
         </Toolbar>
       </Container>
     </AppBar>
