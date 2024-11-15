@@ -51,3 +51,23 @@ export const loginUser = createAsyncThunk(
     }
   },
 );
+
+export const logoutUser = createAsyncThunk(
+  'auth/logout',
+  async ({ userToken }, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Token ${userToken}`,
+        },
+      };
+      await axios.post(`${backendURL}auth/token/logout/`, {}, config);
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);

@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginUser } from './authActions';
+import { loginUser, logoutUser } from './authActions';
 
 const initialState = {
   loading: false,
-  userInfo: {},
   userToken: localStorage.getItem('userToken') || null,
   error: null,
   success: false,
@@ -13,37 +12,48 @@ const initialState = {
 const loginSlice = createSlice({
   name: 'login',
   initialState,
-  reducers: {
-    logout: state => {
-      localStorage.removeItem('userToken');
-      localStorage.removeItem('tokenTimestamp');
-      state.userInfo = null;
-      state.loading = false;
-      state.userToken = null;
-      state.success = false;
-      state.tokenTimestamp = null;
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder
       .addCase(loginUser.pending, state => {
         state.loading = true;
+        state.success = false;
         state.error = null;
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('tokenTimestamp');
+        state.userToken = null;
+        state.tokenTimestamp = null;
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.userInfo = payload;
-        state.userToken = payload.userToken;
+        state.userToken = payload.auth_token;
         state.success = true;
-        localStorage.setItem('userToken', payload.userToken);
+        localStorage.setItem('userToken', payload.auth_token);
         state.tokenTimestamp = Date.now();
         localStorage.setItem('tokenTimestamp', Date.now());
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
+      })
+      .addCase(logoutUser.pending, state => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(logoutUser.fulfilled, state => {
+        state.loading = false;
+        state.success = true;
+        state.userToken = null;
+        state.tokenTimestamp = null;
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('tokenTimestamp');
+      })
+      .addCase(logoutUser.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.success = false;
+        state.error = payload;
       });
   },
 });
-export const { logout } = loginSlice.actions;
 export default loginSlice.reducer;

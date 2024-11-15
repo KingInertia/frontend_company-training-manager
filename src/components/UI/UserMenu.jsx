@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -6,21 +6,31 @@ import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import Snackbar from '@mui/material/Snackbar';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../../store/auth/loginSlice';
+import { logoutUser } from '../../store/auth/authActions';
 import { useTranslation } from 'react-i18next';
 
 const UserMenu = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const userLogin = useSelector(state => state.login.tokenTimestamp);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const { userToken, error } = useSelector(state => state.login);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
 
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget);
   };
+
+  useEffect(() => {
+    if (error) {
+      setSnackbarMessage(error);
+      setOpenSnackbar(true);
+    }
+  }, [error]);
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -32,9 +42,14 @@ const UserMenu = () => {
   };
 
   const handleLogoutNavigate = () => {
-    handleCloseUserMenu();
-    dispatch(logout());
-    navigate('/');
+    if (userToken) {
+      dispatch(logoutUser({ userToken: userToken }));
+      handleCloseUserMenu();
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -60,7 +75,7 @@ const UserMenu = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {userLogin ? (
+        {userToken ? (
           <MenuItem onClick={handleLogoutNavigate}>
             <Typography sx={{ textAlign: 'center' }}>
               {t('UserMenu.logout')}
@@ -74,6 +89,12 @@ const UserMenu = () => {
           </MenuItem>
         )}
       </Menu>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={10000}
+        onClose={handleCloseSnackbar}
+        message={snackbarMessage}
+      />
     </Box>
   );
 };
