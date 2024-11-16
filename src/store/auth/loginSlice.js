@@ -17,7 +17,6 @@ const loginSlice = createSlice({
     builder
       .addCase(loginUser.pending, state => {
         state.loading = true;
-        state.success = false;
         state.error = null;
         localStorage.removeItem('userToken');
         localStorage.removeItem('tokenTimestamp');
@@ -39,11 +38,10 @@ const loginSlice = createSlice({
       .addCase(logoutUser.pending, state => {
         state.loading = true;
         state.error = null;
-        state.success = false;
       })
       .addCase(logoutUser.fulfilled, state => {
         state.loading = false;
-        state.success = true;
+        state.success = false;
         state.userToken = null;
         state.tokenTimestamp = null;
         localStorage.removeItem('userToken');
@@ -51,7 +49,6 @@ const loginSlice = createSlice({
       })
       .addCase(logoutUser.rejected, (state, { payload }) => {
         state.loading = false;
-        state.success = false;
         state.error = payload;
       });
   },

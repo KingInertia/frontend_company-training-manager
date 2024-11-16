@@ -6,16 +6,15 @@ import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import Snackbar from '@mui/material/Snackbar';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logoutUser } from '../../store/auth/authActions';
 import { useTranslation } from 'react-i18next';
+import { logoutUser } from '../../store/auth/authActions';
+import ErrorSnackbar from './ErrorSnackbar';
 
 const UserMenu = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const { userToken, error } = useSelector(state => state.login);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -28,7 +27,6 @@ const UserMenu = () => {
   useEffect(() => {
     if (error) {
       setSnackbarMessage(error);
-      setOpenSnackbar(true);
     }
   }, [error]);
 
@@ -46,10 +44,6 @@ const UserMenu = () => {
       dispatch(logoutUser({ userToken: userToken }));
       handleCloseUserMenu();
     }
-  };
-
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
   };
 
   return (
@@ -89,12 +83,7 @@ const UserMenu = () => {
           </MenuItem>
         )}
       </Menu>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={10000}
-        onClose={handleCloseSnackbar}
-        message={snackbarMessage}
-      />
+      <ErrorSnackbar message={snackbarMessage} />
     </Box>
   );
 };

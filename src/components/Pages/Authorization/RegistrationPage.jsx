@@ -4,7 +4,7 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Snackbar from '@mui/material/Snackbar';
+import ErrorSnackbar from '../../UI/ErrorSnackbar';
 import { Link as RouterLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,6 @@ import { registerUser } from '../../../store/auth/authActions';
 
 const RegistrationPage = () => {
   const { t } = useTranslation();
-  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const { loading, error, success } = useSelector(state => state.auth);
   const dispatch = useDispatch();
@@ -28,25 +27,21 @@ const RegistrationPage = () => {
 
     if (!login || !email || !password || !confirmPassword) {
       setSnackbarMessage(t('Registration.fillInAllFields'));
-      setOpenSnackbar(true);
       return;
     }
 
     if (!validateEmail(email)) {
       setSnackbarMessage(t('Registration.invalidEmail'));
-      setOpenSnackbar(true);
       return;
     }
 
     if (!validatePassword(password)) {
       setSnackbarMessage(t('Registration.invalidPassword'));
-      setOpenSnackbar(true);
       return;
     }
 
     if (password !== confirmPassword) {
       setSnackbarMessage(t('Registration.passwordsDoNotMatch'));
-      setOpenSnackbar(true);
       return;
     }
 
@@ -58,13 +53,8 @@ const RegistrationPage = () => {
   useEffect(() => {
     if (error) {
       setSnackbarMessage(t('Registration.tryLater') + error);
-      setOpenSnackbar(true);
     }
   }, [error, t]);
-
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
 
   const validateEmail = email => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -161,13 +151,7 @@ const RegistrationPage = () => {
             </Link>
           </Box>
         )}
-
-        <Snackbar
-          open={openSnackbar}
-          autoHideDuration={10000}
-          onClose={handleCloseSnackbar}
-          message={snackbarMessage}
-        />
+        <ErrorSnackbar message={snackbarMessage} />
       </Box>
     </Container>
   );

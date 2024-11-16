@@ -10,20 +10,20 @@ import Grid from '@mui/material/Grid2';
 import Facebook from '@mui/icons-material/Facebook';
 import Google from '@mui/icons-material/Google';
 import IconButton from '@mui/material/IconButton';
-import Snackbar from '@mui/material/Snackbar';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../../store/auth/authActions';
+import ErrorSnackbar from '../../UI/ErrorSnackbar';
 
 export default function LoginPage() {
   const { t } = useTranslation();
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
+
   const { loading, error, success } = useSelector(state => state.login);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -42,16 +42,11 @@ export default function LoginPage() {
       } else {
         setSnackbarMessage(t('Login.unknownError'));
       }
-      setOpenSnackbar(true);
     }
     if (success) {
       navigate('/');
     }
   }, [navigate, error, success, t]);
-
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
 
   return (
     <Container component="main" maxWidth="sm">
@@ -129,12 +124,7 @@ export default function LoginPage() {
             </Grid>
           </Grid>
         </Box>
-        <Snackbar
-          open={openSnackbar}
-          autoHideDuration={10000}
-          onClose={handleCloseSnackbar}
-          message={snackbarMessage}
-        />
+        <ErrorSnackbar message={snackbarMessage} />
       </Box>
     </Container>
   );
