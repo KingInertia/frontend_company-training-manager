@@ -21,6 +21,7 @@ const useTokenLifeTimeCheck = () => {
       setIsExpired(true);
     }
   }, [tokenTimestamp, dispatch, tokenExpirationTime, userToken]);
+
   return isExpired;
 };
 
