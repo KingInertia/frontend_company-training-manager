@@ -13,40 +13,51 @@ import IconButton from '@mui/material/IconButton';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../../store/auth/authActions';
+import { useDispatch } from 'react-redux';
+import axiosInstance from '../../../api/axiosInstance';
+import { setUserToken } from '../../../store/auth/authSlice';
 import ErrorSnackbar from '../../UI/ErrorSnackbar';
+import URLS from '../../../constants/urls';
 
 export default function LoginPage() {
   const { t } = useTranslation();
-
-  const { loading, error, success } = useSelector(state => state.login);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = event => {
+  useEffect(() => {
+    const userToken = localStorage.getItem('userToken');
+    const tokenTimestamp = localStorage.getItem('tokenTimestamp');
+    if (userToken) {
+      dispatch(setUserToken({ userToken, tokenTimestamp }));
+      navigate('/');
+    }
+  }, [dispatch, navigate]);
+
+  const handleSubmit = async event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const login = data.get('login');
     const password = data.get('password');
-    dispatch(loginUser({ username: login, password: password }));
-  };
-
-  useEffect(() => {
-    if (error) {
-      if (error.includes('Request failed with status code 400')) {
-        setSnackbarMessage(t('Login.invalidCredentials'));
-      } else if (error === 'Network Error') {
-        setSnackbarMessage(t('Login.networkError'));
-      } else {
-        setSnackbarMessage(t('Login.unknownError'));
-      }
-    }
-    if (success) {
+    setLoading(true);
+    try {
+      const { data } = await axiosInstance.post('/api/v1/auth/token/login/', {
+        username: login,
+        password: password,
+      });
+      const userToken = data.auth_token;
+      const tokenTimestamp = Date.now();
+      localStorage.setItem('userToken', userToken);
+      localStorage.setItem('tokenTimestamp', tokenTimestamp);
+      dispatch(setUserToken({ userToken, tokenTimestamp }));
       navigate('/');
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || error.message;
+      setSnackbarMessage(errorMessage);
     }
-  }, [navigate, error, success, t]);
+    setLoading(false);
+  };
 
   return (
     <Container component="main" maxWidth="sm">
@@ -98,7 +109,7 @@ export default function LoginPage() {
           >
             {loading ? t('Login.loading') : t('Login.signIn')}
           </Button>
-          <Link component={RouterLink} to="/registration" variant="body2">
+          <Link component={RouterLink} to={URLS.REGISTRATION} variant="body2">
             {t('Login.dontHaveAccount')}
           </Link>
           <Grid container justifyContent="center" sx={{ mt: 2 }}>

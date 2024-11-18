@@ -1,36 +1,35 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import useTokenLifeTimeCheck from '../../hooks/useTokenLifeTimeCheck';
 import { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
-import { useDispatch, useSelector } from 'react-redux';
 import { getUserProfile } from '../../store/userProfile/userProfileActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUserToken } from '../../store/auth/authSelectors';
+import {
+  selectUserProfileSuccess,
+  selectUserProfileError,
+} from '../../store/userProfile/userProfileSelectors';
 
 const PrivateRoute = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
-  const { success, error } = useSelector(state => state.userProfile);
-  const { userToken } = useSelector(state => state.login);
-  const isTokenExpired = useTokenLifeTimeCheck();
+  const success = useSelector(selectUserProfileSuccess);
+  const error = useSelector(selectUserProfileError);
+  const userToken = useSelector(selectUserToken);
 
   useEffect(() => {
-    if (isTokenExpired !== null && (success || error)) {
+    if (userToken && !(success || error)) {
+      dispatch(getUserProfile({ userToken }));
+    } else {
       setIsLoading(false);
     }
-    if (!success || error) {
-      dispatch(getUserProfile({ userToken: userToken }));
-    }
-  }, [isTokenExpired, success, error, userToken]);
+  }, [userToken, dispatch, success, error]);
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;
   }
 
-  if (!isTokenExpired && success) {
-    return <Outlet />;
-  } else {
-    return <Navigate to="/login" />;
-  }
+  return success && userToken ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;

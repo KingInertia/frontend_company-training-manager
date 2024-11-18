@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -10,13 +10,16 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { logoutUser } from '../../store/auth/authActions';
+import { removeUserToken } from '../../store/auth/authSlice';
 import ErrorSnackbar from './ErrorSnackbar';
+import { selectUserToken } from '../../store/auth/authSelectors';
+import URLS from '../../constants/urls';
 
 const UserMenu = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const { userToken, error } = useSelector(state => state.login);
+  const userToken = useSelector(selectUserToken);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
 
@@ -24,25 +27,26 @@ const UserMenu = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  useEffect(() => {
-    if (error) {
-      setSnackbarMessage(error);
-    }
-  }, [error]);
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
   const handleLoginNavigate = () => {
     handleCloseUserMenu();
-    navigate('/login');
+    navigate(URLS.LOGIN);
   };
 
-  const handleLogoutNavigate = () => {
+  const handleLogoutNavigate = async () => {
     if (userToken) {
-      dispatch(logoutUser({ userToken: userToken }));
-      handleCloseUserMenu();
+      try {
+        await logoutUser(userToken);
+        dispatch(removeUserToken());
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('tokenTimestamp');
+        navigate('/');
+      } catch (error) {
+        setSnackbarMessage(error);
+      }
     }
   };
 

@@ -10,11 +10,19 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../../store/auth/authActions';
+import {
+  selectAuthLoading,
+  selectAuthError,
+  selectAuthSuccess,
+} from '../../../store/auth/authSelectors';
+import URLS from '../../../constants/urls';
 
 const RegistrationPage = () => {
   const { t } = useTranslation();
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const { loading, error, success } = useSelector(state => state.auth);
+  const loading = useSelector(selectAuthLoading);
+  const error = useSelector(selectAuthError);
+  const success = useSelector(selectAuthSuccess);
   const dispatch = useDispatch();
 
   const handleSubmit = event => {
@@ -88,7 +96,7 @@ const RegistrationPage = () => {
         {success ? (
           <Box sx={{ alignItems: 'center' }}>
             <Typography variant="h5">{t('Registration.success')}</Typography>
-            <Link component={RouterLink} to="/login" variant="h5">
+            <Link component={RouterLink} to={URLS.LOGIN} variant="h5">
               {t('Registration.toLoginPage')}
             </Link>
           </Box>
@@ -146,7 +154,7 @@ const RegistrationPage = () => {
             >
               {loading ? t('Registration.loading') : t('Registration.signUp')}
             </Button>
-            <Link component={RouterLink} to="/login" variant="body2">
+            <Link component={RouterLink} to={URLS.LOGIN} variant="body2">
               {t('Registration.alreadyHaveAccount')}
             </Link>
           </Box>

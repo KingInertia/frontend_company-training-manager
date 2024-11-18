@@ -10,6 +10,9 @@ import '@fontsource/roboto/700.css';
 import './i18n/i18n.js';
 import { Provider } from 'react-redux';
 import store from './store/store';
+import { setupInterceptors } from './api/axiosInstance.js';
+
+setupInterceptors(store);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
