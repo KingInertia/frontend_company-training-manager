@@ -6,26 +6,24 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import ErrorSnackbar from '../../UI/ErrorSnackbar';
 import { Link as RouterLink } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { registerUser } from '../../../store/auth/authActions';
-import {
-  selectAuthLoading,
-  selectAuthError,
-  selectAuthSuccess,
-} from '../../../store/auth/authSelectors';
 import URLS from '../../../constants/urls';
 
 const RegistrationPage = () => {
   const { t } = useTranslation();
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const loading = useSelector(selectAuthLoading);
-  const error = useSelector(selectAuthError);
-  const success = useSelector(selectAuthSuccess);
+  const LoadingState = {
+    IDLE: 'idle',
+    LOADING: 'loading',
+    SUCCESS: 'success',
+  };
+  const [loading, setLoading] = useState(LoadingState.IDLE);
   const dispatch = useDispatch();
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const login = data.get('login');
@@ -52,17 +50,17 @@ const RegistrationPage = () => {
       setSnackbarMessage(t('Registration.passwordsDoNotMatch'));
       return;
     }
-
-    dispatch(
-      registerUser({ username: login, email: email, password: password }),
-    );
-  };
-
-  useEffect(() => {
-    if (error) {
-      setSnackbarMessage(t('Registration.tryLater') + error);
+    setLoading(LoadingState.LOADING);
+    try {
+      await registerUser({ username: login, email: email, password: password });
+      setLoading(LoadingState.SUCCESS);
+    } catch (error) {
+      console.log(1);
+      const errorMessage = error.response?.data?.message || error.message;
+      setSnackbarMessage(errorMessage);
+      setLoading(LoadingState.IDLE);
     }
-  }, [error, t]);
+  };
 
   const validateEmail = email => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -93,7 +91,7 @@ const RegistrationPage = () => {
         <Typography component="h1" variant="h5">
           {t('Registration.title')}
         </Typography>
-        {success ? (
+        {loading === LoadingState.SUCCESS ? (
           <Box sx={{ alignItems: 'center' }}>
             <Typography variant="h5">{t('Registration.success')}</Typography>
             <Link component={RouterLink} to={URLS.LOGIN} variant="h5">
@@ -152,7 +150,9 @@ const RegistrationPage = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2, backgroundColor: '#e08e45' }}
             >
-              {loading ? t('Registration.loading') : t('Registration.signUp')}
+              {loading === LoadingState.LOADING
+                ? t('Registration.loading')
+                : t('Registration.signUp')}
             </Button>
             <Link component={RouterLink} to={URLS.LOGIN} variant="body2">
               {t('Registration.alreadyHaveAccount')}

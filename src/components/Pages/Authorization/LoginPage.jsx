@@ -15,7 +15,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import axiosInstance from '../../../api/axiosInstance';
-import { setUserToken } from '../../../store/auth/authSlice';
+import { setAuthToken } from '../../../store/auth/authSlice';
 import ErrorSnackbar from '../../UI/ErrorSnackbar';
 import URLS from '../../../constants/urls';
 
@@ -27,10 +27,10 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const userToken = localStorage.getItem('userToken');
+    const authToken = localStorage.getItem('authToken');
     const tokenTimestamp = localStorage.getItem('tokenTimestamp');
-    if (userToken) {
-      dispatch(setUserToken({ userToken, tokenTimestamp }));
+    if (authToken) {
+      dispatch(setAuthToken({ authToken, tokenTimestamp }));
       navigate('/');
     }
   }, [dispatch, navigate]);
@@ -46,11 +46,11 @@ export default function LoginPage() {
         username: login,
         password: password,
       });
-      const userToken = data.auth_token;
+      const authToken = data.auth_token;
       const tokenTimestamp = Date.now();
-      localStorage.setItem('userToken', userToken);
+      localStorage.setItem('authToken', authToken);
       localStorage.setItem('tokenTimestamp', tokenTimestamp);
-      dispatch(setUserToken({ userToken, tokenTimestamp }));
+      dispatch(setAuthToken({ authToken, tokenTimestamp }));
       navigate('/');
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message;

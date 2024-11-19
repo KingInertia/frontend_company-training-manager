@@ -10,16 +10,16 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { logoutUser } from '../../store/auth/authActions';
-import { removeUserToken } from '../../store/auth/authSlice';
+import { removeAuthToken } from '../../store/auth/authSlice';
 import ErrorSnackbar from './ErrorSnackbar';
-import { selectUserToken } from '../../store/auth/authSelectors';
+import { selectAuthToken } from '../../store/auth/authSelectors';
 import URLS from '../../constants/urls';
 
 const UserMenu = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const userToken = useSelector(selectUserToken);
+  const authToken = useSelector(selectAuthToken);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
 
@@ -37,11 +37,11 @@ const UserMenu = () => {
   };
 
   const handleLogoutNavigate = async () => {
-    if (userToken) {
+    if (authToken) {
       try {
-        await logoutUser(userToken);
-        dispatch(removeUserToken());
-        localStorage.removeItem('userToken');
+        await logoutUser(authToken);
+        dispatch(removeAuthToken());
+        localStorage.removeItem('authToken');
         localStorage.removeItem('tokenTimestamp');
         navigate('/');
       } catch (error) {
@@ -73,7 +73,7 @@ const UserMenu = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {userToken ? (
+        {authToken ? (
           <MenuItem onClick={handleLogoutNavigate}>
             <Typography sx={{ textAlign: 'center' }}>
               {t('UserMenu.logout')}

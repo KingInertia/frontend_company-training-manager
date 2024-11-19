@@ -3,11 +3,11 @@ import axiosInstance from '../../api/axiosInstance';
 
 export const getUserProfile = createAsyncThunk(
   'userProfile/getUserProfile',
-  async ({ userToken }, { rejectWithValue }) => {
+  async ({ authToken }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
-          Authorization: `Token ${userToken}`,
+          Authorization: `Token ${authToken}`,
         },
       };
       const { data } = await axiosInstance.get(

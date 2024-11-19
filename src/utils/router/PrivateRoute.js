@@ -4,32 +4,27 @@ import { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import { getUserProfile } from '../../store/userProfile/userProfileActions';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUserToken } from '../../store/auth/authSelectors';
-import {
-  selectUserProfileSuccess,
-  selectUserProfileError,
-} from '../../store/userProfile/userProfileSelectors';
+import { selectAuthToken } from '../../store/auth/authSelectors';
 
 const PrivateRoute = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
-  const success = useSelector(selectUserProfileSuccess);
-  const error = useSelector(selectUserProfileError);
-  const userToken = useSelector(selectUserToken);
+  const { success, error } = useSelector(state => state.userProfile);
+  const authToken = useSelector(selectAuthToken);
 
   useEffect(() => {
-    if (userToken && !(success || error)) {
-      dispatch(getUserProfile({ userToken }));
+    if (authToken && !(success || error)) {
+      dispatch(getUserProfile({ authToken }));
     } else {
       setIsLoading(false);
     }
-  }, [userToken, dispatch, success, error]);
+  }, [authToken, dispatch, success, error]);
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;
   }
 
-  return success && userToken ? <Outlet /> : <Navigate to="/login" />;
+  return success && authToken ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;
