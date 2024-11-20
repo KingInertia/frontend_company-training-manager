@@ -23,5 +23,37 @@
     "title": "Front meduzzen стажування",
     "button": "Натисни",
     "buttonChangeStrValue": "Змінити значення"
+  },
+  "Login": {
+    "signIn": "Увійти",
+    "password": "Пароль",
+    "rememberMe": "Запам'ятати мене",
+    "loading": "Завантаження...",
+    "dontHaveAccount": "Немає акаунту?",
+    "invalidCredentials": "Неправильний логін чи пароль",
+    "networkError": "Помилка зв'язку",
+    "unknownError": "Сталася невідома помилка"
+  },
+  "Registration": {
+    "title": "Реєстрація",
+    "login": "Логін",
+    "email": "Електронна пошта",
+    "password": "Пароль",
+    "confirmPassword": "Підтвердьте пароль",
+    "signUp": "Зареєструватися",
+    "alreadyHaveAccount": "Вже є акаунт? Увійти",
+    "success": "Реєстрація успішна!",
+    "toLoginPage": "на сторінку входу",
+    "fillInAllFields": "Будь ласка, заповніть усі поля.",
+    "invalidEmail": "Невірний формат електронної пошти.",
+    "invalidPassword": "Пароль повинен містити щонайменше 8 символів, включаючи літери верхнього та нижнього регістру, цифри та спеціальні символи.",
+    "passwordsDoNotMatch": "Паролі не збігаються.",
+    "tryLater": "Спробуйте пізніше: ",
+    "loading": "Завантаження..."
+  },
+  "UserMenu": {
+    "settings": "Відкрити налаштування",
+    "logout": "Вийти",
+    "login": "Увійти"
   }
 }

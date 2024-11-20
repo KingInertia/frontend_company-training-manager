@@ -23,5 +23,37 @@
     "title": "Front meduzzen intership",
     "button": "Click",
     "buttonChangeStrValue": "Change Value"
+  },
+  "Login": {
+    "signIn": "Sign in",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "loading": "Loading...",
+    "dontHaveAccount": "Don't have an account?",
+    "invalidCredentials": "Incorrect username or password",
+    "networkError": "Network error",
+    "unknownError": "An unknown error occurred"
+  },
+  "Registration": {
+    "title": "Registration",
+    "login": "Username",
+    "email": "Email Address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "signUp": "Sign Up",
+    "alreadyHaveAccount": "Already have an account? Log in",
+    "success": "Registration successful!",
+    "toLoginPage": "to Login page",
+    "fillInAllFields": "Please fill in all fields.",
+    "invalidEmail": "Invalid email format.",
+    "invalidPassword": "Password must be at least 8 characters long and include upper and lower case letters, numbers, and special characters.",
+    "passwordsDoNotMatch": "Passwords do not match.",
+    "tryLater": "Try later: ",
+    "loading": "Loading..."
+  },
+  "UserMenu": {
+    "settings": "Open settings",
+    "logout": "Logout",
+    "login": "Login"
   }
 }
