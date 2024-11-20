@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUserProfile } from './userProfileActions';
+import { delUserProfile, getUserProfile } from './userProfileActions';
 
 const initialState = {
   loading: false,
@@ -26,6 +26,21 @@ const userProfileSlice = createSlice({
         state.success = true;
       })
       .addCase(getUserProfile.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+      .addCase(delUserProfile.pending, state => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(delUserProfile.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.user = null;
+      })
+      .addCase(delUserProfile.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       });

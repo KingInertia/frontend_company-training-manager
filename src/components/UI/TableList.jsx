@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 const TableList = ({ rowNames, list }) => {
   const getValuesWithoutId = list => {
@@ -23,7 +23,7 @@ const TableList = ({ rowNames, list }) => {
         <TableHead sx={{ backgroundColor: '#e08e45' }}>
           <TableRow>
             {rowNames.map(row => (
-              <TableCell key={row}>
+              <TableCell key={uuidv4()}>
                 <Typography variant="h6" sx={{ color: '#f9e2b2' }}>
                   {row + ':'}
                 </Typography>
@@ -35,11 +35,13 @@ const TableList = ({ rowNames, list }) => {
           {list.map(row => (
             <TableRow
               onClick={() => navigate('./' + row.id)}
-              key={row.id}
+              key={uuidv4()}
               sx={{ cursor: 'pointer' }}
             >
               {getValuesWithoutId(row).map(value => (
-                <TableCell key={String(row.id) + value}>{value}</TableCell>
+                <TableCell key={uuidv4()}>
+                  {value ? value : '(absent)'}
+                </TableCell>
               ))}
             </TableRow>
           ))}
