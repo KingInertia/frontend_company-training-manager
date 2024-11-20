@@ -18,6 +18,7 @@ import axiosInstance from '../../../api/axiosInstance';
 import { setAuthToken } from '../../../store/auth/authSlice';
 import ErrorSnackbar from '../../UI/ErrorSnackbar';
 import URLS from '../../../constants/urls';
+import { getUserProfile } from '../../../store/userProfile/userProfileActions';
 
 export default function LoginPage() {
   const { t } = useTranslation();
@@ -29,8 +30,10 @@ export default function LoginPage() {
   useEffect(() => {
     const authToken = localStorage.getItem('authToken');
     const tokenTimestamp = localStorage.getItem('tokenTimestamp');
+
     if (authToken) {
       dispatch(setAuthToken({ authToken, tokenTimestamp }));
+      dispatch(getUserProfile({ authToken }));
       navigate('/');
     }
   }, [dispatch, navigate]);
@@ -51,6 +54,7 @@ export default function LoginPage() {
       localStorage.setItem('authToken', authToken);
       localStorage.setItem('tokenTimestamp', tokenTimestamp);
       dispatch(setAuthToken({ authToken, tokenTimestamp }));
+      dispatch(getUserProfile({ authToken }));
       navigate('/');
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message;

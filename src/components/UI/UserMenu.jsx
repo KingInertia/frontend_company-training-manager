@@ -21,6 +21,7 @@ const UserMenu = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const authToken = useSelector(selectAuthToken);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const { id } = useSelector(state => state.userProfile.user) || {};
   const navigate = useNavigate();
 
   const handleOpenUserMenu = event => {
@@ -50,6 +51,11 @@ const UserMenu = () => {
     }
   };
 
+  const handleProfileNavigate = () => {
+    handleCloseUserMenu();
+    navigate(`${URLS.USERS}/${id}`);
+  };
+
   return (
     <Box sx={{ flexGrow: 0, ml: '10px' }}>
       <Tooltip title={t('UserMenu.settings')}>
@@ -74,11 +80,16 @@ const UserMenu = () => {
         onClose={handleCloseUserMenu}
       >
         {authToken ? (
-          <MenuItem onClick={handleLogoutNavigate}>
-            <Typography sx={{ textAlign: 'center' }}>
-              {t('UserMenu.logout')}
-            </Typography>
-          </MenuItem>
+          [
+            <MenuItem key="logout" onClick={handleLogoutNavigate}>
+              <Typography sx={{ textAlign: 'center' }}>
+                {t('UserMenu.logout')}
+              </Typography>
+            </MenuItem>,
+            <MenuItem key="profile" onClick={handleProfileNavigate}>
+              <Typography sx={{ textAlign: 'center' }}>Profile</Typography>
+            </MenuItem>,
+          ]
         ) : (
           <MenuItem onClick={handleLoginNavigate}>
             <Typography sx={{ textAlign: 'center' }}>

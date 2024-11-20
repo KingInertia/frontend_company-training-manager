@@ -12,7 +12,7 @@ const UsersPage = () => {
   const { t } = useTranslation();
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const dispatch = useDispatch();
-  const { loading, error, success, users } = useSelector(state => state.users);
+  const { error, users } = useSelector(state => state.users);
 
   const rowNames = [
     'Login',
@@ -22,7 +22,7 @@ const UsersPage = () => {
     'Date registration',
   ];
 
-  const cleanUsersList = success
+  const cleanUsersList = users
     ? users.map(user => {
         const {
           is_superuser,
@@ -53,10 +53,9 @@ const UsersPage = () => {
 
   return (
     <TextPage title={t('navigation.users')}>
-      {loading ? (
+      {!users ? (
         <Typography>Loading...</Typography>
       ) : (
-        success &&
         cleanUsersList.length > 0 && (
           <TableList rowNames={rowNames} list={cleanUsersList} />
         )

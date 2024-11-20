@@ -15,7 +15,7 @@ export const setupInterceptors = store => {
     async config => {
       const state = store.getState();
       const { authToken, tokenTimestamp } = state.auth;
-      const tokenExpirationTime = 3600 * 1000; // 1 hour
+      const tokenExpirationTime = 3600 * 1000 * 12; // 12 hour
 
       if (authToken) {
         const tokenLifeTime = Date.now() - tokenTimestamp;
