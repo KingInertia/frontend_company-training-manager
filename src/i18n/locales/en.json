@@ -55,5 +55,35 @@
     "settings": "Open settings",
     "logout": "Logout",
     "login": "Login"
+  },
+  "UserProfile": {
+    "Loading": "Loading...",
+    "Login": "Login",
+    "Active": "Active",
+    "Yes": "Yes",
+    "No": "No",
+    "ABOUT": "ABOUT",
+    "FirstName": "First Name",
+    "LastName": "Last Name",
+    "Email": "Email",
+    "DateJoined": "Date Joined",
+    "LastLogin": "Last Login",
+    "Never": "Never",
+    "NotProvided": "Not Provided",
+    "DeleteAccount": "Delete Account",
+    "EditProfile": "Edit Profile",
+    "CancelEdit": "Cancel Edit",
+    "SaveEdit": "Save Edit",
+    "AvatarUploaded": "Avatar uploaded",
+    "UploadAvatar": "Upload Avatar"
+  },
+  "DeleteAccountDialog": {
+    "DeleteProfile": "Delete Profile",
+    "EnterPassword": "Enter password for verification",
+    "PasswordRequired": "Please enter password for verification",
+    "Password": "Password",
+    "Loading": "Loading...",
+    "Cancel": "Cancel",
+    "Delete": "Delete"
   }
 }

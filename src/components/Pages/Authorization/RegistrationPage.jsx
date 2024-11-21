@@ -8,7 +8,6 @@ import ErrorSnackbar from '../../UI/ErrorSnackbar';
 import { Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { registerUser } from '../../../store/auth/authActions';
 import URLS from '../../../constants/urls';
 
@@ -21,7 +20,6 @@ const RegistrationPage = () => {
     SUCCESS: 'success',
   };
   const [loading, setLoading] = useState(LoadingState.IDLE);
-  const dispatch = useDispatch();
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -55,7 +53,6 @@ const RegistrationPage = () => {
       await registerUser({ username: login, email: email, password: password });
       setLoading(LoadingState.SUCCESS);
     } catch (error) {
-      console.log(1);
       const errorMessage = error.response?.data?.message || error.message;
       setSnackbarMessage(errorMessage);
       setLoading(LoadingState.IDLE);
