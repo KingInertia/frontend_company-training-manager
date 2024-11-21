@@ -55,5 +55,35 @@
     "settings": "Відкрити налаштування",
     "logout": "Вийти",
     "login": "Увійти"
+  },
+  "UserProfile": {
+    "Loading": "Завантаження...",
+    "Login": "Логін",
+    "Active": "Активний",
+    "Yes": "Так",
+    "No": "Ні",
+    "ABOUT": "ПРО КОРИСТУВАЧА",
+    "FirstName": "Ім'я",
+    "LastName": "Прізвище",
+    "Email": "Електронна пошта",
+    "DateJoined": "Дата приєднання",
+    "LastLogin": "Останній вхід",
+    "Never": "Ніколи",
+    "NotProvided": "Не вказано",
+    "DeleteAccount": "Видалити акаунт",
+    "EditProfile": "Редагувати профіль",
+    "CancelEdit": "Скасувати редагування",
+    "SaveEdit": "Зберегти зміни",
+    "AvatarUploaded": "Аватар завантажено",
+    "UploadAvatar": "Завантажити аватар"
+  },
+  "DeleteAccountDialog": {
+    "DeleteProfile": "Видалити профіль",
+    "EnterPassword": "Введіть пароль для підтверждения особистості",
+    "PasswordRequired": "Введіть пароль для підтверждения особистості",
+    "Password": "Пароль",
+    "Loading": "Завантаження...",
+    "Cancel": "Отмена",
+    "Delete": "Удалить"
   }
 }

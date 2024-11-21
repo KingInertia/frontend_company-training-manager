@@ -7,15 +7,16 @@ import TextField from '@mui/material/TextField';
 import Input from '@mui/material/Input';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import TextPage from '../UI/TextPage';
 import ErrorSnackbar from '../UI/ErrorSnackbar';
 import DeleteAccoutDialog from '../UI/DeleteAccoutDialog';
-import { getUser } from '../../store/users/users.Actions';
+import { getCurrentUser } from '../../store/users/users.actions';
 import {
   updateUserProfile,
   getAvatar,
 } from '../../store/userProfile/userProfileActions';
-import { selectAuthToken } from '../../store/auth/authSelectors';
+import { selectUserProfile } from '../../store/userProfile/userProfileSelectors';
 
 const UsersProfilePage = () => {
   const params = useParams();
@@ -24,32 +25,31 @@ const UsersProfilePage = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [openDelDiag, setOpenDelDiag] = useState(false);
   const [editMod, setEditMod] = useState(false);
-  const { id } = useSelector(state => state.userProfile.user);
+  const { id } = useSelector(selectUserProfile);
   const activeUserProfile = useSelector(state => state.userProfile);
-  const randomUserProfile = useSelector(state => state.user);
-  const authToken = useSelector(selectAuthToken);
+  const viewedUserProfile = useSelector(state => state.users);
   const [avatar, setAvatar] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+  const { t } = useTranslation();
 
   const isActiveUser = Number(params.slug) === id;
-  const currentUser = isActiveUser ? activeUserProfile : randomUserProfile;
-  const { loading, error, user } = currentUser;
+  const userProfile = isActiveUser ? activeUserProfile : viewedUserProfile;
+  const {
+    loading,
+    error,
+    user = userProfile.currentUser || userProfile.user,
+  } = userProfile;
 
   useEffect(() => {
     if (!isActiveUser) {
-      dispatch(getUser({ id: params.slug }));
+      dispatch(getCurrentUser({ id: params.slug }));
     }
   }, [isActiveUser, params.slug, dispatch]);
 
   useEffect(() => {
     if (error) {
-      if (error.includes('Request failed with status code 404')) {
-        navigate('/NotFound');
-      } else if (error === 'Network Error') {
-        setSnackbarMessage('networkError');
-      } else {
-        setSnackbarMessage('unknownError');
-      }
+      const errorMessage = error.response?.data?.message || error.message;
+      setSnackbarMessage(errorMessage);
     }
   }, [error, navigate]);
 
@@ -98,14 +98,14 @@ const UsersProfilePage = () => {
       updatedFields.append('image_path', avatar);
     }
 
-    dispatch(updateUserProfile({ authToken, updatedFields }));
+    dispatch(updateUserProfile({ updatedFields }));
     setEditMod(false);
   };
 
   return (
     <TextPage>
       {loading ? (
-        <Typography>Loading...</Typography>
+        <Typography>{t('UserProfile.Loading')}</Typography>
       ) : (
         user && (
           <Box component="form" onSubmit={handleSubmit} noValidate>
@@ -174,9 +174,12 @@ const UsersProfilePage = () => {
                   height: '290px',
                 }}
               >
-                <Typography variant="body1">Login: {user.username}</Typography>
                 <Typography variant="body1">
-                  Active: {user.is_active ? 'Yes' : 'No'}
+                  {t('UserProfile.Login')}: {user.username}
+                </Typography>
+                <Typography variant="body1">
+                  {t('UserProfile.Active')}:{' '}
+                  {user.is_active ? t('UserProfile.Yes') : t('UserProfile.No')}
                 </Typography>
               </Grid>
               <Grid
@@ -201,32 +204,37 @@ const UsersProfilePage = () => {
                   }}
                 >
                   <Typography variant="h5" sx={{ color: '#f9e2b2' }}>
-                    ABOUT
+                    {t('UserProfile.ABOUT')}
                   </Typography>
                 </Box>
                 {!editMod ? (
                   <>
                     <Typography variant="body1">
-                      First Name: {user.first_name || 'Not Provided'}
+                      {t('UserProfile.FirstName')}:{' '}
+                      {user.first_name || t('UserProfile.NotProvided')}
                     </Typography>
                     <Typography variant="body1">
-                      Last Name: {user.last_name || 'Not Provided'}
-                    </Typography>
-                    <Typography variant="body1">Email: {user.email}</Typography>
-                    <Typography variant="body1">
-                      Date Joined: {new Date(user.date_joined).toLocaleString()}
+                      {t('UserProfile.LastName')}:{' '}
+                      {user.last_name || t('UserProfile.NotProvided')}
                     </Typography>
                     <Typography variant="body1">
-                      Last Login:{' '}
+                      {t('UserProfile.Email')}: {user.email}
+                    </Typography>
+                    <Typography variant="body1">
+                      {t('UserProfile.DateJoined')}:{' '}
+                      {new Date(user.date_joined).toLocaleString()}
+                    </Typography>
+                    <Typography variant="body1">
+                      {t('UserProfile.LastLogin')}:{' '}
                       {user.last_login
                         ? new Date(user.last_login).toLocaleString()
-                        : 'Never'}
+                        : t('UserProfile.Never')}
                     </Typography>
                   </>
                 ) : (
                   <>
                     <TextField
-                      label="First Name"
+                      label={t('UserProfile.FirstName')}
                       name="first_name"
                       variant="outlined"
                       defaultValue={user.first_name}
@@ -234,7 +242,7 @@ const UsersProfilePage = () => {
                       fullWidth
                     />
                     <TextField
-                      label="Last Name"
+                      label={t('UserProfile.LastName')}
                       name="last_name"
                       variant="outlined"
                       defaultValue={user.last_name}
@@ -242,7 +250,7 @@ const UsersProfilePage = () => {
                       fullWidth
                     />
                     <TextField
-                      label="Email"
+                      label={t('UserProfile.Email')}
                       name="email"
                       variant="outlined"
                       defaultValue={user.email}
@@ -276,7 +284,7 @@ const UsersProfilePage = () => {
                       color: '#f9e2b2',
                     }}
                   >
-                    Delete Account
+                    {t('UserProfile.DeleteAccount')}
                   </Button>
                   {!editMod ? (
                     <Button
@@ -289,7 +297,7 @@ const UsersProfilePage = () => {
                         color: '#f9e2b2',
                       }}
                     >
-                      Edit Profile
+                      {t('UserProfile.EditProfile')}
                     </Button>
                   ) : (
                     <div>
@@ -303,7 +311,7 @@ const UsersProfilePage = () => {
                           color: '#f9e2b2',
                         }}
                       >
-                        Cancel edit
+                        {t('UserProfile.CancelEdit')}
                       </Button>
                       <Button
                         fullWidth
@@ -315,7 +323,7 @@ const UsersProfilePage = () => {
                           color: 'primary',
                         }}
                       >
-                        Save edit
+                        {t('UserProfile.SaveEdit')}
                       </Button>
                       <Input
                         id="avatar-upload"
@@ -335,7 +343,9 @@ const UsersProfilePage = () => {
                             color: '#f9e2b2',
                           }}
                         >
-                          {avatar ? 'avatar uploaded' : 'Upload Avatar'}
+                          {avatar
+                            ? t('UserProfile.AvatarUploaded')
+                            : t('UserProfile.UploadAvatar')}
                         </Button>
                       </label>
                     </div>

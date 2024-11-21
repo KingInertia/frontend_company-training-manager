@@ -17,7 +17,7 @@ export const getUsersList = createAsyncThunk(
   },
 );
 
-export const getUser = createAsyncThunk(
+export const getCurrentUser = createAsyncThunk(
   'users/getUser',
   async ({ id }, { rejectWithValue }) => {
     try {

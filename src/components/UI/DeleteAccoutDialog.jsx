@@ -6,16 +6,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { delUserProfile } from '../../store/userProfile/userProfileActions';
 import { removeAuthToken } from '../../store/auth/authSlice';
 
-const DeleteAccoutDialog = ({
-  open,
-  handleClose,
-  setSnackbarMessage,
-  authToken,
-}) => {
+const DeleteAccoutDialog = ({ open, handleClose, setSnackbarMessage }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -24,30 +21,29 @@ const DeleteAccoutDialog = ({
     if (password !== '') {
       setLoading(true);
       try {
-        await delUserProfile({ authToken: authToken, password: password });
+        await delUserProfile({ password: password });
         dispatch(removeAuthToken());
         localStorage.removeItem('authToken');
         localStorage.removeItem('tokenTimestamp');
       } catch (error) {
-        setSnackbarMessage(error);
         const errorMessage = error.response?.data?.message || error.message;
         setSnackbarMessage(errorMessage);
       }
       setLoading(false);
     } else {
-      setSnackbarMessage('Введіть пароль для підтверждения особистості');
+      setSnackbarMessage(t('DeleteAccountDialog.PasswordRequired'));
     }
   };
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Видалити профіль</DialogTitle>
+      <DialogTitle>{t('DeleteAccountDialog.DeleteProfile')}</DialogTitle>
       <DialogContent>
-        <Typography>Введіть пароль для підтверждения особистості</Typography>
+        <Typography>{t('DeleteAccountDialog.EnterPassword')}</Typography>
         <TextField
           fullWidth
           margin="normal"
-          label="password'"
+          label={t('DeleteAccountDialog.Password')}
           variant="outlined"
           type="password"
           value={password}
@@ -55,14 +51,14 @@ const DeleteAccoutDialog = ({
         />
       </DialogContent>
       {loading ? (
-        <Typography>Loading...</Typography>
+        <Typography>{t('DeleteAccountDialog.Loading')}</Typography>
       ) : (
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Отмена
+            {t('DeleteAccountDialog.Cancel')}
           </Button>
           <Button onClick={handleDelete} color="error">
-            Удалить
+            {t('DeleteAccountDialog.Delete')}
           </Button>
         </DialogActions>
       )}

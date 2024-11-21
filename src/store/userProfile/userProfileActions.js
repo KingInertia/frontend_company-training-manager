@@ -3,17 +3,9 @@ import axiosInstance from '../../api/axiosInstance';
 
 export const getUserProfile = createAsyncThunk(
   'userProfile/getUserProfile',
-  async ({ authToken }, { rejectWithValue }) => {
+  async ({ rejectWithValue }) => {
     try {
-      const config = {
-        headers: {
-          Authorization: `Token ${authToken}`,
-        },
-      };
-      const { data } = await axiosInstance.get(
-        '/api/v1/auth/users/me/',
-        config,
-      );
+      const { data } = await axiosInstance.get('/api/v1/auth/users/me/');
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -25,12 +17,9 @@ export const getUserProfile = createAsyncThunk(
   },
 );
 
-export const delUserProfile = async ({ authToken, password }) => {
+export const delUserProfile = async ({ password }) => {
   try {
     const config = {
-      headers: {
-        Authorization: `Token ${authToken}`,
-      },
       data: {
         current_password: password,
       },
@@ -43,11 +32,10 @@ export const delUserProfile = async ({ authToken, password }) => {
 
 export const updateUserProfile = createAsyncThunk(
   'userProfile/updateUserProfile',
-  async ({ authToken, updatedFields }, { rejectWithValue }) => {
+  async ({ updatedFields }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
-          Authorization: `Token ${authToken}`,
           'Content-Type': 'multipart/form-data',
         },
       };

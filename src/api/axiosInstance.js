@@ -26,6 +26,9 @@ export const setupInterceptors = store => {
           localStorage.removeItem('tokenTimestamp');
           throw new Error('Token expired');
         }
+        if (config.url.includes('/api/v1/auth/users/me/')) {
+          config.headers.Authorization = `Token ${authToken}`;
+        }
       }
 
       return config;

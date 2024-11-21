@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { getUsersList } from '../../store/users/users.Actions';
+import { getUsersList } from '../../store/users/users.actions';
 import ErrorSnackbar from '../UI/ErrorSnackbar';
 
 const UsersPage = () => {
