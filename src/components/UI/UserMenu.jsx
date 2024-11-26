@@ -11,14 +11,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { logoutUser } from '../../store/auth/authActions';
 import { removeAuthToken } from '../../store/auth/authSlice';
-import ErrorSnackbar from './ErrorSnackbar';
 import { selectAuthToken } from '../../store/auth/authSelectors';
 import URLS from '../../constants/urls';
+import { setSnackbarMessage } from '../../store/UI/snackbarSlice';
 
 const UserMenu = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [snackbarMessage, setSnackbarMessage] = useState('');
   const authToken = useSelector(selectAuthToken);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { id } = useSelector(state => state.userProfile.user) || {};
@@ -46,7 +45,10 @@ const UserMenu = () => {
         localStorage.removeItem('tokenTimestamp');
         navigate('/');
       } catch (error) {
-        setSnackbarMessage(error);
+        const errorMessage = error.response
+          ? Object.values(error.response.data).join(' ')
+          : error.message;
+        dispatch(setSnackbarMessage(errorMessage));
       }
     }
   };
@@ -98,7 +100,6 @@ const UserMenu = () => {
           </MenuItem>
         )}
       </Menu>
-      <ErrorSnackbar message={snackbarMessage} />
     </Box>
   );
 };

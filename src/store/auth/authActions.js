@@ -17,6 +17,7 @@ export const logoutUser = async authToken => {
     const config = {
       headers: {
         Authorization: `Token ${authToken}`,
+        SkipInterceptor: 'true',
       },
     };
     await axiosInstance.post('/api/v1/auth/token/logout/', null, config);

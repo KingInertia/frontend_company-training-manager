@@ -4,22 +4,23 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import ErrorSnackbar from '../../UI/ErrorSnackbar';
 import { Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { registerUser } from '../../../store/auth/authActions';
 import URLS from '../../../constants/urls';
+import { setSnackbarMessage } from '../../../store/UI/snackbarSlice';
+import { useDispatch } from 'react-redux';
 
 const RegistrationPage = () => {
   const { t } = useTranslation();
-  const [snackbarMessage, setSnackbarMessage] = useState('');
   const LoadingState = {
     IDLE: 'idle',
     LOADING: 'loading',
     SUCCESS: 'success',
   };
   const [loading, setLoading] = useState(LoadingState.IDLE);
+  const dispatch = useDispatch();
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -30,22 +31,22 @@ const RegistrationPage = () => {
     const confirmPassword = data.get('confirmPassword');
 
     if (!login || !email || !password || !confirmPassword) {
-      setSnackbarMessage(t('Registration.fillInAllFields'));
+      dispatch(setSnackbarMessage(t('Registration.fillInAllFields')));
       return;
     }
 
     if (!validateEmail(email)) {
-      setSnackbarMessage(t('Registration.invalidEmail'));
+      dispatch(setSnackbarMessage(t('Registration.invalidEmail')));
       return;
     }
 
     if (!validatePassword(password)) {
-      setSnackbarMessage(t('Registration.invalidPassword'));
+      dispatch(setSnackbarMessage(t('Registration.invalidPassword')));
       return;
     }
 
     if (password !== confirmPassword) {
-      setSnackbarMessage(t('Registration.passwordsDoNotMatch'));
+      dispatch(setSnackbarMessage(t('Registration.passwordsDoNotMatch')));
       return;
     }
     setLoading(LoadingState.LOADING);
@@ -53,8 +54,10 @@ const RegistrationPage = () => {
       await registerUser({ username: login, email: email, password: password });
       setLoading(LoadingState.SUCCESS);
     } catch (error) {
-      const errorMessage = error.response?.data?.message || error.message;
-      setSnackbarMessage(errorMessage);
+      const errorMessage = error.response
+        ? Object.values(error.response.data).join(' ')
+        : error.message;
+      dispatch(setSnackbarMessage(errorMessage));
       setLoading(LoadingState.IDLE);
     }
   };
@@ -156,7 +159,6 @@ const RegistrationPage = () => {
             </Link>
           </Box>
         )}
-        <ErrorSnackbar message={snackbarMessage} />
       </Box>
     </Container>
   );

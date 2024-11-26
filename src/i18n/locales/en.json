@@ -9,11 +9,6 @@
     "posts": "Post",
     "phones": "Phone"
   },
-  "companies": {
-    "titles": "Title",
-    "posts": "Post",
-    "phones": "Phone"
-  },
   "aboutPage": {
     "aboutUs": "About us",
     "aboutText": "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text",
@@ -32,7 +27,9 @@
     "dontHaveAccount": "Don't have an account?",
     "invalidCredentials": "Incorrect username or password",
     "networkError": "Network error",
-    "unknownError": "An unknown error occurred"
+    "unknownError": "An unknown error occurred",
+    "LoginRequired": "Login is required",
+    "PasswordRequired": "Password is required"
   },
   "Registration": {
     "title": "Registration",
@@ -75,7 +72,8 @@
     "CancelEdit": "Cancel Edit",
     "SaveEdit": "Save Edit",
     "AvatarUploaded": "Avatar uploaded",
-    "UploadAvatar": "Upload Avatar"
+    "UploadAvatar": "Upload Avatar",
+    "AddCompany": "Create new Company"
   },
   "DeleteAccountDialog": {
     "DeleteProfile": "Delete Profile",
@@ -84,6 +82,59 @@
     "Password": "Password",
     "Loading": "Loading...",
     "Cancel": "Cancel",
+    "Delete": "Delete",
+    "accountDeleted": "Account deleted"
+  },
+  "DeleteCompanyDialog": {
+    "DeleteCompany": "Delete Company",
+    "ConfirmationMessage": "Enter the name of the company '{{companyName}}' to confirm deletion.",
+    "CompanyName": "Company Name",
+    "InvalidCompanyName": "The company name is incorrect.",
+    "SuccessMessage": "The company has been successfully deleted.",
+    "Loading": "Deleting...",
+    "Cancel": "Cancel",
     "Delete": "Delete"
+  },
+  "EditCompanyDialog": {
+    "EditCompany": "Edit Company",
+    "EditCompanyInfo": "Update the company details below.",
+    "Name": "Company Name",
+    "Description": "Description",
+    "Visible": "Visible",
+    "Hidden": "Hidden",
+    "Cancel": "Cancel",
+    "Save": "Save",
+    "Loading": "Saving changes...",
+    "FieldRequired": "Name field are required.",
+    "CompanyUpdated": "Company information updated successfully.",
+    "MyCompanies": "Companies"
+  },
+  "CompanyProfile": {
+    "loading": "Loading...",
+    "companyName": "Company name",
+    "owner": "Owner",
+    "aboutCompany": "About company",
+    "description": "Description",
+    "noDescription": "No description available",
+    "dateCreated": "Date created",
+    "dateUpdated": "Date updated",
+    "companyVisibility": "Company visibility",
+    "deleteCompany": "Delete company",
+    "editCompany": "Edit company",
+    "leaveCompany": "Leave this company",
+    "leaveCompanyLoading": "Leaving the company..."
+  },
+  "AddCompanyDialog": {
+    "AddCompany": "Add Company",
+    "AddCompanyInfo": "Fill out the information below to add a new company.",
+    "FieldRequired": "This field is required.",
+    "Name": "Name",
+    "Description": "Description",
+    "Visible": "Visible",
+    "Hidden": "Hidden",
+    "Cancel": "Cancel",
+    "Create": "Create",
+    "Loading": "Creating...",
+    "SuccessMessage": "Company Created successfully."
   }
 }

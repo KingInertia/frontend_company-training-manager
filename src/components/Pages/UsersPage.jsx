@@ -4,13 +4,12 @@ import TableList from '../UI/TableList';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
-import { getUsersList } from '../../store/users/users.actions';
-import ErrorSnackbar from '../UI/ErrorSnackbar';
+import { useEffect } from 'react';
+import { getUsersList } from '../../store/users/usersActions';
+import { setSnackbarMessage } from '../../store/UI/snackbarSlice';
 
 const UsersPage = () => {
   const { t } = useTranslation();
-  const [snackbarMessage, setSnackbarMessage] = useState('');
   const dispatch = useDispatch();
   const { error, users } = useSelector(state => state.users);
 
@@ -47,9 +46,9 @@ const UsersPage = () => {
 
   useEffect(() => {
     if (error) {
-      setSnackbarMessage(error);
+      dispatch(setSnackbarMessage(error));
     }
-  }, [error]);
+  }, [error, dispatch]);
 
   return (
     <TextPage title={t('navigation.users')}>
@@ -57,10 +56,13 @@ const UsersPage = () => {
         <Typography>Loading...</Typography>
       ) : (
         cleanUsersList.length > 0 && (
-          <TableList rowNames={rowNames} list={cleanUsersList} />
+          <TableList
+            rowNames={rowNames}
+            list={cleanUsersList}
+            navigateType="users"
+          />
         )
       )}
-      <ErrorSnackbar message={snackbarMessage} />
     </TextPage>
   );
 };

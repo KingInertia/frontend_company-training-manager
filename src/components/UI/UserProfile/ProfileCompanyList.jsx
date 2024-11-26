@@ -1,29 +1,31 @@
 import React from 'react';
-import TextPage from '../UI/TextPage';
-import TableList from '../UI/TableList';
+import TableList from '../../UI/TableList';
 import Typography from '@mui/material/Typography';
-import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getCompaniesList } from '../../store/companies/companiesActions';
-import { setSnackbarMessage } from '../../store/UI/snackbarSlice';
+import { getCompaniesList } from '../../../store/companies/companiesActions';
+import { setSnackbarMessage } from '../../../store/UI/snackbarSlice';
 
-const CompaniesPage = () => {
-  const { t } = useTranslation();
+const ProfileCompaniesList = ({ ownerId }) => {
   const dispatch = useDispatch();
   const { error, companies } = useSelector(state => state.companies);
 
-  const rowNames = [
-    t('CompanyProfile.dateCreated'),
-    t('CompanyProfile.companyName'),
-    t('CompanyProfile.description'),
-  ];
+  const rowNames = [];
 
   const cleanCompaniesList = companies
-    ? companies.map(company => {
-        const { updated_at, owner, visibility, ...rest } = company;
-        return rest;
-      })
+    ? companies
+        .filter(item => item.owner === ownerId)
+        .map(company => {
+          const {
+            updated_at,
+            owner,
+            visibility,
+            created_at,
+            description,
+            ...rest
+          } = company;
+          return rest;
+        })
     : [];
 
   useEffect(() => {
@@ -37,7 +39,7 @@ const CompaniesPage = () => {
   }, [error, dispatch]);
 
   return (
-    <TextPage title={t('navigation.companies')}>
+    <>
       {!companies ? (
         <Typography>Loading...</Typography>
       ) : (
@@ -49,8 +51,8 @@ const CompaniesPage = () => {
           />
         )
       )}
-    </TextPage>
+    </>
   );
 };
 
-export default CompaniesPage;
+export default ProfileCompaniesList;

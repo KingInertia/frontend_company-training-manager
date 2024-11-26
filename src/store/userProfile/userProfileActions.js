@@ -3,13 +3,21 @@ import axiosInstance from '../../api/axiosInstance';
 
 export const getUserProfile = createAsyncThunk(
   'userProfile/getUserProfile',
-  async ({ rejectWithValue }) => {
+  async ({ authToken }, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.get('/api/v1/auth/users/me/');
+      const config = {
+        headers: {
+          Authorization: `Token ${authToken}`,
+        },
+      };
+      const { data } = await axiosInstance.get(
+        '/api/v1/auth/users/me/',
+        config,
+      );
       return data;
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
+      if (error.response) {
+        return rejectWithValue(Object.values(error.response.data).join(' '));
       } else {
         return rejectWithValue(error.message);
       }
@@ -46,8 +54,8 @@ export const updateUserProfile = createAsyncThunk(
       );
       return data;
     } catch (error) {
-      if (error.response && error.response.data) {
-        return rejectWithValue(error.response.data);
+      if (error.response) {
+        return rejectWithValue(Object.values(error.response.data).join(' '));
       } else {
         return rejectWithValue(error.message);
       }
@@ -65,7 +73,6 @@ export const getAvatar = async imagePath => {
 
     return imageUrl;
   } catch (error) {
-    console.error('Ошибка при получении картинки:', error);
-    return null;
+    throw error;
   }
 };

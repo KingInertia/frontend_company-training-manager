@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -8,12 +9,14 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { delUserProfile } from '../../store/userProfile/userProfileActions';
-import { removeAuthToken } from '../../store/auth/authSlice';
+import { delUserProfile } from '../../../store/userProfile/userProfileActions';
+import { removeAuthToken } from '../../../store/auth/authSlice';
+import { setSnackbarMessage } from '../../../store/UI/snackbarSlice';
 
-const DeleteAccoutDialog = ({ open, handleClose, setSnackbarMessage }) => {
+const DeleteAccoutDialog = ({ open, handleClose }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -25,13 +28,17 @@ const DeleteAccoutDialog = ({ open, handleClose, setSnackbarMessage }) => {
         dispatch(removeAuthToken());
         localStorage.removeItem('authToken');
         localStorage.removeItem('tokenTimestamp');
+        dispatch(setSnackbarMessage(t('DeleteAccountDialog.accountDeleted')));
+        navigate('/login');
       } catch (error) {
-        const errorMessage = error.response?.data?.message || error.message;
-        setSnackbarMessage(errorMessage);
+        const errorMessage = error.response
+          ? Object.values(error.response.data).join(' ')
+          : error.message;
+        dispatch(setSnackbarMessage(errorMessage));
       }
       setLoading(false);
     } else {
-      setSnackbarMessage(t('DeleteAccountDialog.PasswordRequired'));
+      dispatch(setSnackbarMessage(t('DeleteAccountDialog.PasswordRequired')));
     }
   };
 
