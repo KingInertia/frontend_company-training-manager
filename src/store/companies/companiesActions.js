@@ -80,7 +80,6 @@ export const isCompanyMember = async id => {
     );
     return response.data.is_member;
   } catch (error) {
-    console.error('Error checking if user is a member:', error);
     throw error;
   }
 };

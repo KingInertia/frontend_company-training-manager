@@ -31,7 +31,6 @@ export const setupInterceptors = store => {
       if (authToken) {
         const tokenLifeTime = Date.now() - tokenTimestamp;
         if (tokenLifeTime > tokenExpirationTime) {
-          console.log(12345);
           await logoutUser(authToken);
           store.dispatch(removeAuthToken());
           localStorage.removeItem('authToken');
