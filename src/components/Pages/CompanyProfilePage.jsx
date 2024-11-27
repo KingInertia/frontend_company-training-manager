@@ -191,66 +191,25 @@ const CompanyProfilePage = () => {
                 )}
               </>
             </Grid>
-            {isCompanyOwner ||
-              (isUserCompanyMember && (
-                <Grid
-                  size={2}
-                  sx={{
-                    display: 'flex',
-                    flexGrow: 1,
-                    flexDirection: 'column',
-                    padding: '8px',
-                    borderRadius: 1,
-                    border: '4px solid #e08e45',
-                    height: '540px',
-                  }}
-                >
-                  {isCompanyOwner && (
-                    <>
-                      <Button
-                        fullWidth
-                        variant="contained"
-                        onClick={handleOpenDelDiag}
-                        sx={{
-                          mt: 1,
-                          mb: 1,
-                          backgroundColor: '#e08e45',
-                          color: '#f9e2b2',
-                        }}
-                      >
-                        {t('CompanyProfile.deleteCompany')}
-                      </Button>
-                      <Button
-                        fullWidth
-                        variant="contained"
-                        onClick={() => setOpenEditDiag(true)}
-                        sx={{
-                          mb: 1,
-                          backgroundColor: '#e08e45',
-                          color: '#f9e2b2',
-                        }}
-                      >
-                        {t('CompanyProfile.editCompany')}
-                      </Button>
-                      <DeleteCompanyDialog
-                        open={openDelDiag}
-                        handleClose={handleCloseDelDiag}
-                        id={currentCompany.id}
-                        companyName={currentCompany.name}
-                      />
-                      <EditCompanyDialog
-                        open={openEditDiag}
-                        handleClose={handleCloseEditDiag}
-                        company={currentCompany}
-                      />
-                    </>
-                  )}
-                  {isUserCompanyMember && (
+            {(isCompanyOwner || isUserCompanyMember) && (
+              <Grid
+                size={2}
+                sx={{
+                  display: 'flex',
+                  flexGrow: 1,
+                  flexDirection: 'column',
+                  padding: '8px',
+                  borderRadius: 1,
+                  border: '4px solid #e08e45',
+                  height: '540px',
+                }}
+              >
+                {isCompanyOwner && (
+                  <>
                     <Button
                       fullWidth
                       variant="contained"
-                      disabled={companyLeaveLoading}
-                      onClick={handleLeaveCompany}
+                      onClick={handleOpenDelDiag}
                       sx={{
                         mt: 1,
                         mb: 1,
@@ -258,13 +217,53 @@ const CompanyProfilePage = () => {
                         color: '#f9e2b2',
                       }}
                     >
-                      {companyLeaveLoading
-                        ? t('CompanyProfile.leaveCompanyLoading')
-                        : t('CompanyProfile.leaveCompany')}
+                      {t('CompanyProfile.deleteCompany')}
                     </Button>
-                  )}
-                </Grid>
-              ))}
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      onClick={() => setOpenEditDiag(true)}
+                      sx={{
+                        mb: 1,
+                        backgroundColor: '#e08e45',
+                        color: '#f9e2b2',
+                      }}
+                    >
+                      {t('CompanyProfile.editCompany')}
+                    </Button>
+                    <DeleteCompanyDialog
+                      open={openDelDiag}
+                      handleClose={handleCloseDelDiag}
+                      id={currentCompany.id}
+                      companyName={currentCompany.name}
+                    />
+                    <EditCompanyDialog
+                      open={openEditDiag}
+                      handleClose={handleCloseEditDiag}
+                      company={currentCompany}
+                    />
+                  </>
+                )}
+                {isUserCompanyMember && (
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    disabled={companyLeaveLoading}
+                    onClick={handleLeaveCompany}
+                    sx={{
+                      mt: 1,
+                      mb: 1,
+                      backgroundColor: '#e08e45',
+                      color: '#f9e2b2',
+                    }}
+                  >
+                    {companyLeaveLoading
+                      ? t('CompanyProfile.leaveCompanyLoading')
+                      : t('CompanyProfile.leaveCompany')}
+                  </Button>
+                )}
+              </Grid>
+            )}
           </Grid>
         )
       )}
