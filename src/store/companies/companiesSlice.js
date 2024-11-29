@@ -3,10 +3,13 @@ import {
   getCurrentCompany,
   updateCurrentCompany,
   getCompaniesList,
+  getMyCompaniesList,
+  createNewCompany,
 } from './companiesActions';
 
 const initialState = {
   companies: [],
+  myCompanies: [],
   currentCompany: null,
   loading: false,
   error: null,
@@ -41,6 +44,31 @@ const companiesSlice = createSlice({
         state.loading = false;
       })
       .addCase(getCompaniesList.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+
+      .addCase(getMyCompaniesList.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getMyCompaniesList.fulfilled, (state, { payload }) => {
+        state.myCompanies = payload;
+        state.loading = false;
+      })
+      .addCase(getMyCompaniesList.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+
+      .addCase(createNewCompany.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createNewCompany.fulfilled, (state, { payload }) => {
+        state.loading = false;
+      })
+      .addCase(createNewCompany.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       })

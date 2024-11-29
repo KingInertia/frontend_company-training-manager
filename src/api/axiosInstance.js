@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { removeAuthToken } from '../store/auth/authSlice';
 import { logoutUser } from '../store/auth/authActions';
+import ROUTES from '../constants/routes';
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -9,12 +10,6 @@ const axiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-const endpoints = [
-  '/api/v1/auth/users/me/',
-  '/api/v1/companies/',
-  '/api/v1/company-members/',
-];
 
 export const setupInterceptors = store => {
   axiosInstance.interceptors.request.use(
@@ -37,7 +32,8 @@ export const setupInterceptors = store => {
           localStorage.removeItem('tokenTimestamp');
           throw new Error('Token expired');
         }
-        if (endpoints.some(endpoint => config.url.includes(endpoint))) {
+
+        if (ROUTES.some(route => config.url.includes(route))) {
           config.headers.Authorization = `Token ${authToken}`;
         }
       }

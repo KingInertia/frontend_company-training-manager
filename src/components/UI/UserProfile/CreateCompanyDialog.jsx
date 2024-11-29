@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
@@ -13,8 +14,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { setSnackbarMessage } from '../../../store/UI/snackbarSlice';
 import {
   createNewCompany,
-  getCompaniesList,
+  getMyCompaniesList,
 } from '../../../store/companies/companiesActions';
+import { selectCompanies } from '../../../store/companies/companiesSelectors';
 
 const CreateCompanyDialog = ({ open, handleClose }) => {
   const { t } = useTranslation();
@@ -22,34 +24,29 @@ const CreateCompanyDialog = ({ open, handleClose }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [visibility, setVisibility] = useState('visible');
-  const [loading, setLoading] = useState(false);
+  const { loading, error } = useSelector(selectCompanies);
 
   const handleCreate = async () => {
-    if (name.trim() === '') {
+    if (!name.trim()) {
       dispatch(setSnackbarMessage(t('AddCompanyDialog.FieldRequired')));
       return;
     }
-
     const companyProperties = {
       name,
       description,
       visibility,
     };
-
-    setLoading(true);
-    try {
-      await createNewCompany({ companyProperties });
-      dispatch(getCompaniesList());
-      dispatch(setSnackbarMessage(t('AddCompanyDialog.SuccessMessage')));
-      handleClose();
-    } catch (error) {
-      const errorMessage = error.response
-        ? Object.values(error.response.data).join(' ')
-        : error.message;
-      dispatch(setSnackbarMessage(errorMessage));
-    }
-    setLoading(false);
+    await dispatch(createNewCompany({ companyProperties }));
+    dispatch(getMyCompaniesList({ companyProperties }));
+    dispatch(setSnackbarMessage(t('AddCompanyDialog.SuccessMessage')));
+    handleClose();
   };
+
+  useEffect(() => {
+    if (error) {
+      dispatch(setSnackbarMessage(error));
+    }
+  }, [error, dispatch]);
 
   return (
     <Dialog open={open} onClose={handleClose}>

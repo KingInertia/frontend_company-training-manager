@@ -10,6 +10,7 @@ import TextPage from '../UI/TextPage';
 import DeleteCompanyDialog from '../UI/CompanyProfile/DeleteCompanyDialog';
 import EditCompanyDialog from '../UI/CompanyProfile/EditCompanyDialog';
 import { selectUserProfile } from '../../store/userProfile/userProfileSelectors';
+import { selectCompanies } from '../../store/companies/companiesSelectors';
 import {
   getCurrentCompany,
   isCompanyMember,
@@ -26,9 +27,7 @@ const CompanyProfilePage = () => {
   const [companyLeaveLoading, setCompanyLeaveLoading] = useState(false);
   const { t } = useTranslation();
   const { id } = useSelector(selectUserProfile);
-  const { currentCompany, loading, error } = useSelector(
-    state => state.companies,
-  );
+  const { currentCompany, loading, error } = useSelector(selectCompanies);
   const isCompanyOwner = currentCompany ? currentCompany.owner === id : false;
 
   useEffect(() => {
@@ -61,12 +60,12 @@ const CompanyProfilePage = () => {
     setCompanyLeaveLoading(true);
     try {
       const message = await leaveCompany(params.slug);
-      setSnackbarMessage(message);
+      dispatch(setSnackbarMessage(message));
     } catch (error) {
       const errorMessage = error.response
         ? Object.values(error.response.data).join(' ')
         : error.message;
-      setSnackbarMessage(errorMessage);
+      dispatch(setSnackbarMessage(errorMessage));
     }
   };
 

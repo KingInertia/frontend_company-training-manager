@@ -3,33 +3,18 @@ import TableList from '../../UI/TableList';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getCompaniesList } from '../../../store/companies/companiesActions';
+import { getMyCompaniesList } from '../../../store/companies/companiesActions';
 import { setSnackbarMessage } from '../../../store/UI/snackbarSlice';
+import { selectCompanies } from '../../../store/companies/companiesSelectors';
 
-const ProfileCompaniesList = ({ ownerId }) => {
+const ProfileCompaniesList = () => {
   const dispatch = useDispatch();
-  const { error, companies } = useSelector(state => state.companies);
+  const { error, myCompanies } = useSelector(selectCompanies);
 
   const rowNames = [];
 
-  const cleanCompaniesList = companies
-    ? companies
-        .filter(item => item.owner === ownerId)
-        .map(company => {
-          const {
-            updated_at,
-            owner,
-            visibility,
-            created_at,
-            description,
-            ...rest
-          } = company;
-          return rest;
-        })
-    : [];
-
   useEffect(() => {
-    dispatch(getCompaniesList());
+    dispatch(getMyCompaniesList());
   }, [dispatch]);
 
   useEffect(() => {
@@ -40,13 +25,13 @@ const ProfileCompaniesList = ({ ownerId }) => {
 
   return (
     <>
-      {!companies ? (
+      {!myCompanies ? (
         <Typography>Loading...</Typography>
       ) : (
-        companies.length > 0 && (
+        myCompanies.length > 0 && (
           <TableList
             rowNames={rowNames}
-            list={cleanCompaniesList}
+            list={myCompanies}
             navigateType="companies"
           />
         )

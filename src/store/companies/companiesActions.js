@@ -35,14 +35,6 @@ export const getCurrentCompany = createAsyncThunk(
   },
 );
 
-export const delCurrentCompany = async id => {
-  try {
-    await axiosInstance.delete(`${COMPANIES_URL}${id}/`);
-  } catch (error) {
-    throw error;
-  }
-};
-
 export const updateCurrentCompany = createAsyncThunk(
   'company/updateCompany',
   async ({ updatedFields, id }, { rejectWithValue }) => {
@@ -62,9 +54,45 @@ export const updateCurrentCompany = createAsyncThunk(
   },
 );
 
-export const createNewCompany = async ({ companyProperties }) => {
+export const getMyCompaniesList = createAsyncThunk(
+  'companies/myCompaniesList',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(`${COMPANIES_URL}my-companies`);
+      return data;
+    } catch (error) {
+      if (error.response) {
+        return rejectWithValue(Object.values(error.response.data).join(' '));
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const createNewCompany = createAsyncThunk(
+  'companies/createCompany',
+  async ({ companyProperties }, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.post(
+        COMPANIES_URL,
+        companyProperties,
+      );
+      console.log(data);
+      return data;
+    } catch (error) {
+      if (error.response) {
+        return rejectWithValue(Object.values(error.response.data).join(' '));
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+export const delCurrentCompany = async id => {
   try {
-    await axiosInstance.post(COMPANIES_URL, companyProperties);
+    await axiosInstance.delete(`${COMPANIES_URL}${id}/`);
   } catch (error) {
     throw error;
   }
