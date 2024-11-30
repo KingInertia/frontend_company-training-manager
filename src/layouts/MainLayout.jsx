@@ -12,22 +12,23 @@ const MainLayout = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const authToken = localStorage.getItem('authToken');
-    const tokenTimestamp = localStorage.getItem('tokenTimestamp');
+    const refreshToken = localStorage.getItem('refreshToken');
+    const accessToken = localStorage.getItem('accessToken');
+    const tokenExpirationTime = localStorage.getItem('tokenExpirationTime');
 
-    if (authToken) {
-      const checkAuth = async () => {
-        try {
-          await dispatch(getUserProfile({ authToken })).unwrap();
-          dispatch(setAuthToken({ authToken, tokenTimestamp }));
-        } catch (error) {
-          localStorage.removeItem('authToken');
-          localStorage.removeItem('tokenTimestamp');
-        }
-      };
-
-      checkAuth();
-    }
+    const checkAuth = async () => {
+      if (refreshToken) {
+        await dispatch(
+          setAuthToken({
+            accessToken,
+            refreshToken,
+            tokenExpirationTime,
+          }),
+        );
+        dispatch(getUserProfile());
+      }
+    };
+    checkAuth();
   }, [dispatch]);
 
   return (

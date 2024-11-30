@@ -20,6 +20,7 @@ import URLS from '../../../constants/urls';
 import { getUserProfile } from '../../../store/userProfile/userProfileActions';
 import { setSnackbarMessage } from '../../../store/UI/snackbarSlice';
 import { selectAuthToken } from '../../../store/auth/authSelectors';
+import { jwtDecode } from 'jwt-decode';
 
 export default function LoginPage() {
   const { t } = useTranslation();
@@ -32,7 +33,7 @@ export default function LoginPage() {
     if (authToken) {
       navigate('/');
     }
-  }, [dispatch, navigate]);
+  }, [dispatch, navigate, authToken]);
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -52,16 +53,30 @@ export default function LoginPage() {
 
     setLoading(true);
     try {
-      const { data } = await axiosInstance.post('/api/v1/auth/token/login/', {
+      const { data } = await axiosInstance.post('/api/v1/auth/jwt/create/', {
         username: login,
         password: password,
       });
-      const authToken = data.auth_token;
-      const tokenTimestamp = Date.now();
-      localStorage.setItem('authToken', authToken);
-      localStorage.setItem('tokenTimestamp', tokenTimestamp);
-      dispatch(setAuthToken({ authToken, tokenTimestamp }));
-      dispatch(getUserProfile({ authToken }));
+
+      const { access, refresh } = data;
+
+      const decodedAccessToken = jwtDecode(access);
+      const tokenExpirationTime = decodedAccessToken.exp * 1000;
+
+      localStorage.setItem('refreshToken', refresh);
+      localStorage.setItem('accessToken', access);
+      localStorage.setItem('tokenExpirationTime', tokenExpirationTime);
+
+      dispatch(
+        setAuthToken({
+          accessToken: access,
+          refreshToken: refresh,
+          tokenExpirationTime,
+        }),
+      );
+
+      dispatch(getUserProfile());
+
       navigate('/');
     } catch (error) {
       const errorMessage = error.response

@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { delUserProfile } from '../../../store/userProfile/userProfileActions';
-import { removeAuthToken } from '../../../store/auth/authSlice';
+import { logout } from '../../../store/auth/authSlice';
 import { setSnackbarMessage } from '../../../store/UI/snackbarSlice';
 
 const DeleteAccoutDialog = ({ open, handleClose }) => {
@@ -25,9 +25,10 @@ const DeleteAccoutDialog = ({ open, handleClose }) => {
       setLoading(true);
       try {
         await delUserProfile({ password: password });
-        dispatch(removeAuthToken());
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('tokenTimestamp');
+        dispatch(logout());
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('tokenExpirationTime');
         dispatch(setSnackbarMessage(t('DeleteAccountDialog.accountDeleted')));
         navigate('/login');
       } catch (error) {

@@ -7,7 +7,7 @@ import { selectAuthToken } from '../../store/auth/authSelectors';
 const PrivateRoute = () => {
   const authToken = useSelector(selectAuthToken);
 
-  if (localStorage.getItem('authToken') && !authToken) {
+  if (localStorage.getItem('refreshToken') && !authToken) {
     return <Typography>Loading...</Typography>;
   }
 
