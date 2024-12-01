@@ -1,15 +1,7 @@
 import { logout, setAuthToken } from '../store/auth/authSlice';
 import store from '../store/store';
 import { jwtDecode } from 'jwt-decode';
-import axios from 'axios';
-
-const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
-  timeout: 2000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+import axiosInstance from './axiosInstance';
 
 export const refreshAuthToken = async () => {
   try {

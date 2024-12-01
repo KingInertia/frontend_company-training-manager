@@ -16,18 +16,20 @@ export const setupInterceptors = store => {
       const state = store.getState();
       const { accessToken, refreshToken, tokenExpirationTime } = state.auth;
       if (refreshToken) {
-        if (tokenExpirationTime && Date.now() > tokenExpirationTime) {
-          const newToken = await refreshAuthToken();
+        if (ROUTES.some(route => config.url.includes(route))) {
+          if (tokenExpirationTime && Date.now() > tokenExpirationTime) {
+            const newToken = await refreshAuthToken();
 
-          if (
-            newToken &&
-            ROUTES.some(route => config.url.includes(route)) &&
-            newToken
-          ) {
-            config.headers.Authorization = `Bearer ${newToken}`;
+            if (
+              newToken &&
+              ROUTES.some(route => config.url.includes(route)) &&
+              newToken
+            ) {
+              config.headers.Authorization = `Bearer ${newToken}`;
+            }
+          } else {
+            config.headers.Authorization = `Bearer ${accessToken}`;
           }
-        } else if (ROUTES.some(route => config.url.includes(route))) {
-          config.headers.Authorization = `Bearer ${accessToken}`;
         }
       }
 
