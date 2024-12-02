@@ -9,21 +9,23 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import TextPage from '../UI/TextPage';
-import ErrorSnackbar from '../UI/ErrorSnackbar';
-import DeleteAccoutDialog from '../UI/DeleteAccoutDialog';
-import { getCurrentUser } from '../../store/users/users.actions';
+import DeleteAccoutDialog from '../UI/UserProfile/DeleteAccoutDialog';
+import CreateCompanyDialog from '../UI/UserProfile/CreateCompanyDialog';
+import ProfileCompaniesList from '../UI/UserProfile/ProfileCompanyList';
+import { getCurrentUser } from '../../store/users/usersActions';
 import {
   updateUserProfile,
   getAvatar,
 } from '../../store/userProfile/userProfileActions';
 import { selectUserProfile } from '../../store/userProfile/userProfileSelectors';
+import { setSnackbarMessage } from '../../store/UI/snackbarSlice';
 
 const UsersProfilePage = () => {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [snackbarMessage, setSnackbarMessage] = useState('');
   const [openDelDiag, setOpenDelDiag] = useState(false);
+  const [openAddCompanyDiag, setOpenAddCompanyDiag] = useState(false);
   const [editMod, setEditMod] = useState(false);
   const { id } = useSelector(selectUserProfile);
   const activeUserProfile = useSelector(state => state.userProfile);
@@ -48,10 +50,9 @@ const UsersProfilePage = () => {
 
   useEffect(() => {
     if (error) {
-      const errorMessage = error.response?.data?.message || error.message;
-      setSnackbarMessage(errorMessage);
+      dispatch(setSnackbarMessage(error));
     }
-  }, [error, navigate]);
+  }, [error, navigate, dispatch]);
 
   const handleOpenDelDiag = () => {
     setOpenDelDiag(true);
@@ -59,6 +60,14 @@ const UsersProfilePage = () => {
 
   const handleCloseDelDiag = () => {
     setOpenDelDiag(false);
+  };
+
+  const handleOpenAddCompanyDiag = () => {
+    setOpenAddCompanyDiag(true);
+  };
+
+  const handleCloseAddCompanyDiag = () => {
+    setOpenAddCompanyDiag(false);
   };
 
   const handleAvatarChange = event => {
@@ -78,11 +87,13 @@ const UsersProfilePage = () => {
 
         getImage();
       } catch (error) {
-        const errorMessage = error.response?.data?.message || error.message;
-        setSnackbarMessage(errorMessage);
+        const errorMessage = error.response
+          ? Object.values(error.response.data).join(' ')
+          : error.message;
+        dispatch(setSnackbarMessage(errorMessage));
       }
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -163,7 +174,7 @@ const UsersProfilePage = () => {
                 )}
               </Grid>
               <Grid
-                size={9}
+                size={isActiveUser ? 7 : 9}
                 sx={{
                   display: 'flex',
                   flexGrow: 1,
@@ -182,84 +193,6 @@ const UsersProfilePage = () => {
                   {user.is_active ? t('UserProfile.Yes') : t('UserProfile.No')}
                 </Typography>
               </Grid>
-              <Grid
-                size={10}
-                sx={{
-                  display: 'flex',
-                  flexGrow: 1,
-                  flexDirection: 'column',
-                  padding: '8px',
-                  borderRadius: 1,
-                  border: '4px solid #e08e45',
-                  height: '540px',
-                }}
-              >
-                <Box
-                  sx={{
-                    backgroundColor: '#e08e45',
-                    padding: '8px',
-                    borderRadius: 1,
-                    textAlign: 'center',
-                    mb: '16px',
-                  }}
-                >
-                  <Typography variant="h5" sx={{ color: '#f9e2b2' }}>
-                    {t('UserProfile.ABOUT')}
-                  </Typography>
-                </Box>
-                {!editMod ? (
-                  <>
-                    <Typography variant="body1">
-                      {t('UserProfile.FirstName')}:{' '}
-                      {user.first_name || t('UserProfile.NotProvided')}
-                    </Typography>
-                    <Typography variant="body1">
-                      {t('UserProfile.LastName')}:{' '}
-                      {user.last_name || t('UserProfile.NotProvided')}
-                    </Typography>
-                    <Typography variant="body1">
-                      {t('UserProfile.Email')}: {user.email}
-                    </Typography>
-                    <Typography variant="body1">
-                      {t('UserProfile.DateJoined')}:{' '}
-                      {new Date(user.date_joined).toLocaleString()}
-                    </Typography>
-                    <Typography variant="body1">
-                      {t('UserProfile.LastLogin')}:{' '}
-                      {user.last_login
-                        ? new Date(user.last_login).toLocaleString()
-                        : t('UserProfile.Never')}
-                    </Typography>
-                  </>
-                ) : (
-                  <>
-                    <TextField
-                      label={t('UserProfile.FirstName')}
-                      name="first_name"
-                      variant="outlined"
-                      defaultValue={user.first_name}
-                      sx={{ marginBottom: '8px' }}
-                      fullWidth
-                    />
-                    <TextField
-                      label={t('UserProfile.LastName')}
-                      name="last_name"
-                      variant="outlined"
-                      defaultValue={user.last_name}
-                      sx={{ marginBottom: '8px' }}
-                      fullWidth
-                    />
-                    <TextField
-                      label={t('UserProfile.Email')}
-                      name="email"
-                      variant="outlined"
-                      defaultValue={user.email}
-                      sx={{ marginBottom: '8px' }}
-                      fullWidth
-                    />
-                  </>
-                )}
-              </Grid>
               {isActiveUser && (
                 <Grid
                   size={2}
@@ -270,7 +203,7 @@ const UsersProfilePage = () => {
                     padding: '8px',
                     borderRadius: 1,
                     border: '4px solid #e08e45',
-                    height: '540px',
+                    height: '290px',
                   }}
                 >
                   <Button
@@ -352,15 +285,145 @@ const UsersProfilePage = () => {
                   )}
                 </Grid>
               )}
+              <Grid
+                size={isActiveUser ? 6 : 8}
+                sx={{
+                  display: 'flex',
+                  flexGrow: 1,
+                  flexDirection: 'column',
+                  padding: '8px',
+                  borderRadius: 1,
+                  border: '4px solid #e08e45',
+                  height: '540px',
+                }}
+              >
+                <Box
+                  sx={{
+                    backgroundColor: '#e08e45',
+                    padding: '8px',
+                    borderRadius: 1,
+                    textAlign: 'center',
+                    mb: '16px',
+                  }}
+                >
+                  <Typography variant="h5" sx={{ color: '#f9e2b2' }}>
+                    {t('UserProfile.ABOUT')}
+                  </Typography>
+                </Box>
+                {!editMod ? (
+                  <>
+                    <Typography variant="body1">
+                      {t('UserProfile.FirstName')}:{' '}
+                      {user.first_name || t('UserProfile.NotProvided')}
+                    </Typography>
+                    <Typography variant="body1">
+                      {t('UserProfile.LastName')}:{' '}
+                      {user.last_name || t('UserProfile.NotProvided')}
+                    </Typography>
+                    <Typography variant="body1">
+                      {t('UserProfile.Email')}: {user.email}
+                    </Typography>
+                    <Typography variant="body1">
+                      {t('UserProfile.DateJoined')}:{' '}
+                      {new Date(user.date_joined).toLocaleString()}
+                    </Typography>
+                    <Typography variant="body1">
+                      {t('UserProfile.LastLogin')}:{' '}
+                      {user.last_login
+                        ? new Date(user.last_login).toLocaleString()
+                        : t('UserProfile.Never')}
+                    </Typography>
+                  </>
+                ) : (
+                  <>
+                    <TextField
+                      label={t('UserProfile.FirstName')}
+                      name="first_name"
+                      variant="outlined"
+                      defaultValue={user.first_name}
+                      sx={{ marginBottom: '8px' }}
+                      fullWidth
+                    />
+                    <TextField
+                      label={t('UserProfile.LastName')}
+                      name="last_name"
+                      variant="outlined"
+                      defaultValue={user.last_name}
+                      sx={{ marginBottom: '8px' }}
+                      fullWidth
+                    />
+                    <TextField
+                      label={t('UserProfile.Email')}
+                      name="email"
+                      variant="outlined"
+                      defaultValue={user.email}
+                      sx={{ marginBottom: '8px' }}
+                      fullWidth
+                    />
+                  </>
+                )}
+              </Grid>
+              <Grid
+                size={4}
+                sx={{
+                  display: 'flex',
+                  flexGrow: 1,
+                  flexDirection: 'column',
+                  padding: '8px',
+                  borderRadius: 1,
+                  border: '4px solid #e08e45',
+                  height: '540px',
+                }}
+              >
+                <Box
+                  sx={{
+                    backgroundColor: '#e08e45',
+                    padding: '8px',
+                    borderRadius: 1,
+                    textAlign: 'center',
+                    mb: '8px',
+                  }}
+                >
+                  <Typography variant="h5" sx={{ color: '#f9e2b2' }}>
+                    {t('UserProfile.MyCompanies')}
+                  </Typography>
+                </Box>
+                <ProfileCompaniesList ownerId={Number(params.slug)} />
+              </Grid>
+              <Grid
+                size={2}
+                sx={{
+                  display: 'flex',
+                  flexGrow: 1,
+                  flexDirection: 'column',
+                  padding: '8px',
+                  borderRadius: 1,
+                  border: '4px solid #e08e45',
+                  height: '540px',
+                }}
+              >
+                {' '}
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={() => handleOpenAddCompanyDiag()}
+                  sx={{
+                    mb: 1,
+                    backgroundColor: '#e08e45',
+                    color: '#f9e2b2',
+                  }}
+                >
+                  {t('UserProfile.AddCompany')}
+                </Button>
+              </Grid>
             </Grid>
           </Box>
         )
       )}
-      <ErrorSnackbar message={snackbarMessage} />
-      <DeleteAccoutDialog
-        setSnackbarMessage={setSnackbarMessage}
-        open={openDelDiag}
-        handleClose={handleCloseDelDiag}
+      <DeleteAccoutDialog open={openDelDiag} handleClose={handleCloseDelDiag} />
+      <CreateCompanyDialog
+        open={openAddCompanyDiag}
+        handleClose={handleCloseAddCompanyDiag}
       />
     </TextPage>
   );

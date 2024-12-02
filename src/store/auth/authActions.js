@@ -11,16 +11,3 @@ export const registerUser = async ({ username, email, password }) => {
     throw error;
   }
 };
-
-export const logoutUser = async authToken => {
-  try {
-    const config = {
-      headers: {
-        Authorization: `Token ${authToken}`,
-      },
-    };
-    await axiosInstance.post('/api/v1/auth/token/logout/', null, config);
-  } catch (error) {
-    throw error;
-  }
-};

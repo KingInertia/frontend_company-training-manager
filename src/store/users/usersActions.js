@@ -8,8 +8,8 @@ export const getUsersList = createAsyncThunk(
       const { data } = await axiosInstance.get('/api/v1/users/');
       return data;
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
+      if (error.response) {
+        return rejectWithValue(Object.values(error.response.data).join(' '));
       } else {
         return rejectWithValue(error.message);
       }
@@ -24,8 +24,8 @@ export const getCurrentUser = createAsyncThunk(
       const { data } = await axiosInstance.get(`/api/v1/users/${id}`);
       return data;
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
+      if (error.response) {
+        return rejectWithValue(Object.values(error.response.data).join(' '));
       } else {
         return rejectWithValue(error.message);
       }

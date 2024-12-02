@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { removeAuthToken } from '../store/auth/authSlice';
-import { logoutUser } from '../store/auth/authActions';
+import ROUTES from '../constants/routes';
+import { refreshAuthToken } from './refreshToken';
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -14,20 +14,22 @@ export const setupInterceptors = store => {
   axiosInstance.interceptors.request.use(
     async config => {
       const state = store.getState();
-      const { authToken, tokenTimestamp } = state.auth;
-      const tokenExpirationTime = 3600 * 1000 * 12; // 12 hour
+      const { accessToken, refreshToken, tokenExpirationTime } = state.auth;
+      if (refreshToken) {
+        if (ROUTES.some(route => config.url.includes(route))) {
+          if (tokenExpirationTime && Date.now() > tokenExpirationTime) {
+            const newToken = await refreshAuthToken();
 
-      if (authToken) {
-        const tokenLifeTime = Date.now() - tokenTimestamp;
-        if (tokenLifeTime > tokenExpirationTime) {
-          await logoutUser(authToken);
-          store.dispatch(removeAuthToken());
-          localStorage.removeItem('authToken');
-          localStorage.removeItem('tokenTimestamp');
-          throw new Error('Token expired');
-        }
-        if (config.url.includes('/api/v1/auth/users/me/')) {
-          config.headers.Authorization = `Token ${authToken}`;
+            if (
+              newToken &&
+              ROUTES.some(route => config.url.includes(route)) &&
+              newToken
+            ) {
+              config.headers.Authorization = `Bearer ${newToken}`;
+            }
+          } else {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+          }
         }
       }
 

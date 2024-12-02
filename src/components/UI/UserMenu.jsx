@@ -9,16 +9,13 @@ import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { logoutUser } from '../../store/auth/authActions';
-import { removeAuthToken } from '../../store/auth/authSlice';
-import ErrorSnackbar from './ErrorSnackbar';
+import { logout } from '../../store/auth/authSlice';
 import { selectAuthToken } from '../../store/auth/authSelectors';
 import URLS from '../../constants/urls';
 
 const UserMenu = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [snackbarMessage, setSnackbarMessage] = useState('');
   const authToken = useSelector(selectAuthToken);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { id } = useSelector(state => state.userProfile.user) || {};
@@ -38,17 +35,11 @@ const UserMenu = () => {
   };
 
   const handleLogoutNavigate = async () => {
-    if (authToken) {
-      try {
-        await logoutUser(authToken);
-        dispatch(removeAuthToken());
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('tokenTimestamp');
-        navigate('/');
-      } catch (error) {
-        setSnackbarMessage(error);
-      }
-    }
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('tokenExpirationTime');
+    dispatch(logout());
+    navigate('/');
   };
 
   const handleProfileNavigate = () => {
@@ -98,7 +89,6 @@ const UserMenu = () => {
           </MenuItem>
         )}
       </Menu>
-      <ErrorSnackbar message={snackbarMessage} />
     </Box>
   );
 };

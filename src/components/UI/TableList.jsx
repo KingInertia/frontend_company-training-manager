@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
-const TableList = ({ rowNames, list }) => {
+const TableList = ({ rowNames, list, navigateType }) => {
   const getValuesWithoutId = list => {
     const { id, ...valuesWithoutId } = list;
     return Object.values(valuesWithoutId);
@@ -34,7 +34,7 @@ const TableList = ({ rowNames, list }) => {
         <TableBody sx={{ backgroundColor: '#ebb582' }}>
           {list.map(row => (
             <TableRow
-              onClick={() => navigate('./' + row.id)}
+              onClick={() => navigate(`/${navigateType}/${row.id}`)}
               key={uuidv4()}
               sx={{ cursor: 'pointer' }}
             >

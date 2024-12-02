@@ -32,7 +32,9 @@
     "dontHaveAccount": "Немає акаунту?",
     "invalidCredentials": "Неправильний логін чи пароль",
     "networkError": "Помилка зв'язку",
-    "unknownError": "Сталася невідома помилка"
+    "unknownError": "Сталася невідома помилка",
+    "LoginRequired": "Логін є обов'язковим",
+    "PasswordRequired": "Пароль є обов'язковим"
   },
   "Registration": {
     "title": "Реєстрація",
@@ -75,7 +77,9 @@
     "CancelEdit": "Скасувати редагування",
     "SaveEdit": "Зберегти зміни",
     "AvatarUploaded": "Аватар завантажено",
-    "UploadAvatar": "Завантажити аватар"
+    "UploadAvatar": "Завантажити аватар",
+    "MyCompanies": "Компанії",
+    "AddCompany": "Створити нову компанію"
   },
   "DeleteAccountDialog": {
     "DeleteProfile": "Видалити профіль",
@@ -84,6 +88,58 @@
     "Password": "Пароль",
     "Loading": "Завантаження...",
     "Cancel": "Отмена",
-    "Delete": "Удалить"
+    "Delete": "Удалить",
+    "accountDeleted": "Акаунт видалено"
+  },
+  "DeleteCompanyDialog": {
+    "DeleteCompany": "Видалити компанію",
+    "ConfirmationMessage": "Введіть назву компанії '{{companyName}}', щоб підтвердити видалення.",
+    "CompanyName": "Назва компанії",
+    "InvalidCompanyName": "Назва компанії введена неправильно.",
+    "SuccessMessage": "Компанію успішно видалено.",
+    "Loading": "Видалення...",
+    "Cancel": "Скасувати",
+    "Delete": "Видалити"
+  },
+  "EditCompanyDialog": {
+    "EditCompany": "Редагування компанії",
+    "EditCompanyInfo": "Оновіть дані про компанію нижче.",
+    "Name": "Назва компанії",
+    "Description": "Опис",
+    "Visible": "Видима",
+    "Hidden": "Прихована",
+    "Cancel": "Скасувати",
+    "Save": "Зберегти",
+    "Loading": "Збереження змін...",
+    "FieldRequired": "Поле ім`я має бути заповнено.",
+    "CompanyUpdated": "Дані компанії успішно оновлено."
+  },
+  "CompanyProfile": {
+    "loading": "Завантаження...",
+    "companyName": "Назва компанії",
+    "owner": "Власник",
+    "aboutCompany": "Про компанію",
+    "description": "Опис",
+    "noDescription": "Немає опису",
+    "dateCreated": "Дата створення",
+    "dateUpdated": "Дата оновлення",
+    "companyVisibility": "Видимість компанії",
+    "deleteCompany": "Видалити компанію",
+    "editCompany": "Редагувати компанію",
+    "leaveCompany": "Покинути цю компанію",
+    "leaveCompanyLoading": "Покидаєм компанію..."
+  },
+  "AddCompanyDialog": {
+    "AddCompany": "Додати компанію",
+    "AddCompanyInfo": "Заповніть інформацію нижче, щоб додати нову компанію.",
+    "FieldRequired": "Це поле обов'язкове.",
+    "Name": "Назва",
+    "Description": "Опис",
+    "Visible": "Видимий",
+    "Hidden": "Прихований",
+    "Cancel": "Скасувати",
+    "Create": "Створити",
+    "Loading": "Створення...",
+    "SuccessMessage": "Компанія створена!"
   }
 }
