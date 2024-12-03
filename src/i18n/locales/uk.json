@@ -79,7 +79,8 @@
     "AvatarUploaded": "Аватар завантажено",
     "UploadAvatar": "Завантажити аватар",
     "MyCompanies": "Компанії",
-    "AddCompany": "Створити нову компанію"
+    "AddCompany": "Створити нову компанію",
+    "InviteToCompany": "Запросити до компанії"
   },
   "DeleteAccountDialog": {
     "DeleteProfile": "Видалити профіль",
@@ -127,7 +128,16 @@
     "deleteCompany": "Видалити компанію",
     "editCompany": "Редагувати компанію",
     "leaveCompany": "Покинути цю компанію",
-    "leaveCompanyLoading": "Покидаєм компанію..."
+    "leaveCompanyLoading": "Покидаєм компанію...",
+    "Cancel": "Скасувати",
+    "KickMember": "Виключити учасника",
+    "LeaveCompanyQuestion": "Покинути компанію?",
+    "ConfirmLeaveCompany": "Ви точно хочете покинути компанію? Цю дію не можна буде скасувати.",
+    "No": "Ні",
+    "Yes": "Так",
+    "RequestSending": "Надсилання запиту...",
+    "SendJoinRequest": "Надіслати запит на приєднання",
+    "requestSent": "Запит на вступ відправлено"
   },
   "AddCompanyDialog": {
     "AddCompany": "Додати компанію",
@@ -141,5 +151,65 @@
     "Create": "Створити",
     "Loading": "Створення...",
     "SuccessMessage": "Компанія створена!"
+  },
+  "KickMemberDialog": {
+    "UserKicked": "Користувача успішно виключено",
+    "KickUserQuestion": "Виключити поточного користувача?",
+    "Loading": "Завантаження...",
+    "Cancel": "Скасувати",
+    "Kick": "Виключити його",
+    "KickCurrentUser": "Вигнати цього користувача?"
+  },
+  "InvitationCompanyDialog": {
+    "SelectCompanyToInvite": "Виберіть компанію для запрошення",
+    "YourCompanies": "Ваші компанії",
+    "Loading": "Завантаження...",
+    "InviteSending": "Запрошення відправляється...",
+    "Cancel": "Скасувати"
+  },
+  "ProfileInvitationsList": {
+    "Sender": "Відправник",
+    "Receiver": "Отримувач",
+    "Company": "Компанія",
+    "SendDate": "Дата",
+    "Status": "Статус",
+    "InvitationProcessedSuccessfully": "Запрошення успішно оброблено",
+    "Sent": "Відправлено",
+    "Received": "Отримано",
+    "WhatToDoWithInvitation": "Що робити з цим запрошенням?",
+    "SentBy": "Відправлено компанією {{companyName}}",
+    "SentToUser": "Відправлено користувачу {{receiverName}}",
+    "ApplyingTheChanges": "Застосовуються зміни...",
+    "Accept": "Прийняти",
+    "Decline": "Відхилити",
+    "RevokeInvitation": "Відкликати запрошення",
+    "DecideLater": "Вирішити пізніше"
+  },
+  "ProfileLists": {
+    "Invitations": "Запрошення",
+    "Requests": "Запити",
+    "companies": "Компанії"
+  },
+  "CompanyMembersList": {
+    "SelectUserToKick": "Виберіть користувача для вигнання",
+    "Members": "Учасники"
+  },
+  "ProfileRequestsList": {
+    "Sender": "Відправник",
+    "Receiver": "Отримувач",
+    "Company": "Компанія",
+    "SendDate": "Дата відправлення",
+    "Status": "Статус",
+    "RequestProcessedSuccessfully": "Запит успішно оброблено",
+    "Received": "Отримано",
+    "WhatToDoWithThisRequest": "Що робити з цим запитом?",
+    "SentBy": "Відправлено компанією {{companyName}}",
+    "SentToUser": "Відправлено користувачу {{receiverName}}",
+    "ApplyingTheChanges": "Застосовуються зміни...",
+    "Reject": "Відхилити",
+    "Cancel": "Скасувати",
+    "DecideLater": "Вирішити пізніше",
+    "Sent": "Відправлено",
+    "Approve": "Схвалити"
   }
 }

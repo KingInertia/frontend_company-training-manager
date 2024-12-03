@@ -10,31 +10,59 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
-const TableList = ({ rowNames, list, navigateType }) => {
+const TableList = ({
+  rowNames,
+  list,
+  navigateType,
+  onClick,
+  headTextSize = 'h6',
+}) => {
   const getValuesWithoutId = list => {
     const { id, ...valuesWithoutId } = list;
     return Object.values(valuesWithoutId);
   };
   const navigate = useNavigate();
 
+  const handleOnClick = id => {
+    if (navigateType) {
+      navigate(`/${navigateType}/${id}`);
+    } else if (onClick) {
+      onClick(id);
+    }
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
-        <TableHead sx={{ backgroundColor: '#e08e45' }}>
+        <TableHead
+          sx={{
+            backgroundColor: '#e08e45',
+            '& th': {
+              borderBottom: 'none',
+            },
+          }}
+        >
           <TableRow>
             {rowNames.map(row => (
               <TableCell key={uuidv4()}>
-                <Typography variant="h6" sx={{ color: '#f9e2b2' }}>
+                <Typography variant={headTextSize} sx={{ color: '#f9e2b2' }}>
                   {row + ':'}
                 </Typography>
               </TableCell>
             ))}
           </TableRow>
         </TableHead>
-        <TableBody sx={{ backgroundColor: '#ebb582' }}>
+        <TableBody
+          sx={{
+            backgroundColor: '#ebb582',
+            '& .MuiTableRow-root': {
+              borderBottom: '2px solid #e5ab6c',
+            },
+          }}
+        >
           {list.map(row => (
             <TableRow
-              onClick={() => navigate(`/${navigateType}/${row.id}`)}
+              onClick={() => handleOnClick(row.id)}
               key={uuidv4()}
               sx={{ cursor: 'pointer' }}
             >

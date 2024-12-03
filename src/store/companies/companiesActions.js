@@ -70,6 +70,24 @@ export const getMyCompaniesList = createAsyncThunk(
   },
 );
 
+export const getUserMembershipCompanies = createAsyncThunk(
+  'companies/userMembershipCompanies',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(
+        `${COMPANIES_URL}user-companies/?user=${id}`,
+      );
+      return data;
+    } catch (error) {
+      if (error.response) {
+        return rejectWithValue(Object.values(error.response.data).join(' '));
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
 export const createNewCompany = createAsyncThunk(
   'companies/createCompany',
   async ({ companyProperties }, { rejectWithValue }) => {

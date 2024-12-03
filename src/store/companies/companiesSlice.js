@@ -4,11 +4,13 @@ import {
   updateCurrentCompany,
   getCompaniesList,
   getMyCompaniesList,
+  getUserMembershipCompanies,
   createNewCompany,
 } from './companiesActions';
 
 const initialState = {
   companies: [],
+  userMembershipCompanies: [],
   myCompanies: [],
   currentCompany: null,
   loading: false,
@@ -31,6 +33,19 @@ const companiesSlice = createSlice({
         state.loading = false;
       })
       .addCase(getCurrentCompany.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+
+      .addCase(getUserMembershipCompanies.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getUserMembershipCompanies.fulfilled, (state, { payload }) => {
+        state.userMembershipCompanies = payload;
+        state.loading = false;
+      })
+      .addCase(getUserMembershipCompanies.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       })
