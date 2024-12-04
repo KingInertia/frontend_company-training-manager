@@ -73,7 +73,8 @@
     "SaveEdit": "Save Edit",
     "AvatarUploaded": "Avatar uploaded",
     "UploadAvatar": "Upload Avatar",
-    "AddCompany": "Create new Company"
+    "AddCompany": "Create new Company",
+    "InviteToCompany": "Invite to company"
   },
   "DeleteAccountDialog": {
     "DeleteProfile": "Delete Profile",
@@ -122,7 +123,16 @@
     "deleteCompany": "Delete company",
     "editCompany": "Edit company",
     "leaveCompany": "Leave this company",
-    "leaveCompanyLoading": "Leaving the company..."
+    "leaveCompanyLoading": "Leaving the company...",
+    "Cancel": "Cancel",
+    "KickMember": "Kick member",
+    "LeaveCompanyQuestion": "Leave the company?",
+    "ConfirmLeaveCompany": "Are you sure you want to leave the company? This action cannot be undone.",
+    "No": "No",
+    "Yes": "Yes",
+    "RequestSending": "Request sending...",
+    "SendJoinRequest": "Send a request to join company",
+    "requestSent": "Request sent"
   },
   "AddCompanyDialog": {
     "AddCompany": "Add Company",
@@ -136,5 +146,65 @@
     "Create": "Create",
     "Loading": "Creating...",
     "SuccessMessage": "Company Created successfully."
+  },
+  "KickMemberDialog": {
+    "UserKicked": "User successfully kicked",
+    "KickUserQuestion": "Kick current user?",
+    "Loading": "Loading...",
+    "Cancel": "Cancel",
+    "Kick": "Kick him",
+    "KickCurrentUser": "Kick current user"
+  },
+  "InvitationCompanyDialog": {
+    "SelectCompanyToInvite": "Select company to invite",
+    "YourCompanies": "Your companies",
+    "Loading": "Loading...",
+    "InviteSending": "Invite sending...",
+    "Cancel": "Cancel"
+  },
+  "ProfileInvitationsList": {
+    "Sender": "Sender",
+    "Receiver": "Receiver",
+    "Company": "Company",
+    "SendDate": "Send date",
+    "Status": "Status",
+    "InvitationProcessedSuccessfully": "Invitation processed successfully",
+    "Sent": "Sent",
+    "Received": "Received",
+    "WhatToDoWithInvitation": "What to do with this invitation?",
+    "SentBy": "Sent by {{companyName}}",
+    "SentToUser": "Sent to user {{receiverName}}",
+    "ApplyingTheChanges": "Applying the changes...",
+    "Accept": "Accept",
+    "Decline": "Decline",
+    "RevokeInvitation": "Revoke invitation",
+    "DecideLater": "Decide later"
+  },
+  "ProfileLists": {
+    "Invitations": "Invitations",
+    "Requests": "Requests",
+    "companies": "Companies"
+  },
+  "CompanyMembersList": {
+    "SelectUserToKick": "Select user to kick",
+    "Members": "Members"
+  },
+  "ProfileRequestsList": {
+    "Sender": "Sender",
+    "Receiver": "Receiver",
+    "Company": "Company",
+    "SendDate": "Send date",
+    "Status": "Status",
+    "RequestProcessedSuccessfully": "Request processed successfully",
+    "Received": "Received",
+    "WhatToDoWithThisRequest": "What to do with this request?",
+    "SentBy": "Sent by {{companyName}}",
+    "SentToUser": "Sent to user {{receiverName}}",
+    "ApplyingTheChanges": "Applying the changes...",
+    "Reject": "Reject",
+    "Cancel": "Cancel",
+    "DecideLater": "Decide later",
+    "Sent": "Sent",
+    "Approve": "Approve"
   }
 }

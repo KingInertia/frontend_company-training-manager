@@ -11,7 +11,9 @@ import { useTranslation } from 'react-i18next';
 import TextPage from '../UI/TextPage';
 import DeleteAccoutDialog from '../UI/UserProfile/DeleteAccoutDialog';
 import CreateCompanyDialog from '../UI/UserProfile/CreateCompanyDialog';
-import ProfileCompaniesList from '../UI/UserProfile/ProfileCompanyList';
+import InviteCompanyDialog from '../UI/UserProfile/InviteCompanyDialog';
+import ProfileLists from '../UI/UserProfile/Lists/ProfileLists';
+
 import { getCurrentUser } from '../../store/users/usersActions';
 import {
   updateUserProfile,
@@ -26,8 +28,9 @@ const UsersProfilePage = () => {
   const dispatch = useDispatch();
   const [openDelDiag, setOpenDelDiag] = useState(false);
   const [openAddCompanyDiag, setOpenAddCompanyDiag] = useState(false);
+  const [openInviteDiag, setOpenInviteDiag] = useState(false);
   const [editMod, setEditMod] = useState(false);
-  const { id } = useSelector(selectUserProfile);
+  const { id } = useSelector(selectUserProfile) || {};
   const activeUserProfile = useSelector(state => state.userProfile);
   const viewedUserProfile = useSelector(state => state.users);
   const [avatar, setAvatar] = useState(null);
@@ -68,6 +71,14 @@ const UsersProfilePage = () => {
 
   const handleCloseAddCompanyDiag = () => {
     setOpenAddCompanyDiag(false);
+  };
+
+  const handleOpenInviteCompanyDiag = () => {
+    setOpenInviteDiag(true);
+  };
+
+  const handleCloseInviteDiag = () => {
+    setOpenInviteDiag(false);
   };
 
   const handleAvatarChange = event => {
@@ -286,7 +297,7 @@ const UsersProfilePage = () => {
                 </Grid>
               )}
               <Grid
-                size={isActiveUser ? 6 : 8}
+                size={3}
                 sx={{
                   display: 'flex',
                   flexGrow: 1,
@@ -364,7 +375,7 @@ const UsersProfilePage = () => {
                 )}
               </Grid>
               <Grid
-                size={4}
+                size={7}
                 sx={{
                   display: 'flex',
                   flexGrow: 1,
@@ -375,20 +386,7 @@ const UsersProfilePage = () => {
                   height: '540px',
                 }}
               >
-                <Box
-                  sx={{
-                    backgroundColor: '#e08e45',
-                    padding: '8px',
-                    borderRadius: 1,
-                    textAlign: 'center',
-                    mb: '8px',
-                  }}
-                >
-                  <Typography variant="h5" sx={{ color: '#f9e2b2' }}>
-                    {t('UserProfile.MyCompanies')}
-                  </Typography>
-                </Box>
-                <ProfileCompaniesList ownerId={Number(params.slug)} />
+                <ProfileLists isActiveUser={isActiveUser} />
               </Grid>
               <Grid
                 size={2}
@@ -402,19 +400,43 @@ const UsersProfilePage = () => {
                   height: '540px',
                 }}
               >
-                {' '}
-                <Button
-                  fullWidth
-                  variant="contained"
-                  onClick={() => handleOpenAddCompanyDiag()}
-                  sx={{
-                    mb: 1,
-                    backgroundColor: '#e08e45',
-                    color: '#f9e2b2',
-                  }}
-                >
-                  {t('UserProfile.AddCompany')}
-                </Button>
+                {isActiveUser ? (
+                  <>
+                    {' '}
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      onClick={() => handleOpenAddCompanyDiag()}
+                      sx={{
+                        mb: 1,
+                        backgroundColor: '#e08e45',
+                        color: '#f9e2b2',
+                      }}
+                    >
+                      {t('UserProfile.AddCompany')}
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      onClick={() => handleOpenInviteCompanyDiag()}
+                      sx={{
+                        mb: 1,
+                        backgroundColor: '#e08e45',
+                        color: '#f9e2b2',
+                      }}
+                    >
+                      {t('UserProfile.InviteToCompany')}
+                    </Button>
+                    <InviteCompanyDialog
+                      open={openInviteDiag}
+                      handleClose={handleCloseInviteDiag}
+                      userId={Number(params.slug)}
+                    />
+                  </>
+                )}
               </Grid>
             </Grid>
           </Box>
