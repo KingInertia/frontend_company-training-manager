@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getCompanyMembers } from './companyMembersActions';
+import { getCompanyMembers, getCompanyAdmins } from './companyMembersActions';
 
 const initialState = {
   currentCompanyMembers: [],
+  currentCompanyAdmins: [],
   loading: false,
   error: null,
 };
@@ -25,6 +26,16 @@ const companyMembersSlice = createSlice({
       .addCase(getCompanyMembers.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
+      })
+      .addCase(getCompanyAdmins.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getCompanyAdmins.fulfilled, (state, { payload }) => {
+        state.currentCompanyAdmins = payload;
+        state.loading = false;
+      })
+      .addCase(getCompanyAdmins.rejected, (state, { payload }) => {
+        state.loading = false;
       });
   },
 });

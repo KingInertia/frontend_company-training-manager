@@ -132,7 +132,11 @@
     "Yes": "Yes",
     "RequestSending": "Request sending...",
     "SendJoinRequest": "Send a request to join company",
-    "requestSent": "Request sent"
+    "requestSent": "Request sent",
+    "AppointAdmin": "Appoint Admin",
+    "RemoveAdmin": "Remove admin",
+    "AdminsList": "Admins List",
+    "MembersList": "Members List"
   },
   "AddCompanyDialog": {
     "AddCompany": "Add Company",
@@ -187,7 +191,10 @@
   },
   "CompanyMembersList": {
     "SelectUserToKick": "Select user to kick",
-    "Members": "Members"
+    "Members": "Members",
+    "SelectAdminToAppoint": "Select admin to appoint",
+    "SelectAdminToRemove": "Select admin to remove",
+    "Admins": "Admins"
   },
   "ProfileRequestsList": {
     "Sender": "Sender",
@@ -206,5 +213,17 @@
     "DecideLater": "Decide later",
     "Sent": "Sent",
     "Approve": "Approve"
+  },
+  "AppointAdminDialog": {
+    "UserAppointAdmin": "User appoint admin",
+    "AppointCurrentUserAdmin": "Appoint current user admin",
+    "AppointingNewAdmin": "Appointing new admin...",
+    "AppointAdmin": "Appoint admin"
+  },
+  "RemoveAdminDialog": {
+    "AdminRoleRemoved": "Admin role removed",
+    "RemoveUserAdminRole": "Remove user admin role",
+    "RemovingAdminRole": "Removing admin role...",
+    "RemoveAdmin": "Remove admin"
   }
 }
