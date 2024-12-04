@@ -137,7 +137,11 @@
     "Yes": "Так",
     "RequestSending": "Надсилання запиту...",
     "SendJoinRequest": "Надіслати запит на приєднання",
-    "requestSent": "Запит на вступ відправлено"
+    "requestSent": "Запит на вступ відправлено",
+    "AppointAdmin": "Призначити адміністратора",
+    "RemoveAdmin": "Забрати роль адміністратора",
+    "AdminsList": "Список адміністраторів",
+    "MembersList": "Список учасників"
   },
   "AddCompanyDialog": {
     "AddCompany": "Додати компанію",
@@ -192,7 +196,10 @@
   },
   "CompanyMembersList": {
     "SelectUserToKick": "Виберіть користувача для вигнання",
-    "Members": "Учасники"
+    "Members": "Учасники",
+    "SelectAdminToAppoint": "Виберіть адміністратора для призначення",
+    "SelectAdminToRemove": "Виберіть адміністратора щоб забрати роль",
+    "Admins": "Адміністратори"
   },
   "ProfileRequestsList": {
     "Sender": "Відправник",
@@ -211,5 +218,17 @@
     "DecideLater": "Вирішити пізніше",
     "Sent": "Відправлено",
     "Approve": "Схвалити"
+  },
+  "AppointAdminDialog": {
+    "UserAppointAdmin": "Користувач призначений адміністратором",
+    "AppointCurrentUserAdmin": "Призначити поточного користувача адміністратором",
+    "AppointingNewAdmin": "Призначення нового адміністратора...",
+    "AppointAdmin": "Призначити адміністратора"
+  },
+  "RemoveAdminDialog": {
+    "AdminRoleRemoved": "Роль адміністратора забрана",
+    "RemoveUserAdminRole": "Забрати роль адміністратора користувача",
+    "RemovingAdminRole": "Видалення ролі адміністратора...",
+    "RemoveAdmin": "Забрати роль адміністратора"
   }
 }
