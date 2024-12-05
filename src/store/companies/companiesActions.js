@@ -119,12 +119,12 @@ export const delCurrentCompany = async id => {
 export const isCompanyMember = async id => {
   try {
     const response = await axiosInstance.get(
-      '/api/v1/company-members/is-member/',
+      '/api/v1/company-members/member-role/',
       {
         params: { company: id },
       },
     );
-    return response.data.is_member;
+    return response.data.role;
   } catch (error) {
     throw error;
   }
