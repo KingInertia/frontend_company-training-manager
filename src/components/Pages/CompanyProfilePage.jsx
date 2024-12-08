@@ -13,7 +13,9 @@ import { useTranslation } from 'react-i18next';
 import TextPage from '../UI/TextPage';
 import DeleteCompanyDialog from '../UI/CompanyProfile/DeleteCompanyDialog';
 import EditCompanyDialog from '../UI/CompanyProfile/EditCompanyDialog';
+import CreateQuizModal from '../UI/CompanyProfile/Quizzes/CreateQuizModal';
 import CompanyMembersList from '../UI/CompanyProfile/CompanyMembersList';
+import QuizzesList from '../UI/CompanyProfile/Quizzes/QuizzesList';
 import { selectCompanies } from '../../store/companies/companiesSelectors';
 import { selectRequests } from '../../store/companies/requests/requestsSelectors';
 import {
@@ -23,6 +25,11 @@ import {
 } from '../../store/companies/companiesActions';
 import { sendRequest } from '../../store/companies/requests/requestsActions';
 import { setSnackbarMessage } from '../../store/UI/snackbarSlice';
+import {
+  listStates,
+  manageStates,
+  userRoleStates,
+} from '../../constants/companyConst';
 
 const CompanyProfilePage = () => {
   const params = useParams();
@@ -30,26 +37,13 @@ const CompanyProfilePage = () => {
   const [openDelDiag, setOpenDelDiag] = useState(false);
   const [openEditDiag, setOpenEditDiag] = useState(false);
   const [openLeaveDiag, setOpenLeaveDiag] = useState(false);
+  const [openCreateQuiz, setOpenCreateQuiz] = useState(false);
   const [companyLeaveLoading, setCompanyLeaveLoading] = useState(false);
   const { t } = useTranslation();
   const { currentCompany, loading, error } = useSelector(selectCompanies);
-  const userRoleStates = {
-    MEMBER: 'member',
-    ADMIN: 'admin',
-    OWNER: 'owner',
-  };
   const [userRole, setUserRole] = useState('');
-  const memberListState = {
-    MEMBERS: 'members',
-    ADMINS: 'admins',
-  };
-  const [listState, setListState] = useState(memberListState.MEMBERS);
-  const membersManageStates = {
-    KICK: 'kick',
-    APPOINT_ADMIN: 'appoint admin',
-    REMOVE_ADMIN: 'remove admin',
-  };
-  const [membersManageState, setMembersManageState] = useState('');
+  const [listState, setListState] = useState(listStates.MEMBERS);
+  const [manageState, setManageState] = useState('');
   const {
     loading: loadingRequest,
     error: errorRequest,
@@ -73,14 +67,7 @@ const CompanyProfilePage = () => {
     };
 
     checkMembership();
-  }, [
-    dispatch,
-    params,
-    userRole,
-    userRoleStates.OWNER,
-    userRoleStates.ADMIN,
-    userRoleStates.MEMBER,
-  ]);
+  }, [dispatch, params]);
 
   useEffect(() => {
     dispatch(getCurrentCompany({ id: params.slug }));
@@ -130,10 +117,11 @@ const CompanyProfilePage = () => {
   };
 
   const handleChangeListState = () => {
-    if (listState === memberListState.MEMBERS) {
-      setListState(memberListState.ADMINS);
+    if (listState === listStates.MEMBERS) {
+      setListState(listStates.ADMINS);
     } else {
-      setListState(memberListState.MEMBERS);
+      setManageState('');
+      setListState(listStates.MEMBERS);
     }
   };
 
@@ -184,7 +172,7 @@ const CompanyProfilePage = () => {
               </Box>
             </Grid>
             <Grid
-              size={9}
+              size={userRole === userRoleStates.OWNER ? 7 : 9}
               sx={{
                 display: 'flex',
                 flexGrow: 1,
@@ -202,6 +190,45 @@ const CompanyProfilePage = () => {
                 {t('CompanyProfile.owner')}: {currentCompany.owner}
               </Typography>
             </Grid>
+            {userRole === userRoleStates.OWNER && (
+              <Grid
+                size={2}
+                sx={{
+                  display: 'flex',
+                  flexGrow: 1,
+                  flexDirection: 'column',
+                  padding: '8px',
+                  borderRadius: 1,
+                  border: '4px solid #e08e45',
+                  height: '290px',
+                }}
+              >
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={handleOpenDelDiag}
+                  sx={{
+                    mb: 1,
+                    backgroundColor: '#e08e45',
+                    color: '#f9e2b2',
+                  }}
+                >
+                  {t('CompanyProfile.deleteCompany')}
+                </Button>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={() => setOpenEditDiag(true)}
+                  sx={{
+                    mb: 1,
+                    backgroundColor: '#e08e45',
+                    color: '#f9e2b2',
+                  }}
+                >
+                  {t('CompanyProfile.editCompany')}
+                </Button>
+              </Grid>
+            )}
             <Grid
               size={6}
               sx={{
@@ -261,8 +288,15 @@ const CompanyProfilePage = () => {
               <CompanyMembersList
                 listState={listState}
                 companyId={Number(params.slug)}
-                membersManageState={membersManageState}
+                membersManageState={manageState}
               />
+              {userRole && (
+                <QuizzesList
+                  listState={listState}
+                  companyId={Number(params.slug)}
+                  manageState={manageState}
+                />
+              )}
             </Grid>
             <Grid
               size={2}
@@ -286,176 +320,225 @@ const CompanyProfilePage = () => {
                   color: '#f9e2b2',
                 }}
               >
-                {listState === memberListState.MEMBERS
+                {listState === listStates.MEMBERS
                   ? t('CompanyProfile.AdminsList')
                   : t('CompanyProfile.MembersList')}
               </Button>
-              {userRole === userRoleStates.OWNER && (
+              {userRole && (
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={() => {
+                    setManageState('');
+                    setListState(listStates.QUIZZES);
+                  }}
+                  sx={{
+                    mb: 1,
+                    backgroundColor: '#e08e45',
+                    color: '#f9e2b2',
+                  }}
+                >
+                  {t('QuizzesList.Quizzes')}
+                </Button>
+              )}
+
+              {listState !== listStates.QUIZZES ? (
                 <>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    onClick={handleOpenDelDiag}
-                    sx={{
-                      mb: 1,
-                      backgroundColor: '#e08e45',
-                      color: '#f9e2b2',
-                    }}
-                  >
-                    {t('CompanyProfile.deleteCompany')}
-                  </Button>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    onClick={() => setOpenEditDiag(true)}
-                    sx={{
-                      mb: 1,
-                      backgroundColor: '#e08e45',
-                      color: '#f9e2b2',
-                    }}
-                  >
-                    {t('CompanyProfile.editCompany')}
-                  </Button>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    onClick={() => setOpenEditDiag(true)}
-                    sx={{
-                      mb: 1,
-                      backgroundColor: '#e08e45',
-                      color: '#f9e2b2',
-                    }}
-                  >
-                    {t('CompanyProfile.editCompany')}
-                  </Button>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    onClick={() =>
-                      membersManageState === membersManageStates.KICK
-                        ? setMembersManageState('')
-                        : setMembersManageState(membersManageStates.KICK)
-                    }
-                    sx={{
-                      mb: 1,
-                      backgroundColor:
-                        membersManageState === membersManageStates.KICK
-                          ? '#9e2a2f'
-                          : '#e08e45',
-                      color: '#f9e2b2',
-                    }}
-                  >
-                    {membersManageState === membersManageStates.KICK
-                      ? t('CompanyProfile.Cancel')
-                      : t('CompanyProfile.KickMember')}
-                  </Button>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    onClick={() =>
-                      membersManageState === membersManageStates.APPOINT_ADMIN
-                        ? setMembersManageState('')
-                        : setMembersManageState(
-                            membersManageStates.APPOINT_ADMIN,
-                          )
-                    }
-                    sx={{
-                      mb: 1,
-                      backgroundColor:
-                        membersManageState === membersManageStates.APPOINT_ADMIN
-                          ? '#738f45'
-                          : '#e08e45',
-                      color: '#f9e2b2',
-                    }}
-                  >
-                    {membersManageState === membersManageStates.APPOINT_ADMIN
-                      ? t('CompanyProfile.Cancel')
-                      : t('CompanyProfile.AppointAdmin')}
-                  </Button>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    onClick={() =>
-                      membersManageState === membersManageStates.REMOVE_ADMIN
-                        ? setMembersManageState('')
-                        : setMembersManageState(
-                            membersManageStates.REMOVE_ADMIN,
-                          )
-                    }
-                    sx={{
-                      mb: 1,
-                      backgroundColor:
-                        membersManageState === membersManageStates.REMOVE_ADMIN
-                          ? '#9e2a2f'
-                          : '#e08e45',
-                      color: '#f9e2b2',
-                    }}
-                  >
-                    {membersManageState === membersManageStates.REMOVE_ADMIN
-                      ? t('CompanyProfile.Cancel')
-                      : t('CompanyProfile.RemoveAdmin')}
-                  </Button>
-                  <DeleteCompanyDialog
-                    open={openDelDiag}
-                    handleClose={handleCloseDelDiag}
-                    id={currentCompany.id}
-                    companyName={currentCompany.name}
-                  />
-                  <EditCompanyDialog
-                    open={openEditDiag}
-                    handleClose={handleCloseEditDiag}
-                    company={currentCompany}
-                  />
+                  {userRole === userRoleStates.OWNER && (
+                    <>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={() =>
+                          manageState === manageStates.KICK
+                            ? setManageState('')
+                            : setManageState(manageStates.KICK)
+                        }
+                        sx={{
+                          mb: 1,
+                          backgroundColor:
+                            manageState === manageStates.KICK
+                              ? '#9e2a2f'
+                              : '#e08e45',
+                          color: '#f9e2b2',
+                        }}
+                      >
+                        {manageState === manageStates.KICK
+                          ? t('CompanyProfile.Cancel')
+                          : t('CompanyProfile.KickMember')}
+                      </Button>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={() =>
+                          manageState === manageStates.APPOINT_ADMIN
+                            ? setManageState('')
+                            : setManageState(manageStates.APPOINT_ADMIN)
+                        }
+                        sx={{
+                          mb: 1,
+                          backgroundColor:
+                            manageState === manageStates.APPOINT_ADMIN
+                              ? '#738f45'
+                              : '#e08e45',
+                          color: '#f9e2b2',
+                        }}
+                      >
+                        {manageState === manageStates.APPOINT_ADMIN
+                          ? t('CompanyProfile.Cancel')
+                          : t('CompanyProfile.AppointAdmin')}
+                      </Button>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={() =>
+                          manageState === manageStates.REMOVE_ADMIN
+                            ? setManageState('')
+                            : setManageState(manageStates.REMOVE_ADMIN)
+                        }
+                        sx={{
+                          mb: 1,
+                          backgroundColor:
+                            manageState === manageStates.REMOVE_ADMIN
+                              ? '#9e2a2f'
+                              : '#e08e45',
+                          color: '#f9e2b2',
+                        }}
+                      >
+                        {manageState === manageStates.REMOVE_ADMIN
+                          ? t('CompanyProfile.Cancel')
+                          : t('CompanyProfile.RemoveAdmin')}
+                      </Button>
+                    </>
+                  )}{' '}
+                </>
+              ) : (
+                <>
+                  {(userRole === userRoleStates.OWNER ||
+                    userRole === userRoleStates.ADMIN) && (
+                    <>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={() => setOpenCreateQuiz(true)}
+                        sx={{
+                          mb: 1,
+                          backgroundColor: '#e08e45',
+                          color: '#f9e2b2',
+                        }}
+                      >
+                        {t('CompanyProfile.CreateNewQuiz')}
+                      </Button>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={() =>
+                          manageState === manageStates.EDIT_QUIZE
+                            ? setManageState('')
+                            : setManageState(manageStates.EDIT_QUIZE)
+                        }
+                        sx={{
+                          mb: 1,
+                          backgroundColor:
+                            manageState === manageStates.EDIT_QUIZE
+                              ? '#9e2a2f'
+                              : '#e08e45',
+                          color: '#f9e2b2',
+                        }}
+                      >
+                        {manageState === manageStates.EDIT_QUIZE
+                          ? t('CompanyProfile.CancelEditing')
+                          : t('CompanyProfile.EditQuiz')}
+                      </Button>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={() =>
+                          manageState === manageStates.REMOVE_QUIZE
+                            ? setManageState('')
+                            : setManageState(manageStates.REMOVE_QUIZE)
+                        }
+                        sx={{
+                          mb: 1,
+                          backgroundColor:
+                            manageState === manageStates.REMOVE_QUIZE
+                              ? '#9e2a2f'
+                              : '#e08e45',
+                          color: '#f9e2b2',
+                        }}
+                      >
+                        {manageState === manageStates.REMOVE_QUIZE
+                          ? t('CompanyProfile.CancelRemove')
+                          : t('CompanyProfile.RemoveQuiz')}
+                      </Button>
+                    </>
+                  )}
                 </>
               )}
-              {userRole === userRoleStates.MEMBER &&
-                userRole !== userRoleStates.OWNER && (
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    disabled={companyLeaveLoading}
-                    onClick={handleLeaveCompany}
-                    sx={{
-                      mt: 1,
-                      mb: 1,
-                      backgroundColor: '#e08e45',
-                      color: '#f9e2b2',
-                    }}
-                  >
-                    <Dialog
-                      open={openLeaveDiag}
-                      aria-labelledby="leave-company-dialog"
-                    >
-                      <DialogTitle id="leave-company-dialog">
-                        {t('CompanyProfile.LeaveCompanyQuestion')}
-                      </DialogTitle>
-                      <DialogContent>
-                        <Typography variant="body1">
-                          {t('CompanyProfile.ConfirmLeaveCompany')}
-                        </Typography>
-                      </DialogContent>
-                      <DialogActions>
-                        <Button
-                          onClick={() => setOpenLeaveDiag(false)}
-                          color="primary"
-                        >
-                          {t('CompanyProfile.No')}
-                        </Button>
-                        <Button
-                          onClick={handleLeaveCompany}
-                          color="error"
-                          variant="contained"
-                        >
-                          {t('CompanyProfile.Yes')}
-                        </Button>
-                      </DialogActions>
-                    </Dialog>
+              <DeleteCompanyDialog
+                open={openDelDiag}
+                handleClose={handleCloseDelDiag}
+                id={currentCompany.id}
+                companyName={currentCompany.name}
+              />
+              <EditCompanyDialog
+                open={openEditDiag}
+                handleClose={handleCloseEditDiag}
+                company={currentCompany}
+              />
+              <CreateQuizModal
+                onClose={() => setOpenCreateQuiz(false)}
+                open={openCreateQuiz}
+                companyId={currentCompany.id}
+              />
 
-                    {companyLeaveLoading
-                      ? t('CompanyProfile.leaveCompanyLoading')
-                      : t('CompanyProfile.leaveCompany')}
-                  </Button>
-                )}
+              {userRole && userRole !== userRoleStates.OWNER && (
+                <Button
+                  fullWidth
+                  variant="contained"
+                  disabled={companyLeaveLoading}
+                  onClick={handleLeaveCompany}
+                  sx={{
+                    mt: 1,
+                    mb: 1,
+                    backgroundColor: '#e08e45',
+                    color: '#f9e2b2',
+                  }}
+                >
+                  <Dialog
+                    open={openLeaveDiag}
+                    aria-labelledby="leave-company-dialog"
+                  >
+                    <DialogTitle id="leave-company-dialog">
+                      {t('CompanyProfile.LeaveCompanyQuestion')}
+                    </DialogTitle>
+                    <DialogContent>
+                      <Typography variant="body1">
+                        {t('CompanyProfile.ConfirmLeaveCompany')}
+                      </Typography>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button
+                        onClick={() => setOpenLeaveDiag(false)}
+                        color="primary"
+                      >
+                        {t('CompanyProfile.No')}
+                      </Button>
+                      <Button
+                        onClick={handleLeaveCompany}
+                        color="error"
+                        variant="contained"
+                      >
+                        {t('CompanyProfile.Yes')}
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+
+                  {companyLeaveLoading
+                    ? t('CompanyProfile.leaveCompanyLoading')
+                    : t('CompanyProfile.leaveCompany')}
+                </Button>
+              )}
               {!userRole && (
                 <Button
                   fullWidth

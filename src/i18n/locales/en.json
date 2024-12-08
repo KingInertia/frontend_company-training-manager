@@ -136,7 +136,12 @@
     "AppointAdmin": "Appoint Admin",
     "RemoveAdmin": "Remove admin",
     "AdminsList": "Admins List",
-    "MembersList": "Members List"
+    "MembersList": "Members List",
+    "CreateNewQuiz": "Create new quiz",
+    "CancelEditing": "Cancel editing",
+    "EditQuiz": "Edit quiz",
+    "CancelRemove": "Cancel remove",
+    "RemoveQuiz": "Remove quiz"
   },
   "AddCompanyDialog": {
     "AddCompany": "Add Company",
@@ -225,5 +230,48 @@
     "RemoveUserAdminRole": "Remove user admin role",
     "RemovingAdminRole": "Removing admin role...",
     "RemoveAdmin": "Remove admin"
+  },
+  "CreateQuizModal": {
+    "AnswerCannotBeEmpty": "Answer cannot be empty",
+    "ValidQuestionRequirement": "Please provide a valid question with at least two answer choices and one correct answer",
+    "RequiredFieldsAndQuestions": "Please fill all required fields and add at least two questions",
+    "QuizSuccessfullyAdded": "Quiz successfully added",
+    "AddNewQuiz": "Add new quiz",
+    "AddingNewQuiz": "Adding new quiz...",
+    "Title": "Title",
+    "Description": "Description",
+    "FrequencyDays": "Frequency (Days)",
+    "Question": "Question",
+    "Answers": "Answers",
+    "AddAnswer": "Add Answer",
+    "Add": "Add",
+    "SaveChanges": "Save Changes",
+    "AddQuestion": "Add Question",
+    "AnswersLabel": "Answers:",
+    "ExistingQuestions": "Existing Questions"
+  },
+  "EditQuizModal": {
+    "Title": "Title",
+    "Description": "Description",
+    "FrequencyDays": "Frequency (Days)",
+    "Question": "Question",
+    "AddAnswer": "Add Answer",
+    "SaveChanges": "Save Changes",
+    "AddQuestion": "Add Question",
+    "Answers": "Answers",
+    "ExistingQuestions": "Existing Questions",
+    "SubmitQuiz": "Submit Quiz"
+  },
+  "QuizzesList": {
+    "SelectQuizToRemove": "Select Quiz to remove",
+    "SelectQuizToEdit": "Select Quiz to edit",
+    "Quizzes": "Quizzes"
+  },
+  "RemoveQuizDialog": {
+    "QuizRemoved": "Quiz removed",
+    "RemoveCurrentQuiz": "Remove current quiz?",
+    "RemovingQuiz": "Removing quiz...",
+    "Cancel": "Cancel",
+    "RemoveQuiz": "Remove quiz"
   }
 }

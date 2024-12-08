@@ -96,7 +96,6 @@ export const createNewCompany = createAsyncThunk(
         COMPANIES_URL,
         companyProperties,
       );
-      console.log(data);
       return data;
     } catch (error) {
       if (error.response) {
