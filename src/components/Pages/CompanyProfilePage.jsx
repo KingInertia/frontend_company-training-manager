@@ -433,20 +433,20 @@ const CompanyProfilePage = () => {
                         fullWidth
                         variant="contained"
                         onClick={() =>
-                          manageState === manageStates.EDIT_QUIZE
+                          manageState === manageStates.EDIT_QUIZ
                             ? setManageState('')
-                            : setManageState(manageStates.EDIT_QUIZE)
+                            : setManageState(manageStates.EDIT_QUIZ)
                         }
                         sx={{
                           mb: 1,
                           backgroundColor:
-                            manageState === manageStates.EDIT_QUIZE
+                            manageState === manageStates.EDIT_QUIZ
                               ? '#9e2a2f'
                               : '#e08e45',
                           color: '#f9e2b2',
                         }}
                       >
-                        {manageState === manageStates.EDIT_QUIZE
+                        {manageState === manageStates.EDIT_QUIZ
                           ? t('CompanyProfile.CancelEditing')
                           : t('CompanyProfile.EditQuiz')}
                       </Button>
@@ -454,20 +454,20 @@ const CompanyProfilePage = () => {
                         fullWidth
                         variant="contained"
                         onClick={() =>
-                          manageState === manageStates.REMOVE_QUIZE
+                          manageState === manageStates.REMOVE_QUIZ
                             ? setManageState('')
-                            : setManageState(manageStates.REMOVE_QUIZE)
+                            : setManageState(manageStates.REMOVE_QUIZ)
                         }
                         sx={{
                           mb: 1,
                           backgroundColor:
-                            manageState === manageStates.REMOVE_QUIZE
+                            manageState === manageStates.REMOVE_QUIZ
                               ? '#9e2a2f'
                               : '#e08e45',
                           color: '#f9e2b2',
                         }}
                       >
-                        {manageState === manageStates.REMOVE_QUIZE
+                        {manageState === manageStates.REMOVE_QUIZ
                           ? t('CompanyProfile.CancelRemove')
                           : t('CompanyProfile.RemoveQuiz')}
                       </Button>

@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createNewQuiz, getCompanyQuizzes, editQuiz } from './quizzesActions';
+import {
+  createNewQuiz,
+  getCompanyQuizzes,
+  editQuiz,
+  removeQuiz,
+} from './quizzesActions';
 
 const initialState = {
   companyQuizzes: [],
@@ -36,6 +41,7 @@ const quizzesSlice = createSlice({
       .addCase(createNewQuiz.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.success = true;
+        state.companyQuizzes.push(payload);
       })
       .addCase(createNewQuiz.rejected, (state, { payload }) => {
         state.loading = false;
@@ -51,6 +57,23 @@ const quizzesSlice = createSlice({
         state.success = true;
       })
       .addCase(editQuiz.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+
+      .addCase(removeQuiz.pending, state => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(removeQuiz.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.companyQuizzes = state.companyQuizzes.filter(
+          quiz => quiz.id !== payload,
+        );
+        state.success = true;
+      })
+      .addCase(removeQuiz.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       });

@@ -44,10 +44,10 @@ const QuizzesList = ({ companyId, manageState, listState }) => {
     if (companyQuizzes) {
       const quiz = companyQuizzes.find(quiz => quiz.id === id);
 
-      if (manageState === manageStates.REMOVE_QUIZE) {
+      if (manageState === manageStates.REMOVE_QUIZ) {
         setQuizForManage(quiz);
         setOpenRemoveDialog(true);
-      } else if (manageState === manageStates.EDIT_QUIZE) {
+      } else if (manageState === manageStates.EDIT_QUIZ) {
         setQuizForManage(quiz);
         setOpenEditQuizDialog(true);
       }
@@ -65,9 +65,9 @@ const QuizzesList = ({ companyId, manageState, listState }) => {
           <Box
             sx={{
               backgroundColor:
-                manageState === manageStates.REMOVE_QUIZE
+                manageState === manageStates.REMOVE_QUIZ
                   ? '#9e2a2f'
-                  : manageState === manageStates.EDIT_QUIZE
+                  : manageState === manageStates.EDIT_QUIZ
                     ? '#738f45'
                     : '#e08e45',
               padding: '8px',
@@ -76,9 +76,9 @@ const QuizzesList = ({ companyId, manageState, listState }) => {
             }}
           >
             <Typography variant="h5" sx={{ color: '#f9e2b2' }}>
-              {manageState === manageStates.REMOVE_QUIZE &&
+              {manageState === manageStates.REMOVE_QUIZ &&
                 t('QuizzesList.SelectQuizToRemove')}
-              {manageState === manageStates.EDIT_QUIZE &&
+              {manageState === manageStates.EDIT_QUIZ &&
                 t('QuizzesList.SelectQuizToEdit')}
               {!manageState && t('QuizzesList.Quizzes')}
             </Typography>

@@ -144,9 +144,9 @@
     "MembersList": "Список учасників",
     "CreateNewQuiz": "Створити нове опитування",
     "CancelEditing": "Скасувати редагування",
-    "EditQuiz": "Редагувати редагування",
+    "EditQuiz": "Редагувати опитування",
     "CancelRemove": "Скасувати видалення",
-    "RemoveQuiz": "Видалити редагування"
+    "RemoveQuiz": "Видалити опитування"
   },
   "AddCompanyDialog": {
     "AddCompany": "Додати компанію",
@@ -277,6 +277,6 @@
     "RemoveCurrentQuiz": "Видалити данне опитування?",
     "RemovingQuiz": "Видалення опитування...",
     "Cancel": "Скасувати",
-    "RemoveQuiz": "Видалити редагування"
+    "RemoveQuiz": "Видалити опитування"
   }
 }

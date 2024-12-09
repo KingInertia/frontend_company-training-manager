@@ -53,10 +53,18 @@ export const editQuiz = createAsyncThunk(
   },
 );
 
-export const removeQuiz = async ({ id }) => {
-  try {
-    await axiosInstance.delete(`${URL}${id}/`);
-  } catch (error) {
-    throw error;
-  }
-};
+export const removeQuiz = createAsyncThunk(
+  'quizzes/removeQuiz',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      await axiosInstance.delete(`${URL}${id}/`);
+      return id;
+    } catch (error) {
+      if (error.response) {
+        return rejectWithValue(Object.values(error.response.data).join(' '));
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);

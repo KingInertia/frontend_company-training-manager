@@ -14,6 +14,6 @@ export const manageStates = {
   KICK: 'kick',
   APPOINT_ADMIN: 'appoint admin',
   REMOVE_ADMIN: 'remove admin',
-  EDIT_QUIZE: 'edit quize',
-  REMOVE_QUIZE: 'remove quize',
+  EDIT_QUIZ: 'edit quiz',
+  REMOVE_QUIZ: 'remove quiz',
 };
