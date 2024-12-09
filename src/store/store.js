@@ -7,6 +7,7 @@ import companiesReducer from './companies/companiesSlice';
 import invitationsReducer from './companies/invitations/invitationsSlice';
 import requestsReducer from './companies/requests/requestsSlice';
 import companyMembersReducer from './companies/members/companyMembersSlice';
+import quizzesReducer from './companies/quizzes/quizzesSlice';
 import snackbarReducer from './UI/snackbarSlice';
 
 const store = configureStore({
@@ -19,6 +20,7 @@ const store = configureStore({
     invitations: invitationsReducer,
     requests: requestsReducer,
     companyMembers: companyMembersReducer,
+    quizzes: quizzesReducer,
     snackbar: snackbarReducer,
   },
 });

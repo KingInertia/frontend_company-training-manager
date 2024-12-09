@@ -141,7 +141,12 @@
     "AppointAdmin": "Призначити адміністратора",
     "RemoveAdmin": "Забрати роль адміністратора",
     "AdminsList": "Список адміністраторів",
-    "MembersList": "Список учасників"
+    "MembersList": "Список учасників",
+    "CreateNewQuiz": "Створити нове опитування",
+    "CancelEditing": "Скасувати редагування",
+    "EditQuiz": "Редагувати опитування",
+    "CancelRemove": "Скасувати видалення",
+    "RemoveQuiz": "Видалити опитування"
   },
   "AddCompanyDialog": {
     "AddCompany": "Додати компанію",
@@ -230,5 +235,48 @@
     "RemoveUserAdminRole": "Забрати роль адміністратора користувача",
     "RemovingAdminRole": "Видалення ролі адміністратора...",
     "RemoveAdmin": "Забрати роль адміністратора"
+  },
+  "CreateQuizModal": {
+    "AnswerCannotBeEmpty": "Відповідь не може бути порожньою",
+    "ValidQuestionRequirement": "Будь ласка, надайте дійсне питання з принаймні двома варіантами відповідей і одним правильним варіантом",
+    "RequiredFieldsAndQuestions": "Заповніть усі обов'язкові поля та додайте хоча б два питання",
+    "QuizSuccessfullyAdded": "Опитування успішно додано",
+    "AddNewQuiz": "Додати нове опитування",
+    "AddingNewQuiz": "Додавання нового опитування...",
+    "Title": "Назва",
+    "Description": "Опис",
+    "FrequencyDays": "Частота (дні)",
+    "Question": "Питання",
+    "Answers": "Відповіді",
+    "AddAnswer": "Додати відповідь",
+    "Add": "Додати",
+    "SaveChanges": "Зберегти зміни",
+    "AddQuestion": "Додати питання",
+    "AnswersLabel": "Відповіді:",
+    "ExistingQuestions": "Існуючі питання"
+  },
+  "EditQuizModal": {
+    "Title": "Назва",
+    "Description": "Опис",
+    "FrequencyDays": "Частота (дні)",
+    "Question": "Питання",
+    "AddAnswer": "Додати відповідь",
+    "SaveChanges": "Зберегти зміни",
+    "AddQuestion": "Додати питання",
+    "Answers": "Відповіді",
+    "ExistingQuestions": "Існуючі питання",
+    "SubmitQuiz": "Зберегти опитування"
+  },
+  "QuizzesList": {
+    "SelectQuizToRemove": "Виберіть опитування для видалення",
+    "SelectQuizToEdit": "Виберіть опитування для редагування",
+    "Quizzes": "Опитування"
+  },
+  "RemoveQuizDialog": {
+    "QuizRemoved": "Опитування видалено",
+    "RemoveCurrentQuiz": "Видалити данне опитування?",
+    "RemovingQuiz": "Видалення опитування...",
+    "Cancel": "Скасувати",
+    "RemoveQuiz": "Видалити опитування"
   }
 }
