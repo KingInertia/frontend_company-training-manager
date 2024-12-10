@@ -10,9 +10,11 @@ import { selectQuizzes } from '../../../../store/companies/quizzes/quizzesSelect
 import RemoveQuizDialog from './RemoveQuizDialog';
 import EditQuizModal from './EditQuizModal';
 import { manageStates, listStates } from '../../../../constants/companyConst';
+import { useNavigate } from 'react-router-dom';
 
 const QuizzesList = ({ companyId, manageState, listState }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [openRemoveDialog, setOpenRemoveDialog] = useState(false);
   const [openEditQuizDialog, setOpenEditQuizDialog] = useState(false);
@@ -50,6 +52,8 @@ const QuizzesList = ({ companyId, manageState, listState }) => {
       } else if (manageState === manageStates.EDIT_QUIZ) {
         setQuizForManage(quiz);
         setOpenEditQuizDialog(true);
+      } else {
+        navigate(`./quizzes/${id}`);
       }
     }
   };

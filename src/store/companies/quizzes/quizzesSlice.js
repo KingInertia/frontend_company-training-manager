@@ -4,6 +4,9 @@ import {
   getCompanyQuizzes,
   editQuiz,
   removeQuiz,
+  startQuizSession,
+  getQuizInfo,
+  finishQuizSession,
 } from './quizzesActions';
 
 const initialState = {
@@ -11,6 +14,9 @@ const initialState = {
   loading: false,
   error: null,
   success: false,
+  currentQuiz: null,
+  quizSession: null,
+  quizResult: null,
 };
 
 const quizzesSlice = createSlice({
@@ -47,6 +53,7 @@ const quizzesSlice = createSlice({
         state.loading = false;
         state.error = payload;
       })
+
       .addCase(editQuiz.pending, state => {
         state.loading = true;
         state.error = null;
@@ -74,6 +81,47 @@ const quizzesSlice = createSlice({
         state.success = true;
       })
       .addCase(removeQuiz.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+
+      .addCase(getQuizInfo.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getQuizInfo.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.currentQuiz = payload;
+      })
+      .addCase(getQuizInfo.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+
+      .addCase(startQuizSession.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(startQuizSession.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.quizResult = null;
+        state.quizSession = payload;
+      })
+      .addCase(startQuizSession.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+
+      .addCase(finishQuizSession.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(finishQuizSession.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.quizResult = payload;
+        state.quizSession = null;
+      })
+      .addCase(finishQuizSession.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       });

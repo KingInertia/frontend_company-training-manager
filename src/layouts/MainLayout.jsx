@@ -45,7 +45,6 @@ const MainLayout = () => {
         sx={{
           display: 'flex',
           flexGrow: 1,
-          height: '100%',
           width: '1200px',
           marginTop: '8px',
           margin: '0 auto',

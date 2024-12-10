@@ -16,9 +16,14 @@ const Item = styled(Paper)(({ theme }) => ({
   flexDirection: 'column',
 }));
 
-const TextPage = ({ title, titleVariant = 'h4', children }) => {
+const TextPage = ({
+  title,
+  titleVariant = 'h4',
+  children,
+  fiXheight = true,
+}) => {
   return (
-    <Item>
+    <Item sx={{ height: fiXheight ? '88vh' : 'auto' }}>
       {title && (
         <Box
           sx={{
