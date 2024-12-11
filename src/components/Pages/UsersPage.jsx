@@ -2,6 +2,7 @@ import React from 'react';
 import TextPage from '../UI/TextPage';
 import TableList from '../UI/TableList';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -56,11 +57,13 @@ const UsersPage = () => {
         <Typography>Loading...</Typography>
       ) : (
         cleanUsersList.length > 0 && (
-          <TableList
-            rowNames={rowNames}
-            list={cleanUsersList}
-            navigateType="users"
-          />
+          <Box sx={{ height: '80vh', overflow: 'auto' }}>
+            <TableList
+              rowNames={rowNames}
+              list={cleanUsersList}
+              navigateType="users"
+            />
+          </Box>
         )
       )}
     </TextPage>

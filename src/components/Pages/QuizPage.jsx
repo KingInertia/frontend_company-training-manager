@@ -1,44 +1,50 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { useDispatch, useSelector } from 'react-redux';
 import TextPage from '../UI/TextPage';
 import Questions from '../UI/CompanyProfile/Quizzes/Questions';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { selectQuizzes } from '../../store/companies/quizzes/quizzesSelectors';
-import { setSnackbarMessage } from '../../store/UI/snackbarSlice';
 import {
-  startQuizSession,
-  getQuizInfo,
-  finishQuizSession,
-} from '../../store/companies/quizzes/quizzesActions';
+  useGetQuizInfo,
+  useStartQuizSession,
+  useFinishQuizSession,
+} from '../../utils/router/hooks/quizzesHooks';
 
 const QuizPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { error, quizSession, loading, currentQuiz, quizResult } =
-    useSelector(selectQuizzes);
   const param = useParams();
-  const dispatch = useDispatch();
+  const [currentQuiz, setCurrentQuiz] = useState(null);
+  const [quizSession, setQuizSession] = useState(null);
+  const [quizResult, setQuizResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const getQuizInfo = useGetQuizInfo();
+  const startQuizSession = useStartQuizSession();
+  const finishQuizSession = useFinishQuizSession();
 
   useEffect(() => {
-    dispatch(getQuizInfo({ quiz: Number(param.quizSlug) }));
-  }, [dispatch, param.quizSlug]);
-
-  useEffect(() => {
-    if (error) {
-      dispatch(setSnackbarMessage(error));
+    async function quizInfo() {
+      setLoading(true);
+      setCurrentQuiz(await getQuizInfo(param.quizSlug));
+      setLoading(false);
     }
-  }, [error, dispatch]);
+    quizInfo();
+  }, [param.quizSlug, getQuizInfo]);
 
-  const handleStartQuiz = () => {
-    dispatch(startQuizSession({ quiz: Number(param.quizSlug) }));
+  const handleStartQuiz = async () => {
+    setLoading(true);
+    setQuizSession(await startQuizSession(param.quizSlug));
+    setQuizResult(null);
+    setLoading(false);
   };
 
-  const handleSubmit = answers => {
-    dispatch(finishQuizSession({ session: quizSession.session_id, answers }));
+  const handleSubmit = async answers => {
+    setLoading(true);
+    setQuizResult(await finishQuizSession(answers, quizSession.session_id));
+    setQuizSession(null);
+    setLoading(false);
   };
 
   return (
@@ -95,7 +101,7 @@ const QuizPage = () => {
               <Button
                 fullWidth
                 variant="contained"
-                onClick={() => navigate(-1)}
+                onClick={() => navigate(`/companies/${param.companySlug}`)}
                 sx={{
                   mb: 1,
                   backgroundColor: '#e08e45',
