@@ -21,6 +21,7 @@ const LoginPage = lazy(
 const RegistrationPage = lazy(
   () => import('./components/Pages/Authorization/RegistrationPage'),
 );
+const QuizPage = lazy(() => import('./components/Pages/QuizPage'));
 
 function App() {
   return (
@@ -41,6 +42,10 @@ function App() {
                 <Route
                   path="/companies/:slug"
                   element={<CompanyProfilePage />}
+                />
+                <Route
+                  path="/companies/:companySlug/quizzes/:quizSlug"
+                  element={<QuizPage />}
                 />
               </Route>
               <Route path="*" element={<NotFound />} />

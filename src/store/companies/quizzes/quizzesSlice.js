@@ -11,6 +11,9 @@ const initialState = {
   loading: false,
   error: null,
   success: false,
+  currentQuiz: null,
+  quizSession: null,
+  quizResult: null,
 };
 
 const quizzesSlice = createSlice({
@@ -47,6 +50,7 @@ const quizzesSlice = createSlice({
         state.loading = false;
         state.error = payload;
       })
+
       .addCase(editQuiz.pending, state => {
         state.loading = true;
         state.error = null;

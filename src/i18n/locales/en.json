@@ -273,5 +273,20 @@
     "RemovingQuiz": "Removing quiz...",
     "Cancel": "Cancel",
     "RemoveQuiz": "Remove quiz"
+  },
+  "QuizPage": {
+    "QuizWasAdded": "Survey added",
+    "FrequencyDays": "Frequency (days)",
+    "AboutQuiz": "About the survey",
+    "QuizResults": "Survey results",
+    "Time": "Time",
+    "Score": "Score",
+    "StartQuiz": "Start survey",
+    "TryAgain": "Try again",
+    "ReturnToCompanyPage": "Return to company page",
+    "TestStartedAt": "Test started at"
+  },
+  "Questions": {
+    "CompleteQuiz": "Complete quiz"
   }
 }

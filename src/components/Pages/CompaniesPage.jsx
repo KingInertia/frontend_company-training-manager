@@ -2,6 +2,7 @@ import React from 'react';
 import TextPage from '../UI/TextPage';
 import TableList from '../UI/TableList';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -38,17 +39,19 @@ const CompaniesPage = () => {
 
   return (
     <TextPage title={t('navigation.companies')}>
-      {!companies ? (
-        <Typography>Loading...</Typography>
-      ) : (
-        companies.length > 0 && (
-          <TableList
-            rowNames={rowNames}
-            list={cleanCompaniesList}
-            navigateType="companies"
-          />
-        )
-      )}
+      <Box sx={{ height: '80vh', overflow: 'auto' }}>
+        {!companies ? (
+          <Typography>Loading...</Typography>
+        ) : (
+          companies.length > 0 && (
+            <TableList
+              rowNames={rowNames}
+              list={cleanCompaniesList}
+              navigateType="companies"
+            />
+          )
+        )}
+      </Box>
     </TextPage>
   );
 };

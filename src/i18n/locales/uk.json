@@ -278,5 +278,20 @@
     "RemovingQuiz": "Видалення опитування...",
     "Cancel": "Скасувати",
     "RemoveQuiz": "Видалити опитування"
+  },
+  "QuizPage": {
+    "QuizWasAdded": "Опитування додано",
+    "FrequencyDays": "Кількість днів на виконання",
+    "AboutQuiz": "Про опитування",
+    "QuizResults": "Результати опитування: ",
+    "Time": "Час",
+    "Score": "Результат",
+    "StartQuiz": "Розпочати опитування",
+    "TryAgain": "Спробувати ще раз",
+    "ReturnToCompanyPage": "Повернутися на сторінку компанії",
+    "TestStartedAt": "Тест почався о"
+  },
+  "Questions": {
+    "CompleteQuiz": "Завершити опитування"
   }
 }
