@@ -15,7 +15,7 @@ import DeleteCompanyDialog from '../UI/CompanyProfile/DeleteCompanyDialog';
 import EditCompanyDialog from '../UI/CompanyProfile/EditCompanyDialog';
 import CreateQuizModal from '../UI/CompanyProfile/Quizzes/CreateQuizModal';
 import CompanyMembersList from '../UI/CompanyProfile/CompanyMembersList';
-import QuizzesList from '../UI/CompanyProfile/Quizzes/QuizzesList';
+import QuizList from '../UI/CompanyProfile/Quizzes/QuizList';
 import { selectCompanies } from '../../store/companies/companiesSelectors';
 import { selectRequests } from '../../store/companies/requests/requestsSelectors';
 import {
@@ -291,7 +291,7 @@ const CompanyProfilePage = () => {
                 membersManageState={manageState}
               />
               {userRole && (
-                <QuizzesList
+                <QuizList
                   listState={listState}
                   companyId={Number(params.slug)}
                   manageState={manageState}

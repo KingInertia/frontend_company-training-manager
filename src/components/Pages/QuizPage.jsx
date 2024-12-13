@@ -10,7 +10,7 @@ import {
   useGetQuizInfo,
   useStartQuizSession,
   useFinishQuizSession,
-} from '../../utils/router/hooks/quizzesHooks';
+} from '../../utils/router/hooks/quizHooks';
 
 const QuizPage = () => {
   const { t } = useTranslation();

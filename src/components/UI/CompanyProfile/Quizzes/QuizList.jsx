@@ -12,7 +12,7 @@ import EditQuizModal from './EditQuizModal';
 import { manageStates, listStates } from '../../../../constants/companyConst';
 import { useNavigate } from 'react-router-dom';
 
-const QuizzesList = ({ companyId, manageState, listState }) => {
+const QuizList = ({ companyId, manageState, listState }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -114,4 +114,4 @@ const QuizzesList = ({ companyId, manageState, listState }) => {
   );
 };
 
-export default QuizzesList;
+export default QuizList;

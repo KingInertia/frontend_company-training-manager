@@ -5,41 +5,64 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Button from '@mui/material/Button';
+import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 
 const Questions = ({ onSubmit, questions }) => {
   const { t } = useTranslation();
-  const [currentCorrectAnswers, setCurrentCorrectAnswers] = useState([]);
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
 
   const handleAnswerChange = (questionId, answer) => {
-    const currentAnswer = currentCorrectAnswers.find(
-      ans => ans.id === questionId,
-    );
+    const questionAnswers = selectedAnswers.find(ans => ans.id === questionId);
 
-    if (currentAnswer) {
+    if (questionAnswers) {
       let correct_answer;
 
-      if (currentAnswer.correct_answer.includes(answer)) {
-        correct_answer = currentAnswer.correct_answer.filter(
-          ans => ans !== answer,
-        );
-      } else {
-        correct_answer = [...currentAnswer.correct_answer, answer];
-      }
+      correct_answer = questionAnswers.correct_answer.includes(answer)
+        ? questionAnswers.correct_answer.filter(ans => ans !== answer)
+        : [...questionAnswers.correct_answer, answer];
 
-      const newAnswers = currentCorrectAnswers.map(answer =>
+      const newAnswers = selectedAnswers.map(answer =>
         answer.id === questionId ? { id: questionId, correct_answer } : answer,
       );
-      setCurrentCorrectAnswers(newAnswers);
+      setSelectedAnswers(newAnswers);
     } else {
-      setCurrentCorrectAnswers([
-        ...currentCorrectAnswers,
+      setSelectedAnswers([
+        ...selectedAnswers,
         {
           id: questionId,
           correct_answer: [answer],
         },
       ]);
     }
+  };
+
+  const Question = ({ question, index }) => {
+    return (
+      <Box sx={{ marginBottom: 4 }}>
+        <Typography variant="h6" gutterBottom>
+          {`${index + 1}) ${question.text}`}
+        </Typography>
+        <FormGroup>
+          {question.answers.map((answer, idx) => (
+            <FormControlLabel
+              key={uuidv4()}
+              control={
+                <Checkbox
+                  checked={
+                    selectedAnswers
+                      .find(ans => ans.id === question.id)
+                      ?.correct_answer.includes(answer) || false
+                  }
+                  onChange={() => handleAnswerChange(question.id, answer)}
+                />
+              }
+              label={`${String.fromCharCode(65 + idx)}) ${answer}`}
+            />
+          ))}
+        </FormGroup>
+      </Box>
+    );
   };
 
   return (
@@ -53,35 +76,13 @@ const Questions = ({ onSubmit, questions }) => {
         }}
       >
         {questions.map((question, index) => (
-          <Box key={question.id} sx={{ marginBottom: 4 }}>
-            <Typography variant="h6" gutterBottom>
-              {`${index + 1}) ${question.text}`}
-            </Typography>
-            <FormGroup>
-              {question.answers.map((answer, index) => (
-                <FormControlLabel
-                  key={index}
-                  control={
-                    <Checkbox
-                      checked={
-                        currentCorrectAnswers
-                          .find(ans => ans.id === question.id)
-                          ?.correct_answer.includes(answer) || false
-                      }
-                      onChange={() => handleAnswerChange(question.id, answer)}
-                    />
-                  }
-                  label={`${String.fromCharCode(65 + index)}) ${answer}`}
-                />
-              ))}
-            </FormGroup>
-          </Box>
+          <Question key={uuidv4()} question={question} index={index} />
         ))}
       </Box>
       <Button
         fullWidth
         variant="contained"
-        onClick={() => onSubmit(currentCorrectAnswers)}
+        onClick={() => onSubmit(selectedAnswers)}
         sx={{
           mb: 1,
           backgroundColor: '#e08e45',
