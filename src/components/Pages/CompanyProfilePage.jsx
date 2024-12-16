@@ -15,6 +15,7 @@ import DeleteCompanyDialog from '../UI/CompanyProfile/DeleteCompanyDialog';
 import EditCompanyDialog from '../UI/CompanyProfile/EditCompanyDialog';
 import CreateQuizModal from '../UI/CompanyProfile/Quizzes/CreateQuizModal';
 import CompanyMembersList from '../UI/CompanyProfile/CompanyMembersList';
+import AnalyticsModal from '../UI/CompanyProfile/Quizzes/analytics/AnalyticsModal';
 import QuizList from '../UI/CompanyProfile/Quizzes/QuizList';
 import { selectCompanies } from '../../store/companies/companiesSelectors';
 import { selectRequests } from '../../store/companies/requests/requestsSelectors';
@@ -38,6 +39,7 @@ const CompanyProfilePage = () => {
   const [openEditDiag, setOpenEditDiag] = useState(false);
   const [openLeaveDiag, setOpenLeaveDiag] = useState(false);
   const [openCreateQuiz, setOpenCreateQuiz] = useState(false);
+  const [openAnalytics, setOpenAnalytics] = useState(false);
   const [companyLeaveLoading, setCompanyLeaveLoading] = useState(false);
   const { t } = useTranslation();
   const { currentCompany, loading, error } = useSelector(selectCompanies);
@@ -70,7 +72,11 @@ const CompanyProfilePage = () => {
   }, [dispatch, params]);
 
   useEffect(() => {
-    dispatch(getCurrentCompany({ id: params.slug }));
+    dispatch(
+      getCurrentCompany({
+        id: params.slug,
+      }),
+    );
   }, [dispatch, params]);
 
   useEffect(() => {
@@ -180,7 +186,6 @@ const CompanyProfilePage = () => {
                 padding: '8px',
                 borderRadius: 1,
                 border: '4px solid #e08e45',
-                height: '290px',
               }}
             >
               <Typography variant="body1">
@@ -200,7 +205,6 @@ const CompanyProfilePage = () => {
                   padding: '8px',
                   borderRadius: 1,
                   border: '4px solid #e08e45',
-                  height: '290px',
                 }}
               >
                 <Button
@@ -230,7 +234,7 @@ const CompanyProfilePage = () => {
               </Grid>
             )}
             <Grid
-              size={6}
+              size={4}
               sx={{
                 display: 'flex',
                 flexGrow: 1,
@@ -274,7 +278,7 @@ const CompanyProfilePage = () => {
               </>
             </Grid>
             <Grid
-              size={4}
+              size={6}
               sx={{
                 display: 'flex',
                 flexGrow: 1,
@@ -432,6 +436,18 @@ const CompanyProfilePage = () => {
                       <Button
                         fullWidth
                         variant="contained"
+                        onClick={() => setOpenAnalytics(true)}
+                        sx={{
+                          mb: 1,
+                          backgroundColor: '#e08e45',
+                          color: '#f9e2b2',
+                        }}
+                      >
+                        {t('CompanyProfile.OpenAnalytics')}
+                      </Button>
+                      <Button
+                        fullWidth
+                        variant="contained"
                         onClick={() =>
                           manageState === manageStates.EDIT_QUIZ
                             ? setManageState('')
@@ -489,6 +505,11 @@ const CompanyProfilePage = () => {
               <CreateQuizModal
                 onClose={() => setOpenCreateQuiz(false)}
                 open={openCreateQuiz}
+                companyId={currentCompany.id}
+              />
+              <AnalyticsModal
+                onClose={() => setOpenAnalytics(false)}
+                open={openAnalytics}
                 companyId={currentCompany.id}
               />
 

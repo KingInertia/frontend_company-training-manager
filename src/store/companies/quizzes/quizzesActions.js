@@ -68,3 +68,21 @@ export const removeQuiz = createAsyncThunk(
     }
   },
 );
+
+export const getUserResults = createAsyncThunk(
+  'userProfile/userResults',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/api/v1/quizzes/user-last-completions/`,
+      );
+      return data;
+    } catch (error) {
+      if (error.response) {
+        return rejectWithValue(Object.values(error.response.data).join(' '));
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);

@@ -146,7 +146,8 @@
     "CancelEditing": "Скасувати редагування",
     "EditQuiz": "Редагувати опитування",
     "CancelRemove": "Скасувати видалення",
-    "RemoveQuiz": "Видалити опитування"
+    "RemoveQuiz": "Видалити опитування",
+    "OpenAnalytics": "Аналітика"
   },
   "AddCompanyDialog": {
     "AddCompany": "Додати компанію",
@@ -197,14 +198,20 @@
   "ProfileLists": {
     "Invitations": "Запрошення",
     "Requests": "Запити",
-    "companies": "Компанії"
+    "companies": "Компанії",
+    "QuizzesResults": "Результати опитувань"
   },
   "CompanyMembersList": {
     "SelectUserToKick": "Виберіть користувача для вигнання",
     "Members": "Учасники",
     "SelectAdminToAppoint": "Виберіть адміністратора для призначення",
     "SelectAdminToRemove": "Виберіть адміністратора щоб забрати роль",
-    "Admins": "Адміністратори"
+    "Admins": "Адміністратори",
+    "UserName": "Ім'я користувача",
+    "Company": "Компанія",
+    "User": "Користувач",
+    "Role": "Роль",
+    "LastQuiz": "Останнє опитування"
   },
   "ProfileRequestsList": {
     "Sender": "Відправник",
@@ -293,5 +300,20 @@
   },
   "Questions": {
     "CompleteQuiz": "Завершити опитування"
+  },
+  "AnalyticsModal": {
+    "EndDate": "Кінцева дата",
+    "StartDate": "Початкова дата",
+    "Apply": "Застосувати",
+    "BackToUserStatistics": "Назад до статистики користувачів",
+    "ShowAllQuizzesStatistics": "Показати статистику за всіма опитуваннями",
+    "NavigateToPage": "Перейти до сторінки"
+  },
+  "ProfileQuizzesList": {
+    "Quiz": "Опитування",
+    "Date": "Дата",
+    "QuizTitle": "Назва опитування",
+    "CorrectAnswer": "Правильна відповідь",
+    "TotalQuestions": "Загальна кількість запитань"
   }
 }
