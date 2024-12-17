@@ -5,7 +5,7 @@ import axiosInstance from '../../../api/axiosInstance';
 
 const URL = '/api/v1/quizzes/';
 
-export const useGetRating = () => {
+export const useFetchUserRating = () => {
   const dispatch = useDispatch();
   return useCallback(
     async ({ user_id }) => {
@@ -27,11 +27,13 @@ export const useGetRating = () => {
   );
 };
 
-export const useGetUserAnalytics = () => {
+export const useCurrentUserScores = () => {
   const dispatch = useDispatch();
   return useCallback(async () => {
     try {
-      const { data } = await axiosInstance.get(`${URL}user-dynamic-scores/`);
+      const { data } = await axiosInstance.get(
+        `${URL}current-user-dynamic-scores/`,
+      );
       return data;
     } catch (error) {
       const errorMessage = error.response

@@ -23,7 +23,7 @@ import {
 } from '../../store/userProfile/userProfileActions';
 import { selectUserProfile } from '../../store/userProfile/userProfileSelectors';
 import { setSnackbarMessage } from '../../store/UI/snackbarSlice';
-import { useGetRating } from '../../utils/router/hooks/profileAnalyticsHooks';
+import { useFetchUserRating } from '../../utils/router/hooks/userAnalyticsHooks';
 
 const UsersProfilePage = () => {
   const params = useParams();
@@ -41,7 +41,7 @@ const UsersProfilePage = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const [rating, setRating] = useState(null);
   const { t } = useTranslation();
-  const getRating = useGetRating();
+  const fetchUserRating = useFetchUserRating();
 
   const isActiveUser = Number(params.slug) === id;
   const userProfile = isActiveUser ? activeUserProfile : viewedUserProfile;
@@ -59,14 +59,11 @@ const UsersProfilePage = () => {
 
   useEffect(() => {
     async function ratingInfo() {
-      async function ratingInfo() {
-        const ratingInf = await getRating({ user_id: params.slug });
-        setRating((ratingInf.user_rating / 100) * 5);
-      }
-      ratingInfo();
+      const ratingInf = await fetchUserRating({ user_id: params.slug });
+      setRating((ratingInf.user_rating / 100) * 5);
     }
     ratingInfo();
-  }, [getRating, params.slug, dispatch]);
+  }, [fetchUserRating, params.slug, dispatch]);
 
   useEffect(() => {
     if (error) {

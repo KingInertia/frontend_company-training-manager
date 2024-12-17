@@ -307,7 +307,9 @@
     "Apply": "Застосувати",
     "BackToUserStatistics": "Назад до статистики користувачів",
     "ShowAllQuizzesStatistics": "Показати статистику за всіма опитуваннями",
-    "NavigateToPage": "Перейти до сторінки"
+    "NavigateToPage": "Перейти до сторінки",
+    "User": "Користувач",
+    "Quiz": "Опитування"
   },
   "ProfileQuizzesList": {
     "Quiz": "Опитування",
@@ -315,5 +317,8 @@
     "QuizTitle": "Назва опитування",
     "CorrectAnswer": "Правильна відповідь",
     "TotalQuestions": "Загальна кількість запитань"
+  },
+  "ProfileAnalyticsModal": {
+    "QuizResults": "Середній бал по всім опитуванням"
   }
 }

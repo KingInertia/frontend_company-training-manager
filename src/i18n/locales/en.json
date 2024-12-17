@@ -302,7 +302,9 @@
     "Apply": "Apply",
     "BackToUserStatistics": "Back to User Statistics",
     "ShowAllQuizzesStatistics": "Show Statistics for All Quizzes",
-    "NavigateToPage": "Navigate to Page"
+    "NavigateToPage": "Navigate to Page",
+    "User": "User",
+    "Quiz": "Quiz"
   },
   "ProfileQuizzesList": {
     "Quiz": "Quiz",
@@ -310,5 +312,8 @@
     "QuizTitle": "Quiz Title",
     "CorrectAnswer": "Correct Answer",
     "TotalQuestions": "Total Questions"
+  },
+  "ProfileAnalyticsModal": {
+    "QuizResults": "All quizzes avarage score"
   }
 }

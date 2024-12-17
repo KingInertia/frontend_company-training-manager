@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import TextPage from '../TextPage';
 import Chart from '../CompanyProfile/Quizzes/analytics/Chart';
 import { format } from 'date-fns';
-import { useGetUserAnalytics } from '../../../utils/router/hooks/profileAnalyticsHooks';
+import { useCurrentUserScores } from '../../../utils/router/hooks/userAnalyticsHooks';
 
 const ProfileAnalyticsModal = ({ open, onClose }) => {
   const { t } = useTranslation();
@@ -22,54 +22,51 @@ const ProfileAnalyticsModal = ({ open, onClose }) => {
     datasets: [],
   });
   const [filteredData, setFilteredData] = useState(null);
-  const getAnalytics = useGetUserAnalytics();
+  const currentUserScores = useCurrentUserScores();
 
-  const createStatisticData = useCallback(data => {
-    const allDates = [];
-    data.forEach(statistic_obj => {
-      statistic_obj.dynamic_time.forEach(item => {
-        const date = format(new Date(item.day), 'yyyy-MM-dd');
+  const createStatisticData = useCallback(
+    data => {
+      const allDates = [];
+
+      data.forEach(item => {
+        const date = format(new Date(item.date), 'yyyy-MM-dd HH:mm:ss');
         if (!allDates.includes(date)) {
           allDates.push(date);
         }
       });
-    });
 
-    allDates.sort((a, b) => new Date(a) - new Date(b));
+      const datasets = [
+        {
+          label: t('ProfileAnalyticsModal.QuizResults'),
+          data: allDates.map(date => {
+            const entry = data.find(
+              item =>
+                format(new Date(item.date), 'yyyy-MM-dd HH:mm:ss') === date,
+            );
+            return entry ? entry.score : null;
+          }),
+        },
+      ];
 
-    const datasets = data.map(statistic_obj => {
-      const statisticData = allDates.map(date => {
-        const entry = statistic_obj.dynamic_time.find(
-          item => format(new Date(item.day), 'yyyy-MM-dd') === date,
-        );
-
-        return entry ? entry.average_score : null;
+      setChartData({
+        labels: allDates,
+        datasets: datasets,
       });
-
-      return {
-        label: `Quiz ${statistic_obj.id}`,
-        data: statisticData,
-      };
-    });
-    setChartData({
-      labels: allDates,
-      datasets: datasets,
-    });
-  }, []);
+    },
+    [t],
+  );
 
   useEffect(() => {
     setLoading(true);
     async function statisticInfo() {
-      const analiticsData = await getAnalytics();
+      const analiticsData = await currentUserScores();
       if (analiticsData) {
         createStatisticData(analiticsData);
       }
+      setLoading(false);
     }
-
-    setLoading(false);
-
     statisticInfo();
-  }, [createStatisticData, getAnalytics]);
+  }, [createStatisticData, currentUserScores]);
 
   const handleDateFilter = () => {
     if (!startDate && !endDate) {
@@ -133,7 +130,13 @@ const ProfileAnalyticsModal = ({ open, onClose }) => {
                   <Button
                     variant="contained"
                     onClick={handleDateFilter}
-                    sx={{ height: '56px' }}
+                    sx={{
+                      height: '56px',
+                      mr: 1,
+                      ml: 1,
+                      backgroundColor: '#e08e45',
+                      color: '#f9e2b2',
+                    }}
                   >
                     {t('AnalyticsModal.Apply')}
                   </Button>

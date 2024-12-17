@@ -5,21 +5,39 @@ import axiosInstance from '../../../api/axiosInstance';
 
 const URL = '/api/v1/quizzes/';
 
-export const useGetAnalytics = () => {
+export const useFetchCompanyScores = () => {
+  const dispatch = useDispatch();
+  return useCallback(
+    async ({ company_id }) => {
+      try {
+        const { data } = await axiosInstance.get(
+          `${URL}users-dynamic-scores/`,
+          {
+            params: { company_id },
+          },
+        );
+        return data;
+      } catch (error) {
+        const errorMessage = error.response
+          ? Object.values(error.response.data).join(' ')
+          : error.message;
+        dispatch(setSnackbarMessage(errorMessage));
+
+        return null;
+      }
+    },
+    [dispatch],
+  );
+};
+
+export const useFetchUserScores = () => {
   const dispatch = useDispatch();
   return useCallback(
     async ({ company_id, user_id }) => {
-      const params = { company_id };
-
-      if (user_id) params.user_id = user_id;
-
       try {
-        const { data } = await axiosInstance.get(
-          `${URL}company-dynamic-scores/`,
-          {
-            params: params,
-          },
-        );
+        const { data } = await axiosInstance.get(`${URL}user-dynamic-scores/`, {
+          params: { company_id, user_id },
+        });
         return data;
       } catch (error) {
         const errorMessage = error.response

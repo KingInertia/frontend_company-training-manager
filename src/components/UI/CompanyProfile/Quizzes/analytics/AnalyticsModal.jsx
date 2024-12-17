@@ -13,7 +13,10 @@ import { useNavigate } from 'react-router-dom';
 import TextPage from '../../../TextPage';
 import Chart from './Chart';
 import { format } from 'date-fns';
-import { useGetAnalytics } from '../../../../../utils/router/hooks/companyAnalyticsHooks';
+import {
+  useFetchCompanyScores,
+  useFetchUserScores,
+} from '../../../../../utils/router/hooks/companyAnalyticsHooks';
 import { analitycsStates } from '../../../../../constants/companyConst';
 
 const AnalyticsModal = ({ open, onClose, companyId }) => {
@@ -30,14 +33,15 @@ const AnalyticsModal = ({ open, onClose, companyId }) => {
   const [selectedEntity, setSelectedEntity] = useState(null);
   const [menuLocation, setMenuLocation] = useState(null);
   const [analyticsType, setAnalyticsType] = useState(analitycsStates.USERS);
-  const getAnalytics = useGetAnalytics();
+  const fetchUserScores = useFetchUserScores();
+  const fetchCompanyScores = useFetchCompanyScores();
 
   const createStatisticData = useCallback(
     data => {
       const allDates = [];
       data.forEach(statistic_obj => {
-        statistic_obj.dynamic_time.forEach(item => {
-          const date = format(new Date(item.day), 'yyyy-MM-dd');
+        statistic_obj.scores.forEach(item => {
+          const date = format(new Date(item.date), 'yyyy-MM-dd HH:mm:ss');
           if (!allDates.includes(date)) {
             allDates.push(date);
           }
@@ -48,18 +52,18 @@ const AnalyticsModal = ({ open, onClose, companyId }) => {
 
       const datasets = data.map(statistic_obj => {
         const statisticData = allDates.map(date => {
-          const entry = statistic_obj.dynamic_time.find(
-            item => format(new Date(item.day), 'yyyy-MM-dd') === date,
+          const entry = statistic_obj.scores.find(
+            item => format(new Date(item.date), 'yyyy-MM-dd HH:mm:ss') === date,
           );
 
-          return entry ? entry.average_score : null;
+          return entry ? entry.score : null;
         });
 
         return {
           label:
             analyticsType === analitycsStates.USERS
-              ? `User ${statistic_obj.id}`
-              : `Quiz ${statistic_obj.id}`,
+              ? t('AnalyticsModal.User') + ` ${statistic_obj.id}`
+              : t('AnalyticsModal.Quiz') + ` ${statistic_obj.id}`,
           data: statisticData,
         };
       });
@@ -69,7 +73,7 @@ const AnalyticsModal = ({ open, onClose, companyId }) => {
         datasets: datasets,
       });
     },
-    [analyticsType],
+    [analyticsType, t],
   );
 
   useEffect(() => {
@@ -77,9 +81,9 @@ const AnalyticsModal = ({ open, onClose, companyId }) => {
     async function statisticInfo() {
       let analiticsData = {};
       if (analyticsType === analitycsStates.USERS) {
-        analiticsData = await getAnalytics({ company_id: companyId });
+        analiticsData = await fetchCompanyScores({ company_id: companyId });
       } else {
-        analiticsData = await getAnalytics({
+        analiticsData = await fetchUserScores({
           company_id: companyId,
           user_id: selectedEntity,
         });
@@ -95,7 +99,8 @@ const AnalyticsModal = ({ open, onClose, companyId }) => {
   }, [
     analyticsType,
     companyId,
-    getAnalytics,
+    fetchCompanyScores,
+    fetchUserScores,
     createStatisticData,
     selectedEntity,
   ]);
@@ -191,7 +196,13 @@ const AnalyticsModal = ({ open, onClose, companyId }) => {
                   <Button
                     variant="contained"
                     onClick={handleDateFilter}
-                    sx={{ height: '56px' }}
+                    sx={{
+                      height: '56px',
+                      mr: 1,
+                      ml: 1,
+                      backgroundColor: '#e08e45',
+                      color: '#f9e2b2',
+                    }}
                   >
                     {t('AnalyticsModal.Apply')}
                   </Button>
@@ -199,7 +210,13 @@ const AnalyticsModal = ({ open, onClose, companyId }) => {
                     <Button
                       variant="contained"
                       onClick={handleUsersAnalytics}
-                      sx={{ height: '56px' }}
+                      sx={{
+                        height: '56px',
+                        mr: 1,
+                        ml: 1,
+                        backgroundColor: '#e08e45',
+                        color: '#f9e2b2',
+                      }}
                     >
                       {t('AnalyticsModal.BackToUserStatistics')}
                     </Button>
