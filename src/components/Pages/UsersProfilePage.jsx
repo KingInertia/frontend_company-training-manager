@@ -9,7 +9,7 @@ import Rating from '@mui/material/Rating';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import TextPage from '../UI/TextPage';
+import PageContainer from '../UI/PageContainer';
 import DeleteAccoutDialog from '../UI/UserProfile/DeleteAccoutDialog';
 import CreateCompanyDialog from '../UI/UserProfile/CreateCompanyDialog';
 import InviteCompanyDialog from '../UI/UserProfile/InviteCompanyDialog';
@@ -23,7 +23,7 @@ import {
 } from '../../store/userProfile/userProfileActions';
 import { selectUserProfile } from '../../store/userProfile/userProfileSelectors';
 import { setSnackbarMessage } from '../../store/UI/snackbarSlice';
-import { useFetchUserRating } from '../../utils/router/hooks/userAnalyticsHooks';
+import { useFetchUserRating } from '../../utils/hooks/userAnalyticsHooks';
 
 const UsersProfilePage = () => {
   const params = useParams();
@@ -139,7 +139,7 @@ const UsersProfilePage = () => {
   };
 
   return (
-    <TextPage>
+    <PageContainer>
       {loading ? (
         <Typography>{t('UserProfile.Loading')}</Typography>
       ) : (
@@ -498,7 +498,7 @@ const UsersProfilePage = () => {
         open={openAddCompanyDiag}
         handleClose={handleCloseAddCompanyDiag}
       />
-    </TextPage>
+    </PageContainer>
   );
 };
 

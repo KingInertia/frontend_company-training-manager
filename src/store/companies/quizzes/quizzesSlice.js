@@ -4,7 +4,6 @@ import {
   getCompanyQuizzes,
   editQuiz,
   removeQuiz,
-  getUserResults,
 } from './quizzesActions';
 
 const initialState = {
@@ -12,7 +11,6 @@ const initialState = {
   loading: false,
   error: null,
   success: false,
-  userResults: [],
 };
 
 const quizzesSlice = createSlice({
@@ -77,19 +75,6 @@ const quizzesSlice = createSlice({
         state.success = true;
       })
       .addCase(removeQuiz.rejected, (state, { payload }) => {
-        state.loading = false;
-        state.error = payload;
-      })
-
-      .addCase(getUserResults.pending, state => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getUserResults.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.userResults = payload;
-      })
-      .addCase(getUserResults.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       });

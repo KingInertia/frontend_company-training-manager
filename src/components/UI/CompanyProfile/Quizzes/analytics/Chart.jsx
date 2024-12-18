@@ -32,7 +32,8 @@ const Chart = ({ chartData, entityManage }) => {
         legend: {
           position: 'top',
           onClick: (e, legendItem) => {
-            if (entityManage) entityManage({ e, id: legendItem.text });
+            const dataset = chartData.datasets[legendItem.datasetIndex];
+            if (entityManage) entityManage({ e, id: dataset.customId });
           },
         },
         autocolors: {
@@ -47,7 +48,7 @@ const Chart = ({ chartData, entityManage }) => {
         },
       },
     }),
-    [entityManage],
+    [entityManage, chartData],
   );
 
   return (

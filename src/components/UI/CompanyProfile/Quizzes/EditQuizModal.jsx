@@ -13,7 +13,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import TextPage from '../../TextPage';
+import PageContainer from '../../PageContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { editQuiz } from '../../../../store/companies/quizzes/quizzesActions';
 import { selectQuizzes } from '../../../../store/companies/quizzes/quizzesSelectors';
@@ -145,7 +145,7 @@ const EditQuizModal = ({ open, onClose, quiz }) => {
           minHeight: '600px',
         }}
       >
-        <TextPage title={t('EditQuizModal.EditCurrentQuiz')}>
+        <PageContainer title={t('EditQuizModal.EditCurrentQuiz')}>
           {loading ? (
             <Typography>{t('EditQuizModal.EditingQuiz')}</Typography>
           ) : (
@@ -355,7 +355,7 @@ const EditQuizModal = ({ open, onClose, quiz }) => {
               </Button>
             </>
           )}
-        </TextPage>
+        </PageContainer>
       </Box>
     </Modal>
   );

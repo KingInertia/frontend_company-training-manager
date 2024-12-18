@@ -1,17 +1,16 @@
 import React from 'react';
 import TableList from '../../TableList';
 import Typography from '@mui/material/Typography';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getUserResults } from '../../../../store/companies/quizzes/quizzesActions';
-import { setSnackbarMessage } from '../../../../store/UI/snackbarSlice';
-import { selectQuizzes } from '../../../../store/companies/quizzes/quizzesSelectors';
+import axiosInstance from '../../../../api/axiosInstance';
 
-const ProfileCompaniesList = ({ userId }) => {
+const ProfileQuizzesList = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { error, userResults } = useSelector(selectQuizzes);
+  const [loading, setLoading] = useState(true);
+  const [userResults, setUserResults] = useState(true);
 
   const rowNames = [
     t('ProfileQuizzesList.Quiz'),
@@ -22,18 +21,30 @@ const ProfileCompaniesList = ({ userId }) => {
   ];
 
   useEffect(() => {
-    dispatch(getUserResults());
-  }, [dispatch, userId]);
+    const fetchUserResults = async () => {
+      setLoading(true);
+      try {
+        const { data } = await axiosInstance.get(
+          '/api/v1/quizzes/user-last-completions/',
+        );
+        setUserResults(data);
+        setLoading(false);
+      } catch (error) {
+        if (error.response) {
+          dispatch(Object.values(error.response.data).join(' '));
+        } else {
+          dispatch(error.message);
+        }
+        setLoading(false);
+      }
+    };
 
-  useEffect(() => {
-    if (error) {
-      dispatch(setSnackbarMessage(error));
-    }
-  }, [error, dispatch]);
+    fetchUserResults();
+  }, [dispatch]);
 
   return (
     <>
-      {!userResults ? (
+      {loading ? (
         <Typography>Loading...</Typography>
       ) : (
         userResults.length > 0 && (
@@ -49,4 +60,4 @@ const ProfileCompaniesList = ({ userId }) => {
   );
 };
 
-export default ProfileCompaniesList;
+export default ProfileQuizzesList;

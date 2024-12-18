@@ -1,5 +1,5 @@
 import React from 'react';
-import TextPage from '../UI/TextPage';
+import PageContainer from '../UI/PageContainer';
 import TableList from '../UI/TableList';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -38,7 +38,7 @@ const CompaniesPage = () => {
   }, [error, dispatch]);
 
   return (
-    <TextPage title={t('navigation.companies')}>
+    <PageContainer title={t('navigation.companies')}>
       <Box sx={{ height: '80vh', overflow: 'auto' }}>
         {!companies ? (
           <Typography>Loading...</Typography>
@@ -52,7 +52,7 @@ const CompaniesPage = () => {
           )
         )}
       </Box>
-    </TextPage>
+    </PageContainer>
   );
 };
 

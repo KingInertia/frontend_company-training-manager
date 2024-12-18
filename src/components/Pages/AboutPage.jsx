@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import TextPage from '../UI/TextPage';
+import PageContainer from '../UI/PageContainer';
 import { useTranslation } from 'react-i18next';
 
 const AboutPage = () => {
@@ -10,7 +10,7 @@ const AboutPage = () => {
   return (
     <Grid container spacing={2} sx={{ width: '100%' }}>
       <Grid size={8} sx={{ display: 'flex', flexGrow: 1 }}>
-        <TextPage title={t('aboutPage.aboutUs')} titleVariant="h4">
+        <PageContainer title={t('aboutPage.aboutUs')} titleVariant="h4">
           <Box
             sx={{
               padding: '8px',
@@ -21,10 +21,10 @@ const AboutPage = () => {
           >
             <Typography variant="body1">{t('aboutPage.aboutText')}</Typography>
           </Box>
-        </TextPage>
+        </PageContainer>
       </Grid>
       <Grid size={4} sx={{ display: 'flex', flexGrow: 1 }}>
-        <TextPage title={t('aboutPage.contacts')} titleVariant="h4">
+        <PageContainer title={t('aboutPage.contacts')} titleVariant="h4">
           <Box
             sx={{
               padding: '8px',
@@ -39,7 +39,7 @@ const AboutPage = () => {
               Link 3 <br />
             </Typography>
           </Box>
-        </TextPage>
+        </PageContainer>
       </Grid>
     </Grid>
   );

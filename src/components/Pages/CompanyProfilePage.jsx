@@ -10,12 +10,12 @@ import DialogContent from '@mui/material/DialogContent';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import TextPage from '../UI/TextPage';
+import PageContainer from '../UI/PageContainer';
 import DeleteCompanyDialog from '../UI/CompanyProfile/DeleteCompanyDialog';
 import EditCompanyDialog from '../UI/CompanyProfile/EditCompanyDialog';
 import CreateQuizModal from '../UI/CompanyProfile/Quizzes/CreateQuizModal';
 import CompanyMembersList from '../UI/CompanyProfile/CompanyMembersList';
-import AnalyticsModal from '../UI/CompanyProfile/Quizzes/analytics/AnalyticsModal';
+import CompanyAnalyticsModal from '../UI/CompanyProfile/Quizzes/analytics/CompanyAnalyticsModal';
 import QuizList from '../UI/CompanyProfile/Quizzes/QuizList';
 import { selectCompanies } from '../../store/companies/companiesSelectors';
 import { selectRequests } from '../../store/companies/requests/requestsSelectors';
@@ -132,7 +132,7 @@ const CompanyProfilePage = () => {
   };
 
   return (
-    <TextPage>
+    <PageContainer>
       {loading ? (
         <Typography>{t('CompanyProfile.loading')}</Typography>
       ) : (
@@ -507,7 +507,7 @@ const CompanyProfilePage = () => {
                 open={openCreateQuiz}
                 companyId={currentCompany.id}
               />
-              <AnalyticsModal
+              <CompanyAnalyticsModal
                 onClose={() => setOpenAnalytics(false)}
                 open={openAnalytics}
                 companyId={currentCompany.id}
@@ -582,7 +582,7 @@ const CompanyProfilePage = () => {
           </Grid>
         )
       )}
-    </TextPage>
+    </PageContainer>
   );
 };
 

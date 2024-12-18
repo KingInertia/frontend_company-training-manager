@@ -18,7 +18,7 @@ export const manageStates = {
   REMOVE_QUIZ: 'remove quiz',
 };
 
-export const analitycsStates = {
-  USERS: 'Users',
-  QUIZZES: 'Quizzes',
+export const analitycStates = {
+  USERS: 'users',
+  QUIZZES: 'quizzes',
 };
