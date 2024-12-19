@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { setSnackbarMessage } from '../../../store/UI/snackbarSlice';
-import axiosInstance from '../../../api/axiosInstance';
+import { setSnackbarMessage } from '../../store/UI/snackbarSlice';
+import axiosInstance from '../../api/axiosInstance';
 
 const URL = '/api/v1/quizzes/';
 

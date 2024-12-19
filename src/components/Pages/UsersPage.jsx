@@ -1,5 +1,5 @@
 import React from 'react';
-import TextPage from '../UI/TextPage';
+import PageContainer from '../UI/PageContainer';
 import TableList from '../UI/TableList';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -52,7 +52,7 @@ const UsersPage = () => {
   }, [error, dispatch]);
 
   return (
-    <TextPage title={t('navigation.users')}>
+    <PageContainer title={t('navigation.users')}>
       {!users ? (
         <Typography>Loading...</Typography>
       ) : (
@@ -66,7 +66,7 @@ const UsersPage = () => {
           </Box>
         )
       )}
-    </TextPage>
+    </PageContainer>
   );
 };
 

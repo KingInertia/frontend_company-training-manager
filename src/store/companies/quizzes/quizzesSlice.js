@@ -11,9 +11,6 @@ const initialState = {
   loading: false,
   error: null,
   success: false,
-  currentQuiz: null,
-  quizSession: null,
-  quizResult: null,
 };
 
 const quizzesSlice = createSlice({

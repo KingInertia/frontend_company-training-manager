@@ -16,7 +16,7 @@ const Item = styled(Paper)(({ theme }) => ({
   flexDirection: 'column',
 }));
 
-const TextPage = ({ title, titleVariant = 'h4', children }) => {
+const PageContainer = ({ title, titleVariant = 'h4', children }) => {
   return (
     <Item>
       {title && (
@@ -39,4 +39,4 @@ const TextPage = ({ title, titleVariant = 'h4', children }) => {
   );
 };
 
-export default TextPage;
+export default PageContainer;

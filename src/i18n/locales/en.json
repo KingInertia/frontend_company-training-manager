@@ -141,7 +141,8 @@
     "CancelEditing": "Cancel editing",
     "EditQuiz": "Edit quiz",
     "CancelRemove": "Cancel remove",
-    "RemoveQuiz": "Remove quiz"
+    "RemoveQuiz": "Remove quiz",
+    "OpenAnalytics": "Analytics"
   },
   "AddCompanyDialog": {
     "AddCompany": "Add Company",
@@ -192,14 +193,20 @@
   "ProfileLists": {
     "Invitations": "Invitations",
     "Requests": "Requests",
-    "companies": "Companies"
+    "companies": "Companies",
+    "QuizzesResults": "Quizzes Results"
   },
   "CompanyMembersList": {
     "SelectUserToKick": "Select user to kick",
     "Members": "Members",
     "SelectAdminToAppoint": "Select admin to appoint",
     "SelectAdminToRemove": "Select admin to remove",
-    "Admins": "Admins"
+    "Admins": "Admins",
+    "UserName": "User Name",
+    "Company": "Company",
+    "User": "User",
+    "Role": "Role",
+    "LastQuiz": "Last Quiz"
   },
   "ProfileRequestsList": {
     "Sender": "Sender",
@@ -288,5 +295,25 @@
   },
   "Questions": {
     "CompleteQuiz": "Complete quiz"
+  },
+  "AnalyticsModal": {
+    "EndDate": "End Date",
+    "StartDate": "Start Date",
+    "Apply": "Apply",
+    "BackToUserStatistics": "Back to User Statistics",
+    "ShowAllQuizzesStatistics": "Show Statistics for All Quizzes",
+    "NavigateToPage": "Navigate to Page",
+    "User": "User",
+    "Quiz": "Quiz"
+  },
+  "ProfileQuizzesList": {
+    "Quiz": "Quiz",
+    "Date": "Date",
+    "QuizTitle": "Quiz Title",
+    "CorrectAnswer": "Correct Answer",
+    "TotalQuestions": "Total Questions"
+  },
+  "ProfileAnalyticsModal": {
+    "QuizResults": "All quizzes avarage score"
   }
 }

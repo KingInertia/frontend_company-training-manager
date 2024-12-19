@@ -26,8 +26,13 @@ const CompanyMembersList = ({ companyId, membersManageState, listState }) => {
   const navigate = useNavigate();
   const { error, currentCompanyMembers, currentCompanyAdmins } =
     useSelector(selectCompanyMembers);
-  const rowNames = [];
-
+  const rowNames = [
+    t('CompanyMembersList.UserName'),
+    t('CompanyMembersList.Company'),
+    t('CompanyMembersList.User'),
+    t('CompanyMembersList.Role'),
+    t('CompanyMembersList.LastQuiz'),
+  ];
   useEffect(() => {
     dispatch(getCompanyMembers({ companyId }));
     dispatch(getCompanyAdmins({ companyId }));
@@ -107,6 +112,7 @@ const CompanyMembersList = ({ companyId, membersManageState, listState }) => {
                 rowNames={rowNames}
                 list={currentCompanyMembers}
                 onClick={handleMemberControl}
+                headTextSize="h7"
               />
             )
           )}

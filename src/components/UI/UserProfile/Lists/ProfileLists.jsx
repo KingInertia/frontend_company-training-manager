@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import ProfileCompaniesList from './ProfileCompanyList';
 import ProfileInvitationsList from './ProfileInvitationsList';
 import ProfileRequestsList from './ProfileRequestsList';
+import ProfileQuizzesList from './ProfileQuizzesList';
 import { useParams } from 'react-router-dom';
 
 const ProfileLists = ({ isActiveUser }) => {
@@ -15,6 +16,7 @@ const ProfileLists = ({ isActiveUser }) => {
     COMPANY: 'Companies',
     INVITATIONS: 'Invitations',
     REQUESTS: 'Requests',
+    QUIZZES: 'Quizzes',
   };
   const [tableListState, setTableListState] = useState(listStates.COMPANY);
   const handleListStateChange = listState => {
@@ -80,6 +82,24 @@ const ProfileLists = ({ isActiveUser }) => {
             >
               {t('ProfileLists.Requests')}
             </Button>
+            <Button
+              onClick={() => handleListStateChange(listStates.QUIZZES)}
+              variant="contained"
+              sx={{
+                backgroundColor: '#e08e45',
+                padding: '8px',
+                borderRadius: 1,
+                textAlign: 'center',
+                mb: '8px',
+                mr: '2px',
+                ml: '2px',
+                flex: 1,
+                height: '48px',
+                color: '#f9e2b2',
+              }}
+            >
+              {t('ProfileLists.QuizzesResults')}
+            </Button>
           </Box>
 
           {tableListState === listStates.COMPANY && (
@@ -91,6 +111,8 @@ const ProfileLists = ({ isActiveUser }) => {
           )}
 
           {tableListState === listStates.REQUESTS && <ProfileRequestsList />}
+
+          {tableListState === listStates.QUIZZES && <ProfileQuizzesList />}
         </>
       ) : (
         <>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import TextPage from '../UI/TextPage';
+import PageContainer from '../UI/PageContainer';
 import Questions from '../UI/CompanyProfile/Quizzes/Questions';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,7 @@ import {
   useGetQuizInfo,
   useStartQuizSession,
   useFinishQuizSession,
-} from '../../utils/router/hooks/quizHooks';
+} from '../../utils/hooks/quizHooks';
 
 const QuizPage = () => {
   const { t } = useTranslation();
@@ -48,7 +48,7 @@ const QuizPage = () => {
   };
 
   return (
-    <TextPage
+    <PageContainer
       title={loading || !currentQuiz ? 'Loading...' : currentQuiz.title}
       titleVariant="h4"
       fiXheight={false}
@@ -137,7 +137,7 @@ const QuizPage = () => {
           </>
         </>
       )}
-    </TextPage>
+    </PageContainer>
   );
 };
 

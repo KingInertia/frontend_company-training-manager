@@ -5,13 +5,15 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Input from '@mui/material/Input';
+import Rating from '@mui/material/Rating';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import TextPage from '../UI/TextPage';
+import PageContainer from '../UI/PageContainer';
 import DeleteAccoutDialog from '../UI/UserProfile/DeleteAccoutDialog';
 import CreateCompanyDialog from '../UI/UserProfile/CreateCompanyDialog';
 import InviteCompanyDialog from '../UI/UserProfile/InviteCompanyDialog';
+import ProfileAnalyticsModal from '../UI/UserProfile/ProfileAnalyticsModal';
 import ProfileLists from '../UI/UserProfile/Lists/ProfileLists';
 
 import { getCurrentUser } from '../../store/users/usersActions';
@@ -21,6 +23,7 @@ import {
 } from '../../store/userProfile/userProfileActions';
 import { selectUserProfile } from '../../store/userProfile/userProfileSelectors';
 import { setSnackbarMessage } from '../../store/UI/snackbarSlice';
+import { useFetchUserRating } from '../../utils/hooks/userAnalyticsHooks';
 
 const UsersProfilePage = () => {
   const params = useParams();
@@ -28,6 +31,7 @@ const UsersProfilePage = () => {
   const dispatch = useDispatch();
   const [openDelDiag, setOpenDelDiag] = useState(false);
   const [openAddCompanyDiag, setOpenAddCompanyDiag] = useState(false);
+  const [openAnalytics, setOpenAnalytics] = useState(false);
   const [openInviteDiag, setOpenInviteDiag] = useState(false);
   const [editMod, setEditMod] = useState(false);
   const { id } = useSelector(selectUserProfile) || {};
@@ -35,7 +39,9 @@ const UsersProfilePage = () => {
   const viewedUserProfile = useSelector(state => state.users);
   const [avatar, setAvatar] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+  const [rating, setRating] = useState(null);
   const { t } = useTranslation();
+  const fetchUserRating = useFetchUserRating();
 
   const isActiveUser = Number(params.slug) === id;
   const userProfile = isActiveUser ? activeUserProfile : viewedUserProfile;
@@ -50,6 +56,14 @@ const UsersProfilePage = () => {
       dispatch(getCurrentUser({ id: params.slug }));
     }
   }, [isActiveUser, params.slug, dispatch]);
+
+  useEffect(() => {
+    async function ratingInfo() {
+      const ratingInf = await fetchUserRating({ user_id: params.slug });
+      setRating((ratingInf.user_rating / 100) * 5);
+    }
+    ratingInfo();
+  }, [fetchUserRating, params.slug, dispatch]);
 
   useEffect(() => {
     if (error) {
@@ -125,7 +139,7 @@ const UsersProfilePage = () => {
   };
 
   return (
-    <TextPage>
+    <PageContainer>
       {loading ? (
         <Typography>{t('UserProfile.Loading')}</Typography>
       ) : (
@@ -202,6 +216,27 @@ const UsersProfilePage = () => {
                 <Typography variant="body1">
                   {t('UserProfile.Active')}:{' '}
                   {user.is_active ? t('UserProfile.Yes') : t('UserProfile.No')}
+                </Typography>
+                <Typography variant="body1">
+                  Rating:{' '}
+                  {rating !== null ? (
+                    <Rating
+                      name="rating"
+                      value={rating}
+                      precision={0.1}
+                      readOnly
+                      sx={{
+                        '& .MuiRating-iconFilled': {
+                          color: '#f9e2b2',
+                        },
+                        '& .MuiRating-iconEmpty': {
+                          color: 'gray',
+                        },
+                      }}
+                    />
+                  ) : (
+                    'loading...'
+                  )}
                 </Typography>
               </Grid>
               {isActiveUser && (
@@ -415,6 +450,22 @@ const UsersProfilePage = () => {
                     >
                       {t('UserProfile.AddCompany')}
                     </Button>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      onClick={() => setOpenAnalytics(true)}
+                      sx={{
+                        mb: 1,
+                        backgroundColor: '#e08e45',
+                        color: '#f9e2b2',
+                      }}
+                    >
+                      {t('CompanyProfile.OpenAnalytics')}
+                    </Button>
+                    <ProfileAnalyticsModal
+                      onClose={() => setOpenAnalytics(false)}
+                      open={openAnalytics}
+                    />
                   </>
                 ) : (
                   <>
@@ -447,7 +498,7 @@ const UsersProfilePage = () => {
         open={openAddCompanyDiag}
         handleClose={handleCloseAddCompanyDiag}
       />
-    </TextPage>
+    </PageContainer>
   );
 };
 
