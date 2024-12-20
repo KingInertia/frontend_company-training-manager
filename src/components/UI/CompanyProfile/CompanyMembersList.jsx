@@ -127,10 +127,7 @@ const CompanyMembersList = ({ companyId, membersManageState, listState }) => {
                 padding: '8px',
                 borderRadius: 1,
                 textAlign: 'center',
-                mb: '8px',
-                mt: '8px',
-                mr: '2px',
-                ml: '2px',
+                margin: '8px 2px 8px 2px',
                 height: '48px',
                 color: '#f9e2b2',
               }}

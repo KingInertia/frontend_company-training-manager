@@ -9,6 +9,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
 import axiosInstance from '../../../api/axiosInstance';
 import { setSnackbarMessage } from '../../../store/UI/snackbarSlice';
+import { downloadFile } from '../../../utils/downloadFileUtil';
 
 const UserExportDialog = ({ open, handleClose, quizId }) => {
   const dispatch = useDispatch();
@@ -24,13 +25,7 @@ const UserExportDialog = ({ open, handleClose, quizId }) => {
           responseType: 'blob',
         },
       );
-      const url = window.URL.createObjectURL(new Blob([results.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `results.${fileType}`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      downloadFile(results.data, `results.${fileType}`);
       setLoading(false);
     } catch (error) {
       if (error.response) {

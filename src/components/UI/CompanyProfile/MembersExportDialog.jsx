@@ -9,6 +9,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
 import axiosInstance from '../../../api/axiosInstance';
 import { setSnackbarMessage } from '../../../store/UI/snackbarSlice';
+import { downloadFile } from '../../../utils/downloadFileUtil';
 
 const MembersExportDialog = ({ open, handleClose, member, companyId }) => {
   const { t } = useTranslation();
@@ -20,8 +21,6 @@ const MembersExportDialog = ({ open, handleClose, member, companyId }) => {
 
     const params = { company_id: companyId, file_type: fileType };
     if (member) params.user_id = member.user;
-    console.log(params);
-    console.log(member);
 
     try {
       const response = await axiosInstance.get(
@@ -31,14 +30,7 @@ const MembersExportDialog = ({ open, handleClose, member, companyId }) => {
           responseType: 'blob',
         },
       );
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `results.${fileType}`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      downloadFile(response.data, `results.${fileType}`);
       setLoading(false);
     } catch (error) {
       const errorMessage = error.response
