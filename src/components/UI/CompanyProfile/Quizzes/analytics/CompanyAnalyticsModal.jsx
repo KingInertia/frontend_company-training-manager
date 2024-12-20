@@ -29,21 +29,25 @@ const CompanyAnalyticsModal = ({ open, onClose, companyId }) => {
   const [menuLocation, setMenuLocation] = useState(null);
   const [analyticsType, setAnalyticsType] = useState(analitycStates.USERS);
   const fetchCompanyScores = useFetchCompanyScores();
-  const createStatisticData = useStatisticData(analyticsType, t);
+  const createStatisticData = useStatisticData(t);
 
   useEffect(() => {
-    setLoading(true);
-    async function statisticInfo() {
-      const analiticsData = await fetchCompanyScores({ company_id: companyId });
-      if (analiticsData) {
-        const data = createStatisticData(analiticsData);
-        setChartData(data);
+    if (analyticsType === analitycStates.USERS) {
+      setLoading(true);
+      async function statisticInfo() {
+        const analiticsData = await fetchCompanyScores({
+          company_id: companyId,
+        });
+        if (analiticsData) {
+          const data = createStatisticData(analiticsData, analitycStates.USERS);
+          setChartData(data);
+        }
+        setLoading(false);
       }
-      setLoading(false);
-    }
 
-    statisticInfo();
-  }, [companyId, fetchCompanyScores, createStatisticData]);
+      statisticInfo();
+    }
+  }, [companyId, fetchCompanyScores, createStatisticData, analyticsType]);
 
   const handleEntityManage = useCallback(
     ({ e, id }) => {
@@ -60,10 +64,13 @@ const CompanyAnalyticsModal = ({ open, onClose, companyId }) => {
 
   const handleQuizAnalytics = async () => {
     setLoading(true);
-    const analiticsData = await fetchCompanyScores({ company_id: companyId });
+    const analiticsData = await fetchCompanyScores({
+      company_id: companyId,
+      user_id: selectedItem,
+    });
 
     if (analiticsData) {
-      const data = createStatisticData(analiticsData);
+      const data = createStatisticData(analiticsData, analitycStates.QUIZZES);
       setChartData(data);
       setAnalyticsType(analitycStates.QUIZZES);
     }
@@ -74,11 +81,10 @@ const CompanyAnalyticsModal = ({ open, onClose, companyId }) => {
     setLoading(true);
     const analiticsData = await fetchCompanyScores({
       company_id: companyId,
-      user_id: selectedItem,
     });
 
     if (analiticsData) {
-      const data = createStatisticData(analiticsData);
+      const data = createStatisticData(analiticsData, analitycStates.USERS);
       setChartData(data);
       setAnalyticsType(analitycStates.USERS);
     }

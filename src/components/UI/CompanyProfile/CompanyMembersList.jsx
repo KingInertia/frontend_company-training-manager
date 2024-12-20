@@ -14,7 +14,9 @@ import { selectCompanyMembers } from '../../../store/companies/members/companyMe
 import KickMemberDialog from './KickMemberDialog';
 import AppointAdminDialog from './AppointAdminDialog';
 import RemoveAdminDialog from './RemoveAdminDialog';
+import MembersExportDialog from './MembersExportDialog';
 import { listStates, manageStates } from '../../../constants/companyConst';
+import { Button } from '@mui/material';
 
 const CompanyMembersList = ({ companyId, membersManageState, listState }) => {
   const dispatch = useDispatch();
@@ -22,6 +24,7 @@ const CompanyMembersList = ({ companyId, membersManageState, listState }) => {
   const [openKickDialog, setOpenKickDialog] = useState(false);
   const [openAppointAdminDialog, setOpenAppointAdminDialog] = useState(false);
   const [openRemoveAdminDialog, setOpenRemoveAdminDialog] = useState(false);
+  const [openExportDialog, setOpenExportDialog] = useState(false);
   const [memberForManage, setMemberForManage] = useState({});
   const navigate = useNavigate();
   const { error, currentCompanyMembers, currentCompanyAdmins } =
@@ -58,6 +61,9 @@ const CompanyMembersList = ({ companyId, membersManageState, listState }) => {
       } else if (membersManageState === manageStates.REMOVE_ADMIN) {
         setMemberForManage(member);
         setOpenRemoveAdminDialog(true);
+      } else if (membersManageState === manageStates.EXPORT_RESULTS) {
+        setMemberForManage(member);
+        setOpenExportDialog(true);
       } else {
         navigate(`/users/${userId}/`);
       }
@@ -76,6 +82,11 @@ const CompanyMembersList = ({ companyId, membersManageState, listState }) => {
     setOpenRemoveAdminDialog(false);
   };
 
+  const handleOpenExportDialog = () => {
+    setMemberForManage({});
+    setOpenExportDialog(true);
+  };
+
   return (
     <>
       {listState === listStates.MEMBERS && (
@@ -86,7 +97,8 @@ const CompanyMembersList = ({ companyId, membersManageState, listState }) => {
                 (membersManageState === manageStates.KICK) |
                 (membersManageState === manageStates.REMOVE_ADMIN)
                   ? '#9e2a2f'
-                  : membersManageState === manageStates.APPOINT_ADMIN
+                  : (membersManageState === manageStates.APPOINT_ADMIN) |
+                      (membersManageState === manageStates.EXPORT_RESULTS)
                     ? '#738f45'
                     : '#e08e45',
               padding: '8px',
@@ -101,9 +113,31 @@ const CompanyMembersList = ({ companyId, membersManageState, listState }) => {
                 t('CompanyMembersList.SelectAdminToAppoint')}
               {membersManageState === manageStates.REMOVE_ADMIN &&
                 t('CompanyMembersList.SelectAdminToRemove')}
+              {membersManageState === manageStates.EXPORT_RESULTS &&
+                t('CompanyMembersList.SelectUserToExport')}
               {!membersManageState && t('CompanyMembersList.Members')}
             </Typography>
           </Box>
+          {membersManageState === manageStates.EXPORT_RESULTS && (
+            <Button
+              onClick={() => handleOpenExportDialog()}
+              variant="contained"
+              sx={{
+                backgroundColor: '#e08e45',
+                padding: '8px',
+                borderRadius: 1,
+                textAlign: 'center',
+                mb: '8px',
+                mt: '8px',
+                mr: '2px',
+                ml: '2px',
+                height: '48px',
+                color: '#f9e2b2',
+              }}
+            >
+              {t('CompanyMembersList.ExportAllUsersResults')}
+            </Button>
+          )}
           {!currentCompanyMembers ? (
             <Typography>Loading...</Typography>
           ) : (
@@ -135,6 +169,7 @@ const CompanyMembersList = ({ companyId, membersManageState, listState }) => {
               {t('CompanyMembersList.Admins')}
             </Typography>
           </Box>
+
           {!currentCompanyAdmins ? (
             <Typography>Loading...</Typography>
           ) : (
@@ -162,6 +197,12 @@ const CompanyMembersList = ({ companyId, membersManageState, listState }) => {
         adminForRemove={memberForManage}
         handleClose={handleCloseRemoveAdminDiag}
         open={openRemoveAdminDialog}
+      />
+      <MembersExportDialog
+        member={memberForManage}
+        companyId={companyId}
+        handleClose={() => setOpenExportDialog(false)}
+        open={openExportDialog}
       />
     </>
   );

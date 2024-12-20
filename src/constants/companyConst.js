@@ -16,6 +16,7 @@ export const manageStates = {
   REMOVE_ADMIN: 'remove admin',
   EDIT_QUIZ: 'edit quiz',
   REMOVE_QUIZ: 'remove quiz',
+  EXPORT_RESULTS: 'export results',
 };
 
 export const analitycStates = {

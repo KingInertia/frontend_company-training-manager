@@ -142,7 +142,8 @@
     "EditQuiz": "Edit quiz",
     "CancelRemove": "Cancel remove",
     "RemoveQuiz": "Remove quiz",
-    "OpenAnalytics": "Analytics"
+    "OpenAnalytics": "Analytics",
+    "ExportResults": "Export results"
   },
   "AddCompanyDialog": {
     "AddCompany": "Add Company",
@@ -206,7 +207,9 @@
     "Company": "Company",
     "User": "User",
     "Role": "Role",
-    "LastQuiz": "Last Quiz"
+    "LastQuiz": "Last Quiz",
+    "SelectUserToExport": "Select user to export",
+    "ExportAllUsersResults": "Export all users' results"
   },
   "ProfileRequestsList": {
     "Sender": "Sender",
@@ -315,5 +318,19 @@
   },
   "ProfileAnalyticsModal": {
     "QuizResults": "All quizzes avarage score"
+  },
+  "MembersExportDialog": {
+    "ExportResults": "Export results",
+    "ExportCurrentUserResults": "Do you want to export current user results",
+    "ExportAllUsersResults": "Do you want to export all users' results",
+    "ExportInCsvFormat": "Export in csv format",
+    "ExportInJsonFormat": "Export in json format",
+    "Cancel": "Cancel"
+  },
+  "UserExportDialog": {
+    "ExportQuizResult": "Export quiz result",
+    "ExportCurrentQuizResult": "Do you want export current quiz result",
+    "ExportInCsvFormat": "Export in csv format",
+    "ExportInJsonFormat": "Export in json format"
   }
 }
