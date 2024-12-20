@@ -147,7 +147,8 @@
     "EditQuiz": "Редагувати опитування",
     "CancelRemove": "Скасувати видалення",
     "RemoveQuiz": "Видалити опитування",
-    "OpenAnalytics": "Аналітика"
+    "OpenAnalytics": "Аналітика",
+    "ExportResults": "Експортувати результати"
   },
   "AddCompanyDialog": {
     "AddCompany": "Додати компанію",
@@ -211,7 +212,9 @@
     "Company": "Компанія",
     "User": "Користувач",
     "Role": "Роль",
-    "LastQuiz": "Останнє опитування"
+    "LastQuiz": "Останнє опитування",
+    "SelectUserToExport": "Виберіть користувача для експорту",
+    "ExportAllUsersResults": "Експортувати результати всіх користувачів"
   },
   "ProfileRequestsList": {
     "Sender": "Відправник",
@@ -320,5 +323,19 @@
   },
   "ProfileAnalyticsModal": {
     "QuizResults": "Середній бал по всім опитуванням"
+  },
+  "MembersExportDialog": {
+    "ExportResults": "Експортувати результати",
+    "ExportCurrentUserResults": "Чи хочете ви експортувати результати поточного користувача?",
+    "ExportAllUsersResults": "Чи хочете ви експортувати результати всіх користувачів?",
+    "ExportInCsvFormat": "Експортувати у форматі csv",
+    "ExportInJsonFormat": "Експортувати у форматі json",
+    "Cancel": "Скасувати"
+  },
+  "UserExportDialog": {
+    "ExportQuizResult": "Експортувати результат опитування",
+    "ExportCurrentQuizResult": "Ви хочете експортувати результат поточного опитування?",
+    "ExportInCsvFormat": "Експортувати у форматі CSV",
+    "ExportInJsonFormat": "Експортувати у форматі JSON"
   }
 }

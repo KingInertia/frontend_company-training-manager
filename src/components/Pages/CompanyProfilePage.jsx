@@ -491,6 +491,31 @@ const CompanyProfilePage = () => {
                   )}
                 </>
               )}
+              {(userRole === userRoleStates.OWNER ||
+                userRole === userRoleStates.ADMIN) && (
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={() =>
+                    manageState === manageStates.EXPORT_RESULTS
+                      ? setManageState('')
+                      : setManageState(manageStates.EXPORT_RESULTS)
+                  }
+                  sx={{
+                    mb: 1,
+                    backgroundColor:
+                      manageState === manageStates.EXPORT_RESULTS
+                        ? '#9e2a2f'
+                        : '#e08e45',
+                    color: '#f9e2b2',
+                  }}
+                >
+                  {manageState === manageStates.EXPORT_RESULTS
+                    ? t('CompanyProfile.Cancel')
+                    : t('CompanyProfile.ExportResults')}
+                </Button>
+              )}
+
               <DeleteCompanyDialog
                 open={openDelDiag}
                 handleClose={handleCloseDelDiag}

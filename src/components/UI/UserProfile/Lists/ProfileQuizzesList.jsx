@@ -5,12 +5,16 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from '../../../../api/axiosInstance';
+import UserExportDialog from '../UserExportDialog';
+import { setSnackbarMessage } from '../../../../store/UI/snackbarSlice';
 
 const ProfileQuizzesList = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [userResults, setUserResults] = useState(true);
+  const [openExportDialog, setOpenExportDialog] = useState(false);
+  const [quizId, setQuizId] = useState();
 
   const rowNames = [
     t('ProfileQuizzesList.Quiz'),
@@ -31,9 +35,11 @@ const ProfileQuizzesList = () => {
         setLoading(false);
       } catch (error) {
         if (error.response) {
-          dispatch(Object.values(error.response.data).join(' '));
+          dispatch(
+            setSnackbarMessage(Object.values(error.response.data).join(' ')),
+          );
         } else {
-          dispatch(error.message);
+          dispatch(setSnackbarMessage(error.message));
         }
         setLoading(false);
       }
@@ -41,6 +47,11 @@ const ProfileQuizzesList = () => {
 
     fetchUserResults();
   }, [dispatch]);
+
+  const handleOpenExportDialog = id => {
+    setQuizId(id);
+    setOpenExportDialog(true);
+  };
 
   return (
     <>
@@ -52,10 +63,15 @@ const ProfileQuizzesList = () => {
             headTextSize="h7"
             rowNames={rowNames}
             list={userResults}
-            navigateType="companies"
+            onClick={handleOpenExportDialog}
           />
         )
       )}
+      <UserExportDialog
+        quizId={quizId}
+        handleClose={() => setOpenExportDialog(false)}
+        open={openExportDialog}
+      />
     </>
   );
 };

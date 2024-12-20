@@ -35,9 +35,9 @@ export const useFetchCompanyScores = () => {
   );
 };
 
-export const useStatisticData = (analyticsType, t) => {
+export const useStatisticData = t => {
   const createStatisticData = useCallback(
-    data => {
+    (data, analyticsType) => {
       const allDates = [];
       data.forEach(statistic_obj => {
         statistic_obj.scores.forEach(item => {
@@ -74,7 +74,7 @@ export const useStatisticData = (analyticsType, t) => {
         datasets,
       };
     },
-    [analyticsType, t],
+    [t],
   );
 
   return createStatisticData;
