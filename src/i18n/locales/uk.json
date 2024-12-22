@@ -337,5 +337,11 @@
     "ExportCurrentQuizResult": "Ви хочете експортувати результат поточного опитування?",
     "ExportInCsvFormat": "Експортувати у форматі CSV",
     "ExportInJsonFormat": "Експортувати у форматі JSON"
+  },
+  "NotificationWindow": {
+    "NewNotification": "Нове сповіщення"
+  },
+  "Notifications": {
+    "NoNewNotifications": "Немає нових сповіщень"
   }
 }

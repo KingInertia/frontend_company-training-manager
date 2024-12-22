@@ -332,5 +332,11 @@
     "ExportCurrentQuizResult": "Do you want export current quiz result",
     "ExportInCsvFormat": "Export in csv format",
     "ExportInJsonFormat": "Export in json format"
+  },
+  "NotificationWindow": {
+    "NewNotification": "New notification"
+  },
+  "Notifications": {
+    "NoNewNotifications": "No new notifications"
   }
 }

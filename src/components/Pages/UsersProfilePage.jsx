@@ -60,7 +60,9 @@ const UsersProfilePage = () => {
   useEffect(() => {
     async function ratingInfo() {
       const ratingInf = await fetchUserRating({ user_id: params.slug });
-      setRating((ratingInf.user_rating / 100) * 5);
+      if (ratingInf) {
+        setRating((ratingInf.user_rating / 100) * 5);
+      }
     }
     ratingInfo();
   }, [fetchUserRating, params.slug, dispatch]);
