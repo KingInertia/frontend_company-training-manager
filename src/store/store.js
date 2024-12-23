@@ -9,6 +9,7 @@ import requestsReducer from './companies/requests/requestsSlice';
 import companyMembersReducer from './companies/members/companyMembersSlice';
 import quizzesReducer from './companies/quizzes/quizzesSlice';
 import snackbarReducer from './UI/snackbarSlice';
+import notificationsReducer from './notifications/notificationSlice';
 
 const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ const store = configureStore({
     requests: requestsReducer,
     companyMembers: companyMembersReducer,
     quizzes: quizzesReducer,
+    notifications: notificationsReducer,
     snackbar: snackbarReducer,
   },
 });

@@ -3,6 +3,7 @@ import NavigationBar from '../components/UI/NavigationBar';
 import { Outlet } from 'react-router-dom';
 import { Box } from '@mui/system';
 import MySnackbar from '../components/UI/MySnackbar';
+import NotificationWindow from '../components/UI/NotificationWindow';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setAuthToken } from '../store/auth/authSlice';
@@ -53,6 +54,7 @@ const MainLayout = () => {
         <Outlet />
       </Box>
       <MySnackbar />
+      <NotificationWindow />
     </Box>
   );
 };

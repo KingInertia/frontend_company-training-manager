@@ -5,6 +5,7 @@ const ROUTES = [
   '/api/v1/invitations/',
   '/api/v1/requests/',
   '/api/v1/quizzes/',
+  '/api/v1/notifications/',
 ];
 
 export default ROUTES;
