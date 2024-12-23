@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -12,14 +12,26 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import CheckIcon from '@mui/icons-material/Check';
 import { useTranslation } from 'react-i18next';
 import { selectNotifications } from '../../store/notifications/notificationSelectors';
+import {
+  fetchNotifications,
+  markNotificationAsRead,
+} from '../../store/notifications/notificationActions';
 import useWebSocket from '../../utils/hooks/useWebSocket';
+import { notificationStatus } from '../../constants/notificationStatus';
+import { setSnackbarMessage } from '../../store/UI/snackbarSlice';
 
 const Notifications = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
-  const { notifications } = useSelector(selectNotifications) || {};
+  const { notifications, error, loading } =
+    useSelector(selectNotifications) || {};
 
-  const { markNotification } = useWebSocket();
+  useWebSocket();
+
+  useEffect(() => {
+    dispatch(fetchNotifications());
+  }, [dispatch]);
 
   const handleOpenMenu = event => {
     setAnchorEl(event.currentTarget);
@@ -30,14 +42,23 @@ const Notifications = () => {
 
   const markAsRead = (id, event) => {
     event.stopPropagation();
-    markNotification(id);
+    dispatch(markNotificationAsRead({ notification_id: id }));
   };
+
+  useEffect(() => {
+    if (error) {
+      dispatch(setSnackbarMessage(error));
+    }
+  }, [error, dispatch]);
 
   return (
     <>
       <IconButton color="inherit" onClick={handleOpenMenu}>
         <Badge
-          badgeContent={notifications.filter(n => n.status === 'unread').length}
+          badgeContent={
+            notifications.filter(n => n.status === notificationStatus.UNREAD)
+              .length
+          }
           color="error"
         >
           <NotificationsIcon />
@@ -61,16 +82,21 @@ const Notifications = () => {
                   primary={text}
                   secondary={format(new Date(created_at), 'HH:mm dd.MM.yy')}
                   style={{
-                    textDecoration: status === 'read' ? 'line-through' : 'none',
+                    textDecoration:
+                      status === notificationStatus.READ
+                        ? 'line-through'
+                        : 'none',
                   }}
                 />
-                {status === 'unread' && (
+                {status === notificationStatus.UNREAD && (
                   <IconButton onClick={event => markAsRead(id, event)}>
                     <CheckIcon />
                   </IconButton>
                 )}
               </ListItem>
             ))
+          ) : loading ? (
+            <MenuItem disabled>Loading...</MenuItem>
           ) : (
             <MenuItem disabled>
               {t('Notifications.NoNewNotifications')}
