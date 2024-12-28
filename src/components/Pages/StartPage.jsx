@@ -36,7 +36,7 @@ const StartPage = () => {
         <Box>
           <Typography variant="h2">{strValue}</Typography>
           <Button variant="contained" onClick={handleStrValueChange}>
-            test
+            {t('startPage.buttonChangeStrValue')}
           </Button>
         </Box>
         <Box>
