@@ -13,12 +13,15 @@ import Select from '@mui/material/Select';
 import { useTranslation } from 'react-i18next';
 import UserMenu from './UserMenu';
 import Notifications from './Notifications';
+import { selectAuthToken } from '../../store/auth/authSelectors';
+import { useSelector } from 'react-redux';
 
 const NavigationBar = () => {
   const location = useLocation();
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const [language, setLanguage] = React.useState(i18n.language);
+  const authToken = useSelector(selectAuthToken);
   const pages = ['/companies', '/users', '/about'];
   const buttonNames = [
     t('navigation.companies'),
@@ -102,7 +105,7 @@ const NavigationBar = () => {
               </Select>
             </FormControl>
           </Box>
-          <Notifications />
+          {authToken && <Notifications />}
           <UserMenu />
         </Toolbar>
       </Container>
