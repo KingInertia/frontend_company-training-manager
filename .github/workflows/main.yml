@@ -2,7 +2,7 @@ name: Upload Website
 
 on:
   push:
-    branches: ['FE-19-add_github_actions-application']
+    branches: ['FE-19-add_github_actions']
   pull_request:
     branches: ['develop']
 
